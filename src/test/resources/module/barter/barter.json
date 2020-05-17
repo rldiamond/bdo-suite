@@ -1,0 +1,44 @@
+[
+  {
+    "exchanges": 6,
+    "acceptAmount": 20,
+    "exchangeAmount": 1,
+    "acceptTier": "ZERO",
+    "exchangeTier": "ONE"
+  },
+  {
+    "exchanges": 2,
+    "acceptAmount": 1,
+    "exchangeAmount": 3,
+    "acceptTier": "ONE",
+    "exchangeTier": "TWO"
+  },
+  {
+    "exchanges": 4,
+    "acceptAmount": 1,
+    "exchangeAmount": 3,
+    "acceptTier": "TWO",
+    "exchangeTier": "THREE"
+  },
+  {
+    "exchanges": 6,
+    "acceptAmount": 1,
+    "exchangeAmount": 2,
+    "acceptTier": "THREE",
+    "exchangeTier": "FOUR"
+  },
+  {
+    "exchanges": 4,
+    "acceptAmount": 1,
+    "exchangeAmount": 1,
+    "acceptTier": "FOUR",
+    "exchangeTier": "FIVE"
+  },
+  {
+    "exchanges": 1,
+    "acceptAmount": 1,
+    "exchangeAmount": 85,
+    "acceptTier": "FIVE",
+    "exchangeTier": "CROWCOIN"
+  }
+]
