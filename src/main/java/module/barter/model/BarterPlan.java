@@ -61,6 +61,8 @@ public class BarterPlan {
             sb.append(step++).append(". ").append(route.getTitle()).append("\n");
         }
 
+
+
         DecimalFormat formatter = new DecimalFormat("#,###");
 
         sb.append("Calculated Profit: ").append(formatter.format(getProfit()));

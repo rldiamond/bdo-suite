@@ -1,7 +1,8 @@
 [
   {
+    "tradeItem": "Iron Ore",
     "exchanges": 6,
-    "acceptAmount": 20,
+    "acceptAmount": 900,
     "exchangeAmount": 1,
     "acceptTier": "ZERO",
     "exchangeTier": "ONE"
@@ -16,7 +17,7 @@
   {
     "exchanges": 4,
     "acceptAmount": 1,
-    "exchangeAmount": 3,
+    "exchangeAmount": 2,
     "acceptTier": "TWO",
     "exchangeTier": "THREE"
   },
@@ -37,7 +38,7 @@
   {
     "exchanges": 1,
     "acceptAmount": 1,
-    "exchangeAmount": 85,
+    "exchangeAmount": 477,
     "acceptTier": "FIVE",
     "exchangeTier": "CROWCOIN"
   }

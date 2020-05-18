@@ -9,7 +9,7 @@ public class MarketResponse {
     private int mainCategory;
     private int mainKey;
     private String name;
-    private long pricePerOne;
+    private double pricePerOne;
     private int subCategory;
     private int subKey;
     private long totalTradeCount;
@@ -74,11 +74,11 @@ public class MarketResponse {
         this.name = name;
     }
 
-    public long getPricePerOne() {
+    public double getPricePerOne() {
         return pricePerOne;
     }
 
-    public void setPricePerOne(long pricePerOne) {
+    public void setPricePerOne(double pricePerOne) {
         this.pricePerOne = pricePerOne;
     }
 

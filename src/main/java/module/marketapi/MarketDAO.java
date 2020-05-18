@@ -1,5 +1,6 @@
 package module.marketapi;
 
+import common.rest.RestClient;
 import module.marketapi.model.MarketResponse;
 
 /**
@@ -42,7 +43,7 @@ public class MarketDAO {
      * @param id The ID of the item to retrieve data on.
      * @return
      */
-    public long getMarketValue(long id) {
+    public double getMarketValue(long id) {
         return fetchData(id).getPricePerOne();
     }
 
@@ -52,6 +53,11 @@ public class MarketDAO {
 
     public String getName(long id) {
         return fetchData(id).getName();
+    }
+
+    public MarketResponse searchByName(String name) {
+        String searchTerm = name.trim().replace(" ", "%20");
+        return restClient.get(searchTerm + "/0", MarketResponse.class);
     }
 
 }

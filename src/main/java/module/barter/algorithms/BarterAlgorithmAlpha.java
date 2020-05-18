@@ -6,6 +6,8 @@ import module.barter.model.BarterPlan;
 import module.barter.model.BarterRoute;
 import module.barter.model.BarterTier;
 import module.barter.model.PlannedRoute;
+import module.marketapi.MarketDAO;
+import module.marketapi.model.MarketResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +36,12 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
         double maxLevel1Goods = level1Route.getExchanges() * level1Route.getExchangeAmount();
 
         double level1Goods;
+        double goodsToTurnIn;
 
         if (neededLevel1Goods <= maxLevel1Goods) {
             // Perform X barters to get full amount
             double exchangesToPerform = neededLevel1Goods / level1Route.getExchangeAmount();
-            double goodsToTurnIn = exchangesToPerform * level1Route.getAcceptAmount();
+            goodsToTurnIn = exchangesToPerform * level1Route.getAcceptAmount();
             double goodsToReceive = exchangesToPerform * level1Route.getExchangeAmount();
             String description = "Perform " + exchangesToPerform + " exchanges with " + goodsToTurnIn +
                     " Tier " + level1Route.getAcceptTier() + " goods to receive " + goodsToReceive +" Tier " +
@@ -48,13 +51,27 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
 
         } else {
             double exchangesToPerform = level1Route.getExchangeAmount();
-            double goodsToTurnIn = exchangesToPerform * level1Route.getAcceptAmount();
+            goodsToTurnIn = exchangesToPerform * level1Route.getAcceptAmount();
             double goodsToReceive = exchangesToPerform * level1Route.getExchangeAmount();
             String description = "Perform " + exchangesToPerform + " exchanges with " + goodsToTurnIn +
                     " Tier " + level1Route.getAcceptTier() + " goods to receive " + goodsToReceive +" Tier " +
                     level1Route.getExchangeTier() + " goods.";
             barterPlan.addRoute(new PlannedRoute(description, exchangesToPerform));
             level1Goods = goodsToReceive;
+        }
+
+        //(try to) figure cost of the original trade item if provided
+        if (level1Route.getTradeItem() != null && !"".equals(level1Route.getTradeItem())) {
+            // we have an entry, lets make it safe..
+            System.out.println("Searching for item: " + level1Route.getTradeItem());
+            MarketResponse response = MarketDAO.getInstance().searchByName(level1Route.getTradeItem());
+            if (response != null && response.getName().equalsIgnoreCase(level1Route.getTradeItem().trim())) {
+                System.out.println("Item found.");
+                double costOfGood = 0 - (goodsToTurnIn * response.getPricePerOne());
+                barterPlan.addProfit(costOfGood);
+            } else {
+                System.out.println("Item not found.");
+            }
         }
 
         // Figure the second barter
@@ -154,7 +171,7 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
         }
 
         //add crow coins
-        double crowCoinsValue = (BarterTier.CROWCOIN.getValue() * level6Goods);
+        double crowCoinsValue = (MarketDAO.getInstance().getMarketValue(721003) / 30) * level6Goods;
         barterPlan.addProfit(crowCoinsValue);
 
 
