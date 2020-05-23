@@ -1,0 +1,37 @@
+[
+  {
+    "level" : "ZERO",
+    "weight" : 0,
+    "value" : 0
+  },
+  {
+    "level" : "ONE",
+    "weight" : 800.00,
+    "value" : 0
+  },
+  {
+    "level" : "TWO",
+    "weight" : 800.00,
+    "value" : 0
+  },
+  {
+    "level" : "THREE",
+    "weight" : 900.00,
+    "value" : 1000000
+  },
+  {
+    "level" : "FOUR",
+    "weight" : 1000.00,
+    "value" : 2000000
+  },
+  {
+    "level" : "FIVE",
+    "weight" : 1000.00,
+    "value" : 5000000
+  },
+  {
+    "level" : "CROW_COIN",
+    "weight" : 0,
+    "value" : 0
+  }
+]

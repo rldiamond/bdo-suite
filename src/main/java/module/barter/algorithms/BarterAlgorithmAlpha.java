@@ -148,7 +148,7 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
         }
 
         // crow coins
-        BarterRoute coinBarter = findBarterRoute(BarterLevelType.CROWCOIN);
+        BarterRoute coinBarter = findBarterRoute(BarterLevelType.CROW_COIN);
         double maxLevel6Exchanges = level5Goods / coinBarter.getAcceptAmount();
         double exchanges6;
         if (maxLevel6Exchanges <= coinBarter.getExchanges()) {

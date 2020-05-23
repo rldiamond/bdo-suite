@@ -40,6 +40,6 @@
     "acceptAmount": 1,
     "exchangeAmount": 80,
     "acceptTier": "FIVE",
-    "exchangeTier": "CROWCOIN"
+    "exchangeTier": "CROW_COIN"
   }
 ]
