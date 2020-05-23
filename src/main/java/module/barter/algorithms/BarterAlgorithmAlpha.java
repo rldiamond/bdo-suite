@@ -171,7 +171,7 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
         }
 
         //add crow coins
-        double crowCoinsValue = (MarketDAO.getInstance().getMarketValue(721003) / 30) * level6Goods;
+        double crowCoinsValue = (MarketDAO.getInstance().getMarketValue(705510) / 2500) * level6Goods;
         barterPlan.addProfit(crowCoinsValue);
 
 

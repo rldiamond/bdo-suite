@@ -1,8 +1,8 @@
 [
   {
-    "tradeItem": "Iron Ore",
+    "tradeItem": "Log",
     "exchanges": 6,
-    "acceptAmount": 900,
+    "acceptAmount": 400,
     "exchangeAmount": 1,
     "acceptTier": "ZERO",
     "exchangeTier": "ONE"
@@ -10,14 +10,14 @@
   {
     "exchanges": 2,
     "acceptAmount": 1,
-    "exchangeAmount": 3,
+    "exchangeAmount": 1,
     "acceptTier": "ONE",
     "exchangeTier": "TWO"
   },
   {
     "exchanges": 4,
     "acceptAmount": 1,
-    "exchangeAmount": 2,
+    "exchangeAmount": 1,
     "acceptTier": "TWO",
     "exchangeTier": "THREE"
   },
@@ -38,7 +38,7 @@
   {
     "exchanges": 1,
     "acceptAmount": 1,
-    "exchangeAmount": 477,
+    "exchangeAmount": 80,
     "acceptTier": "FIVE",
     "exchangeTier": "CROWCOIN"
   }
