@@ -4,11 +4,9 @@ import common.algorithm.Algorithm;
 import common.algorithm.AlgorithmException;
 import module.barter.model.BarterPlan;
 import module.barter.model.BarterRoute;
-import module.barter.model.BarterTier;
+import module.barter.model.BarterLevelType;
 import module.barter.model.PlannedRoute;
 import module.marketapi.MarketDAO;
-import module.marketapi.algorithms.CrowCoinValueAlgorithm;
-import module.marketapi.model.MarketResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,8 +30,8 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
     @Override
     public BarterPlan run() throws AlgorithmException {
         BarterPlan barterPlan = new BarterPlan();
-        BarterRoute level1Route = findBarterRoute(BarterTier.ONE);
-        BarterRoute level2Route = findBarterRoute(BarterTier.TWO);
+        BarterRoute level1Route = findBarterRoute(BarterLevelType.ONE);
+        BarterRoute level2Route = findBarterRoute(BarterLevelType.TWO);
 
         // Figure the first barter
         double neededLevel1Goods = level2Route.getExchanges() * level2Route.getAcceptAmount();
@@ -90,7 +88,7 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
         barterPlan.addRoute(new PlannedRoute(description, exchanges));
 
         // Figure third barter
-        BarterRoute level3Route = findBarterRoute(BarterTier.THREE);
+        BarterRoute level3Route = findBarterRoute(BarterLevelType.THREE);
         double maxLevel3Exchanges = level2Goods / level3Route.getAcceptAmount();
         double exchanges3;
         if (maxLevel3Exchanges <= level3Route.getExchanges()) {
@@ -105,12 +103,12 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
                 level3Route.getExchangeTier() + " goods.";
         barterPlan.addRoute(new PlannedRoute(description, exchanges));
         if (level2Goods > level2GoodsTurnIn) {
-            double extraSilver = (level2Goods - level2GoodsTurnIn) * BarterTier.TWO.getValue();
+            double extraSilver = (level2Goods - level2GoodsTurnIn) * BarterLevelType.TWO.getValue();
             barterPlan.addProfit(extraSilver);
         }
 
         // Figure fourth barter
-        BarterRoute level4Route = findBarterRoute(BarterTier.FOUR);
+        BarterRoute level4Route = findBarterRoute(BarterLevelType.FOUR);
         double maxLevel4Exchanges = level3Goods / level4Route.getAcceptAmount();
         double exchanges4;
         if (maxLevel4Exchanges <= level4Route.getExchanges()) {
@@ -125,12 +123,12 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
                 level4Route.getExchangeTier() + " goods.";
         barterPlan.addRoute(new PlannedRoute(description, exchanges));
         if (level3Goods > level3GoodsTurnIn) {
-            double extraSilver = (level3Goods - level3GoodsTurnIn) * BarterTier.THREE.getValue();
+            double extraSilver = (level3Goods - level3GoodsTurnIn) * BarterLevelType.THREE.getValue();
             barterPlan.addProfit(extraSilver);
         }
 
         // Figure fifth barter
-        BarterRoute level5Route = findBarterRoute(BarterTier.FIVE);
+        BarterRoute level5Route = findBarterRoute(BarterLevelType.FIVE);
         double maxLevel5Exchanges = level4Goods / level5Route.getAcceptAmount();
         double exchanges5;
         if (maxLevel5Exchanges <= level5Route.getExchanges()) {
@@ -145,12 +143,12 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
                 level5Route.getExchangeTier() + " goods.";
         barterPlan.addRoute(new PlannedRoute(description, exchanges));
         if (level4Goods > level4GoodsTurnIn) {
-            double extraSilver = (level4Goods - level4GoodsTurnIn) * BarterTier.FOUR.getValue();
+            double extraSilver = (level4Goods - level4GoodsTurnIn) * BarterLevelType.FOUR.getValue();
             barterPlan.addProfit(extraSilver);
         }
 
         // crow coins
-        BarterRoute coinBarter = findBarterRoute(BarterTier.CROWCOIN);
+        BarterRoute coinBarter = findBarterRoute(BarterLevelType.CROWCOIN);
         double maxLevel6Exchanges = level5Goods / coinBarter.getAcceptAmount();
         double exchanges6;
         if (maxLevel6Exchanges <= coinBarter.getExchanges()) {
@@ -165,7 +163,7 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
                 coinBarter.getExchangeTier() + " goods.";
         barterPlan.addRoute(new PlannedRoute(description, exchanges));
         if (level5Goods > level5GoodsTurnIn) {
-            double extraSilver = (level5Goods - level5GoodsTurnIn) * BarterTier.FIVE.getValue();
+            double extraSilver = (level5Goods - level5GoodsTurnIn) * BarterLevelType.FIVE.getValue();
             barterPlan.addProfit(extraSilver);
         }
 
@@ -177,7 +175,7 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
         return barterPlan;
     }
 
-    private BarterRoute findBarterRoute(BarterTier exchangeTier) throws AlgorithmException {
+    private BarterRoute findBarterRoute(BarterLevelType exchangeTier) throws AlgorithmException {
         return possibleRoutes.stream().filter(route -> route.getExchangeTier().equals(exchangeTier)).findFirst().orElseThrow(AlgorithmException::new);
     }
 

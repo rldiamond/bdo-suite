@@ -11,8 +11,8 @@ public class BarterRoute extends JsonObject {
     private final int exchanges;
     private final int acceptAmount;
     private final int exchangeAmount;
-    private final BarterTier acceptTier;
-    private final BarterTier exchangeTier;
+    private final BarterLevelType acceptTier;
+    private final BarterLevelType exchangeTier;
 
     /**
      * Construct a full Barter Route.
@@ -23,7 +23,7 @@ public class BarterRoute extends JsonObject {
      * @param exchangeTier   The tier of the good received for this barter.
      * @param exchangeAmount The amount of received good for this barter.
      */
-    public BarterRoute(int exchanges, BarterTier acceptTier, int acceptAmount, BarterTier exchangeTier, int exchangeAmount, String tradeItem) {
+    public BarterRoute(int exchanges, BarterLevelType acceptTier, int acceptAmount, BarterLevelType exchangeTier, int exchangeAmount, String tradeItem) {
         this.exchanges = exchanges;
         this.acceptAmount = acceptAmount;
         this.exchangeAmount = exchangeAmount;
@@ -56,14 +56,14 @@ public class BarterRoute extends JsonObject {
     /**
      * @return The tier of good accepted for an exchange.
      */
-    public BarterTier getAcceptTier() {
+    public BarterLevelType getAcceptTier() {
         return acceptTier;
     }
 
     /**
      * @return The tier of good received from an exchange.
      */
-    public BarterTier getExchangeTier() {
+    public BarterLevelType getExchangeTier() {
         return exchangeTier;
     }
 

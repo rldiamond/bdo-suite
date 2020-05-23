@@ -32,13 +32,8 @@ public class JsonFileReader {
         }
     }
 
-    public static List<BarterRoute> readListFromFile(File file) throws JsonParseException {
-        try {
-            Type listType = new TypeToken<List<BarterRoute>>(){}.getType();
-            return GSON.fromJson(new FileReader(file), listType);
-        } catch (Exception ex) {
-            throw new JsonParseException();
-        }
+    public static Gson getGson() {
+        return GSON;
     }
 
     public static String toJson(Object object) {

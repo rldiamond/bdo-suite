@@ -3,6 +3,7 @@ package module.barter.display;
 import common.json.JsonFileReader;
 import common.json.JsonParseException;
 import javafx.scene.control.TextArea;
+import module.barter.BarterJsonFileReader;
 import module.barter.BarterOptimizer;
 import module.barter.model.BarterPlan;
 import module.barter.model.BarterRoute;
@@ -30,7 +31,7 @@ public class BarterModulePane extends ModulePane {
         List<BarterRoute> possibleRoutes = null;
         try {
             URL url = BarterModulePane.class.getClassLoader().getResource("barter.json");
-            possibleRoutes = JsonFileReader.readListFromFile(new File(url.getPath()));
+            possibleRoutes = BarterJsonFileReader.readBarterRoutesFromFile(new File(url.getPath()));
         } catch (JsonParseException ex) {
             logger.error("Could not parse JSON file!", ex);
             return;
