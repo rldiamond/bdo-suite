@@ -62,6 +62,10 @@ public class MarketDAO {
         return fetchData(id).getName();
     }
 
+    public double getMarketValue(String name) {
+        return searchByName(name).get().getPricePerOne();
+    }
+
     public Optional<MarketResponse> searchByName(String name) {
         logger.info("Searching market API for: " + name);
 
