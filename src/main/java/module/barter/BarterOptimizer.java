@@ -12,7 +12,7 @@ import java.util.List;
 public class BarterOptimizer {
 
     public static BarterPlan optimize(List<BarterRoute> possibleRoutes, List<BarterLevel> barterLevels, List<BarterGood> barterGoods) {
-        BarterAlgorithm algorithm =  new BarterAlgorithm(possibleRoutes, barterLevels, barterGoods);
+        BarterAlgorithm algorithm =  new BarterAlgorithm(possibleRoutes);
 
         try {
             return algorithm.run();

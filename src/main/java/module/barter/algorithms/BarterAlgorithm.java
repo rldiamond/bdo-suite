@@ -18,17 +18,9 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
     private static final Logger logger = LogManager.getLogger(BarterAlgorithm.class);
 
     private final List<BarterRoute> possibleRoutes;
-    private List<BarterLevel> barterLevels;
-    private List<BarterGood> barterGoods;
 
     public BarterAlgorithm(List<BarterRoute> possibleRoutes) {
         this.possibleRoutes = possibleRoutes;
-    }
-
-    public BarterAlgorithm(List<BarterRoute> possibleRoutes, List<BarterLevel> barterLevels, List<BarterGood> barterGoods) {
-        this.possibleRoutes = possibleRoutes;
-        this.barterLevels = barterLevels;
-        this.barterGoods = barterGoods;
     }
 
     @Override
@@ -107,7 +99,7 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
                 level3Route.getExchangeTier() + " goods.";
         barterPlan.addRoute(new PlannedRoute(description, exchanges));
         if (level2Goods > level2GoodsTurnIn) {
-            double extraSilver = (level2Goods - level2GoodsTurnIn) * findBarterLevelByLevelType(BarterLevelType.TWO).getValue();
+            double extraSilver = (level2Goods - level2GoodsTurnIn) * BarterLevel.getBarterLevelByType(BarterLevelType.TWO).getValue();
             barterPlan.addProfit(extraSilver);
         }
 
@@ -127,7 +119,7 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
                 level4Route.getExchangeTier() + " goods.";
         barterPlan.addRoute(new PlannedRoute(description, exchanges));
         if (level3Goods > level3GoodsTurnIn) {
-            double extraSilver = (level3Goods - level3GoodsTurnIn) * findBarterLevelByLevelType(BarterLevelType.THREE).getValue();
+            double extraSilver = (level3Goods - level3GoodsTurnIn) * BarterLevel.getBarterLevelByType(BarterLevelType.THREE).getValue();
             barterPlan.addProfit(extraSilver);
         }
 
@@ -147,7 +139,7 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
                 level5Route.getExchangeTier() + " goods.";
         barterPlan.addRoute(new PlannedRoute(description, exchanges));
         if (level4Goods > level4GoodsTurnIn) {
-            double extraSilver = (level4Goods - level4GoodsTurnIn) * findBarterLevelByLevelType(BarterLevelType.FOUR).getValue();
+            double extraSilver = (level4Goods - level4GoodsTurnIn) * BarterLevel.getBarterLevelByType(BarterLevelType.FOUR).getValue();
             barterPlan.addProfit(extraSilver);
         }
 
@@ -167,7 +159,7 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
                 coinBarter.getExchangeTier() + " goods.";
         barterPlan.addRoute(new PlannedRoute(description, exchanges));
         if (level5Goods > level5GoodsTurnIn) {
-            double extraSilver = (level5Goods - level5GoodsTurnIn) * findBarterLevelByLevelType(BarterLevelType.FIVE).getValue();
+            double extraSilver = (level5Goods - level5GoodsTurnIn) * BarterLevel.getBarterLevelByType(BarterLevelType.FIVE).getValue();
             barterPlan.addProfit(extraSilver);
         }
 
@@ -177,10 +169,6 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
 
 
         return barterPlan;
-    }
-
-    private BarterLevel findBarterLevelByLevelType(BarterLevelType barterLevelType) throws AlgorithmException {
-        return barterLevels.stream().filter(barterLevel -> barterLevelType.equals(barterLevel.getLevel())).findFirst().orElseThrow(AlgorithmException::new);
     }
 
     private BarterRoute findBarterRoute(BarterLevelType exchangeTier) throws AlgorithmException {

@@ -6,4 +6,5 @@ package module.barter.model;
 public enum BarterLevelType {
 
     ZERO, ONE, TWO, THREE, FOUR, FIVE, CROW_COIN;
+
 }
