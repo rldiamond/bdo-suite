@@ -1,6 +1,7 @@
 package module.barter.display;
 
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.VBox;
 import module.common.ModulePane;
 
 /**
@@ -9,14 +10,19 @@ import module.common.ModulePane;
 public class BarterModulePane extends ModulePane {
 
     private TextArea console;
+    private BarterRouteInputPane inputPane;
+    private BarterRouteControlsPane controlsPane;
 
     /**
      * Default constructor.
      */
     public BarterModulePane() {
-        //Extremely basic for now to get application running.
         console = new TextArea();
-        super.getChildren().add(console);
+        inputPane = new BarterRouteInputPane();
+        controlsPane = new BarterRouteControlsPane();
+        VBox stackEm = new VBox(5);
+        stackEm.getChildren().addAll(inputPane, console, controlsPane);
+        super.getChildren().add(stackEm);
     }
 
     /**
