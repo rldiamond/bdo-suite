@@ -1,8 +1,7 @@
-package module.barter.model;
+package module.marketapi.model;
 
 
 import module.marketapi.MarketDAO;
-import module.marketapi.model.MarketResponse;
 
 public class CrowCoinVendorItem {
 
@@ -11,7 +10,7 @@ public class CrowCoinVendorItem {
     private double itemCost;
 
     public static CrowCoinVendorItem buildWithName(String name, double crowCoinCost) {
-        MarketResponse response = MarketDAO.getInstance().searchByName(name);
+        MarketResponse response = MarketDAO.getInstance().searchByName(name).orElseGet(MarketResponse::new);
         return new CrowCoinVendorItem(response.getName(), response.getPricePerOne(), crowCoinCost);
     }
 

@@ -1,7 +1,13 @@
 package module.marketapi;
 
+import common.algorithm.AlgorithmException;
 import common.rest.RestClient;
+import module.marketapi.algorithms.CrowCoinValueAlgorithm;
 import module.marketapi.model.MarketResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.Optional;
 
 /**
  * Data access object for performing GET REST calls to API to obtain Marketplace information
@@ -10,6 +16,7 @@ import module.marketapi.model.MarketResponse;
 public class MarketDAO {
 
     private static final MarketDAO SINGLETON = new MarketDAO();
+    private static final Logger logger = LogManager.getLogger(MarketDAO.class);
 
     /**
      * Retrieve the instance of the MarketDAO.
@@ -55,9 +62,39 @@ public class MarketDAO {
         return fetchData(id).getName();
     }
 
-    public MarketResponse searchByName(String name) {
+    public Optional<MarketResponse> searchByName(String name) {
+        logger.info("Searching market API for: " + name);
+
         String searchTerm = name.trim().replace(" ", "%20");
-        return restClient.get(searchTerm + "/0", MarketResponse.class);
+        MarketResponse response = null;
+        try {
+            response = restClient.get(searchTerm + "/0", MarketResponse.class);
+        } catch (Exception ex) {
+            logger.warn("Failed to find data in market API for: " + name);
+        }
+
+        if (response != null && response.getName().equalsIgnoreCase(name)) {
+            logger.info("Found item: " + name);
+            return Optional.of(response);
+        }
+
+        logger.warn("Failed to find data in market API for: " + name);
+        return Optional.empty();
+    }
+
+    /**
+     * Get the current value of a single crow coin based on the best item from the Crow Coin vendor.
+     * @return
+     */
+    public double getCrowCoinValue() {
+        CrowCoinValueAlgorithm algorithm = new CrowCoinValueAlgorithm();
+        double value = 0;
+        try {
+            value = algorithm.run();
+        } catch (AlgorithmException ex) {
+            logger.error("Failed to process the CrowCoinValue algorithm!", ex);
+        }
+        return value;
     }
 
 }

@@ -7,9 +7,11 @@ import module.barter.model.BarterRoute;
 import module.barter.model.BarterTier;
 import module.barter.model.PlannedRoute;
 import module.marketapi.MarketDAO;
+import module.marketapi.algorithms.CrowCoinValueAlgorithm;
 import module.marketapi.model.MarketResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +19,8 @@ import java.util.List;
  * Does not optimize early routes for later routes.
  */
 public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
+
+    private static final Logger logger = LogManager.getLogger(BarterAlgorithmAlpha.class);
 
     private final List<BarterRoute> possibleRoutes;
 
@@ -63,15 +67,10 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
         //(try to) figure cost of the original trade item if provided
         if (level1Route.getTradeItem() != null && !"".equals(level1Route.getTradeItem())) {
             // we have an entry, lets make it safe..
-            System.out.println("Searching for item: " + level1Route.getTradeItem());
-            MarketResponse response = MarketDAO.getInstance().searchByName(level1Route.getTradeItem());
-            if (response != null && response.getName().equalsIgnoreCase(level1Route.getTradeItem().trim())) {
-                System.out.println("Item found.");
+            MarketDAO.getInstance().searchByName(level1Route.getTradeItem()).ifPresent(response -> {
                 double costOfGood = 0 - (goodsToTurnIn * response.getPricePerOne());
                 barterPlan.addProfit(costOfGood);
-            } else {
-                System.out.println("Item not found.");
-            }
+            });
         }
 
         // Figure the second barter
@@ -171,8 +170,7 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
         }
 
         //add crow coins
-        CrowCoinValueAlgorithm crowCoinValueAlgorithm = new CrowCoinValueAlgorithm();
-        double crowCoinsValue = crowCoinValueAlgorithm.run() * level6Goods;
+        double crowCoinsValue = MarketDAO.getInstance().getCrowCoinValue() * level6Goods;
         barterPlan.addProfit(crowCoinsValue);
 
 
