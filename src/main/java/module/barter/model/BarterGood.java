@@ -7,13 +7,15 @@ public class BarterGood {
 
     private String name;
     private BarterLevelType level;
+    private long itemId;
 
     public BarterGood() {
     }
 
-    public BarterGood(String name, BarterLevelType level) {
+    public BarterGood(String name, BarterLevelType level, long itemId) {
         this.name = name;
         this.level = level;
+        this.itemId = itemId;
     }
 
     public String getName() {
@@ -30,5 +32,13 @@ public class BarterGood {
 
     public void setLevel(BarterLevelType level) {
         this.level = level;
+    }
+
+    public long getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(long itemId) {
+        this.itemId = itemId;
     }
 }

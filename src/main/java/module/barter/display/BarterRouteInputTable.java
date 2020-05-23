@@ -23,6 +23,7 @@ public class BarterRouteInputTable extends TableView<BarterRoute>  {
 
         // build the table
         setEditable(true);
+        setColumnResizePolicy(CONSTRAINED_RESIZE_POLICY);
         getColumns().addAll(buildColumns());
 
     }

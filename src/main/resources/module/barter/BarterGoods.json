@@ -1,10 +1,287 @@
 [
   {
-    "name" : "Test Item",
-    "level" : "ONE"
+    "name" : "102 Year Old Golden Herb",
+    "level" : "FIVE",
+    "itemId" : 800066
   },
   {
-    "name": "Test Item 2",
-    "level" : "TWO"
+    "name": "37 Year Old Herbal Wine",
+    "level" : "FIVE",
+    "itemId" : 800058
+  },
+  {
+    "name": "Azure Quartz",
+    "level" : "FIVE",
+    "itemId" : 800059
+  },
+  {
+    "name": "Elixir of Youth",
+    "level" : "FIVE",
+    "itemId" : 800068
+  },
+  {
+    "name": "Faded Gold Dragon Figurine",
+    "level" : "FIVE",
+    "itemId" : 800063
+  },
+  {
+    "name": "Golden Fish Scale",
+    "level" : "FIVE",
+    "itemId" : 800065
+  },
+  {
+    "name": "Luxury Patterned Fabric",
+    "level" : "FIVE",
+    "itemId" : 800069
+  },
+  {
+    "name": "Mysterious Rock",
+    "level" : "FIVE",
+    "itemId" : 800070
+  },
+  {
+    "name": "Octagonal Box",
+    "level" : "FIVE",
+    "itemId" : 800057
+  },
+  {
+    "name": "Portrait of the Ancient",
+    "level" : "FIVE",
+    "itemId" : 800067
+  },
+  {
+    "name": "Statue's Tear",
+    "level" : "FIVE",
+    "itemId" : 800061
+  },
+  {
+    "name": "Supreme Gold Candlestick",
+    "level" : "FIVE",
+    "itemId" : 800062
+  },
+  {
+    "name": "Taxidermied Morpho Butterfly",
+    "level" : "FIVE",
+    "itemId" : 800060
+  },
+  {
+    "name": "Taxidermied White Caterpillar",
+    "level" : "FIVE",
+    "itemId" : 800064
+  },
+  {
+    "name": "Amethyst Fragment",
+    "level" : "FOUR",
+    "itemId" : 800046
+  },
+  {
+    "name": "Boatman's Manual",
+    "level" : "FOUR",
+    "itemId" : 800050
+  },
+  {
+    "name": "Bronze Candlestick",
+    "level" : "FOUR",
+    "itemId" : 800055
+  },
+  {
+    "name": "Green Salt Lamp",
+    "level" : "FOUR",
+    "itemId" : 800049
+  },
+  {
+    "name": "Headless Dragon Figurine",
+    "level" : "FOUR",
+    "itemId" : 800054
+  },
+  {
+    "name": "Marine Knights' Helm",
+    "level" : "FOUR",
+    "itemId" : 800043
+  },
+  {
+    "name": "Marine Knights' Spear",
+    "level" : "FOUR",
+    "itemId" : 800047
+  },
+  {
+    "name": "Old Chest with Gold Coins",
+    "level" : "FOUR",
+    "itemId" : 800051
+  },
+  {
+    "name": "Opulent Thread Spool",
+    "level" : "FOUR",
+    "itemId" : 800045
+  },
+  {
+    "name": "Panacea",
+    "level" : "FOUR",
+    "itemId" : 800053
+  },
+  {
+    "name": "Pirate's Key",
+    "level" : "FOUR",
+    "itemId" : 800056
+  },
+  {
+    "name": "Seashell Deco",
+    "level" : "FOUR",
+    "itemId" : 800052
+  },
+  {
+    "name": "Solidified Lava",
+    "level" : "FOUR",
+    "itemId" : 800048
+  },
+  {
+    "name": "Stolen Pirate Dagger",
+    "level" : "FOUR",
+    "itemId" : 800044
+  },
+  {
+    "name": "Amethyst Fragment",
+    "level" : "FOUR",
+    "itemId" : 800046
+  },
+  {
+    "name": "Ancient Orders",
+    "level" : "THREE",
+    "itemId" : 800041
+  },
+  {
+    "name": "Blue Candle Bundle",
+    "level" : "THREE",
+    "itemId" : 800042
+  },
+  {
+    "name": "Gooey Monster Blood",
+    "level" : "THREE",
+    "itemId" : 800036
+  },
+  {
+    "name": "Lopter's Fishnet",
+    "level" : "THREE",
+    "itemId" : 800040
+  },
+  {
+    "name": "Old Hourglass",
+    "level" : "THREE",
+    "itemId" : 800029
+  },
+  {
+    "name": "Pirates' Supply Box",
+    "level" : "THREE",
+    "itemId" : 800031
+  },
+  {
+    "name": "Rare Herb Pile",
+    "level" : "THREE",
+    "itemId" : 800039
+  },
+  {
+    "name": "Round Knife",
+    "level" : "THREE",
+    "itemId" : 800035
+  },
+  {
+    "name": "Scout Binoculars",
+    "level" : "THREE",
+    "itemId" : 800032
+  },
+  {
+    "name": "Skull Decorated Teacup",
+    "level" : "THREE",
+    "itemId" : 800034
+  },
+  {
+    "name": "Skull Symbol Carpet",
+    "level" : "THREE",
+    "itemId" : 800038
+  },
+  {
+    "name": "Stalactite Fragment",
+    "level" : "THREE",
+    "itemId" : 800033
+  },
+  {
+    "name": "Torn Pirate Treasure Map",
+    "level" : "THREE",
+    "itemId" : 800030
+  },
+  {
+    "name": "Weasel Leather Coat",
+    "level" : "THREE",
+    "itemId" : 800037
+  },
+  {
+    "name": "Urchin Spine",
+    "level" : "TWO",
+    "itemId" : 800028
+  },
+  {
+    "name": "Pirate Gold Coin",
+    "level" : "TWO",
+    "itemId" : 800027
+  },
+  {
+    "name": "Monster Tentacle",
+    "level" : "TWO",
+    "itemId" : 800026
+  },
+  {
+    "name": "Sea Survival Kit",
+    "level" : "TWO",
+    "itemId" : 800026
+  },
+  {
+    "name": "Balanced Stone Pagoda",
+    "level" : "TWO",
+    "itemId" : 800029
+  },
+  {
+    "name": "Narvo Sea Cucumber",
+    "level" : "TWO",
+    "itemId" : 800024
+  },
+  {
+    "name": "Big Stone Slab",
+    "level" : "TWO",
+    "itemId" : 800022
+  },
+  {
+    "name": "Supreme Oyster Box",
+    "level" : "TWO",
+    "itemId" : 800021
+  },
+  {
+    "name": "Conch Shell Ornament",
+    "level" : "TWO",
+    "itemId" : 800020
+  },
+  {
+    "name": "Filtered Drinking Water",
+    "level" : "TWO",
+    "itemId" : 800019
+  },
+  {
+    "name": "Opulent Marble",
+    "level" : "TWO",
+    "itemId" : 800018
+  },
+  {
+    "name": "Pirate Ship mast",
+    "level" : "TWO",
+    "itemId" : 800017
+  },
+  {
+    "name": "Cron Castle Gold Coin",
+    "level" : "TWO",
+    "itemId" : 800016
+  },
+  {
+    "name": "Islanders' Lunchbox",
+    "level" : "TWO",
+    "itemId" : 800015
   }
 ]
