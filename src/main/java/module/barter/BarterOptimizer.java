@@ -1,7 +1,9 @@
 package module.barter;
 
 import common.algorithm.AlgorithmException;
-import module.barter.algorithms.BarterAlgorithmAlpha;
+import module.barter.algorithms.BarterAlgorithm;
+import module.barter.model.BarterGood;
+import module.barter.model.BarterLevel;
 import module.barter.model.BarterPlan;
 import module.barter.model.BarterRoute;
 
@@ -9,13 +11,13 @@ import java.util.List;
 
 public class BarterOptimizer {
 
-    public static BarterPlan optimize(List<BarterRoute> possibleRoutes) {
-        BarterAlgorithmAlpha algorithm = new BarterAlgorithmAlpha(possibleRoutes);
+    public static BarterPlan optimize(List<BarterRoute> possibleRoutes, List<BarterLevel> barterLevels, List<BarterGood> barterGoods) {
+        BarterAlgorithm algorithm =  new BarterAlgorithm(possibleRoutes, barterLevels, barterGoods);
 
         try {
             return algorithm.run();
         } catch (AlgorithmException ex) {
-            return null;
+            return null; //TODO
         }
     }
 

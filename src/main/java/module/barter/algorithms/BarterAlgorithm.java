@@ -2,10 +2,7 @@ package module.barter.algorithms;
 
 import common.algorithm.Algorithm;
 import common.algorithm.AlgorithmException;
-import module.barter.model.BarterPlan;
-import module.barter.model.BarterRoute;
-import module.barter.model.BarterLevelType;
-import module.barter.model.PlannedRoute;
+import module.barter.model.*;
 import module.marketapi.MarketDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,16 +13,23 @@ import java.util.List;
  * The alpha for the barter algorithm assumes only one possible barter path.
  * Does not optimize early routes for later routes.
  */
-public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
+public class BarterAlgorithm implements Algorithm<BarterPlan> {
 
-    private static final Logger logger = LogManager.getLogger(BarterAlgorithmAlpha.class);
+    private static final Logger logger = LogManager.getLogger(BarterAlgorithm.class);
 
     private final List<BarterRoute> possibleRoutes;
+    private List<BarterLevel> barterLevels;
+    private List<BarterGood> barterGoods;
 
-    public BarterAlgorithmAlpha(List<BarterRoute> possibleRoutes) {
+    public BarterAlgorithm(List<BarterRoute> possibleRoutes) {
         this.possibleRoutes = possibleRoutes;
     }
 
+    public BarterAlgorithm(List<BarterRoute> possibleRoutes, List<BarterLevel> barterLevels, List<BarterGood> barterGoods) {
+        this.possibleRoutes = possibleRoutes;
+        this.barterLevels = barterLevels;
+        this.barterGoods = barterGoods;
+    }
 
     @Override
     public BarterPlan run() throws AlgorithmException {
@@ -46,7 +50,7 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
             goodsToTurnIn = exchangesToPerform * level1Route.getAcceptAmount();
             double goodsToReceive = exchangesToPerform * level1Route.getExchangeAmount();
             String description = "Perform " + exchangesToPerform + " exchanges with " + goodsToTurnIn +
-                    " Tier " + level1Route.getAcceptTier() + " goods to receive " + goodsToReceive +" Tier " +
+                    " Tier " + level1Route.getAcceptTier() + " goods to receive " + goodsToReceive + " Tier " +
                     level1Route.getExchangeTier() + " goods.";
             barterPlan.addRoute(new PlannedRoute(description, exchangesToPerform));
             level1Goods = goodsToReceive;
@@ -56,7 +60,7 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
             goodsToTurnIn = exchangesToPerform * level1Route.getAcceptAmount();
             double goodsToReceive = exchangesToPerform * level1Route.getExchangeAmount();
             String description = "Perform " + exchangesToPerform + " exchanges with " + goodsToTurnIn +
-                    " Tier " + level1Route.getAcceptTier() + " goods to receive " + goodsToReceive +" Tier " +
+                    " Tier " + level1Route.getAcceptTier() + " goods to receive " + goodsToReceive + " Tier " +
                     level1Route.getExchangeTier() + " goods.";
             barterPlan.addRoute(new PlannedRoute(description, exchangesToPerform));
             level1Goods = goodsToReceive;
@@ -83,7 +87,7 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
         double level2Goods = level2Route.getExchangeAmount() * exchanges;
         double level1GoodsTurnIn = exchanges * level2Route.getAcceptAmount();
         String description = "Perform " + exchanges + " exchanges with " + level1GoodsTurnIn +
-                " Tier " + level2Route.getAcceptTier() + " goods to receive " + level2Goods +" Tier " +
+                " Tier " + level2Route.getAcceptTier() + " goods to receive " + level2Goods + " Tier " +
                 level2Route.getExchangeTier() + " goods.";
         barterPlan.addRoute(new PlannedRoute(description, exchanges));
 
@@ -99,11 +103,11 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
         double level3Goods = level3Route.getExchangeAmount() * exchanges3;
         double level2GoodsTurnIn = exchanges3 * level3Route.getAcceptAmount();
         description = "Perform " + exchanges3 + " exchanges with " + level2GoodsTurnIn +
-                " Tier " + level3Route.getAcceptTier() + " goods to receive " + level3Goods +" Tier " +
+                " Tier " + level3Route.getAcceptTier() + " goods to receive " + level3Goods + " Tier " +
                 level3Route.getExchangeTier() + " goods.";
         barterPlan.addRoute(new PlannedRoute(description, exchanges));
         if (level2Goods > level2GoodsTurnIn) {
-            double extraSilver = (level2Goods - level2GoodsTurnIn) * BarterLevelType.TWO.getValue();
+            double extraSilver = (level2Goods - level2GoodsTurnIn) * findBarterLevelByLevelType(BarterLevelType.TWO).getValue();
             barterPlan.addProfit(extraSilver);
         }
 
@@ -119,11 +123,11 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
         double level4Goods = level4Route.getExchangeAmount() * exchanges4;
         double level3GoodsTurnIn = exchanges4 * level4Route.getAcceptAmount();
         description = "Perform " + exchanges4 + " exchanges with " + level3GoodsTurnIn +
-                " Tier " + level4Route.getAcceptTier() + " goods to receive " + level4Goods +" Tier " +
+                " Tier " + level4Route.getAcceptTier() + " goods to receive " + level4Goods + " Tier " +
                 level4Route.getExchangeTier() + " goods.";
         barterPlan.addRoute(new PlannedRoute(description, exchanges));
         if (level3Goods > level3GoodsTurnIn) {
-            double extraSilver = (level3Goods - level3GoodsTurnIn) * BarterLevelType.THREE.getValue();
+            double extraSilver = (level3Goods - level3GoodsTurnIn) * findBarterLevelByLevelType(BarterLevelType.THREE).getValue();
             barterPlan.addProfit(extraSilver);
         }
 
@@ -139,11 +143,11 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
         double level5Goods = level5Route.getExchangeAmount() * exchanges5;
         double level4GoodsTurnIn = exchanges5 * level5Route.getAcceptAmount();
         description = "Perform " + exchanges5 + " exchanges with " + level4GoodsTurnIn +
-                " Tier " + level5Route.getAcceptTier() + " goods to receive " + level5Goods +" Tier " +
+                " Tier " + level5Route.getAcceptTier() + " goods to receive " + level5Goods + " Tier " +
                 level5Route.getExchangeTier() + " goods.";
         barterPlan.addRoute(new PlannedRoute(description, exchanges));
         if (level4Goods > level4GoodsTurnIn) {
-            double extraSilver = (level4Goods - level4GoodsTurnIn) * BarterLevelType.FOUR.getValue();
+            double extraSilver = (level4Goods - level4GoodsTurnIn) * findBarterLevelByLevelType(BarterLevelType.FOUR).getValue();
             barterPlan.addProfit(extraSilver);
         }
 
@@ -159,11 +163,11 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
         double level6Goods = coinBarter.getExchangeAmount() * exchanges6;
         double level5GoodsTurnIn = exchanges6 * coinBarter.getAcceptAmount();
         description = "Perform " + exchanges6 + " exchanges with " + level5GoodsTurnIn +
-                " Tier " + coinBarter.getAcceptTier() + " goods to receive " + level6Goods +" Tier " +
+                " Tier " + coinBarter.getAcceptTier() + " goods to receive " + level6Goods + " Tier " +
                 coinBarter.getExchangeTier() + " goods.";
         barterPlan.addRoute(new PlannedRoute(description, exchanges));
         if (level5Goods > level5GoodsTurnIn) {
-            double extraSilver = (level5Goods - level5GoodsTurnIn) * BarterLevelType.FIVE.getValue();
+            double extraSilver = (level5Goods - level5GoodsTurnIn) * findBarterLevelByLevelType(BarterLevelType.FIVE).getValue();
             barterPlan.addProfit(extraSilver);
         }
 
@@ -175,11 +179,13 @@ public class BarterAlgorithmAlpha implements Algorithm<BarterPlan> {
         return barterPlan;
     }
 
+    private BarterLevel findBarterLevelByLevelType(BarterLevelType barterLevelType) throws AlgorithmException {
+        return barterLevels.stream().filter(barterLevel -> barterLevelType.equals(barterLevel.getLevel())).findFirst().orElseThrow(AlgorithmException::new);
+    }
+
     private BarterRoute findBarterRoute(BarterLevelType exchangeTier) throws AlgorithmException {
         return possibleRoutes.stream().filter(route -> route.getExchangeTier().equals(exchangeTier)).findFirst().orElseThrow(AlgorithmException::new);
     }
-
-
 
 
 }

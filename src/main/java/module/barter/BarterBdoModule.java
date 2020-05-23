@@ -56,7 +56,7 @@ public class BarterBdoModule extends BdoModule {
         // build the barter module pane
         barterModulePane = new BarterModulePane();
 
-        //TODO: This is temporary logic for testing purposes
+        //TODO: This is temporary logic for testing purposes, will be reworked into a GUI
         URL barterUrl = BarterModulePane.class.getClassLoader().getResource("barter.json");
         List<BarterRoute> possibleRoutes;
         try {
@@ -65,7 +65,7 @@ public class BarterBdoModule extends BdoModule {
             logger.error("Fatal error! Could not parse the possible barter routes JSON!", ex);
             throw new ModuleException();
         }
-        BarterPlan plan = BarterOptimizer.optimize(possibleRoutes);
+        BarterPlan plan = BarterOptimizer.optimize(possibleRoutes, barterLevels, barterGoods);
 
         barterModulePane.setConsoleText(plan.toString());
 
