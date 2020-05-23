@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.layout.StackPane;
 import module.barter.model.BarterRoute;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,6 +37,10 @@ public class BarterRouteInputPane extends StackPane {
      */
     public void reset() {
         barterRoutes.clear();
+    }
+
+    public void addRoutes(BarterRoute... barterRoutes) {
+        Collections.addAll(this.barterRoutes, barterRoutes);
     }
 
 }

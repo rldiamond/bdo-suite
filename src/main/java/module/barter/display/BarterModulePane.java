@@ -2,7 +2,10 @@ package module.barter.display;
 
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
+import module.barter.model.BarterRoute;
 import module.common.ModulePane;
+
+import java.util.List;
 
 /**
  * The display pane for the Barter module.
@@ -32,6 +35,10 @@ public class BarterModulePane extends ModulePane {
      */
     public void setConsoleText(String text) {
         console.setText(text);
+    }
+
+    public void setBarters(List<BarterRoute> barters) {
+        barters.forEach(inputPane::addRoutes);
     }
 
 }

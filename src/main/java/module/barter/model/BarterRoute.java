@@ -8,6 +8,8 @@ import common.json.JsonObject;
 public class BarterRoute extends JsonObject {
 
     private final String tradeItem;
+    private final String acceptGoodName;
+    private final String exchangeGoodName;
     private final int exchanges;
     private final int acceptAmount;
     private final int exchangeAmount;
@@ -23,13 +25,15 @@ public class BarterRoute extends JsonObject {
      * @param exchangeTier   The tier of the good received for this barter.
      * @param exchangeAmount The amount of received good for this barter.
      */
-    public BarterRoute(int exchanges, BarterLevelType acceptTier, int acceptAmount, BarterLevelType exchangeTier, int exchangeAmount, String tradeItem) {
+    public BarterRoute(int exchanges, BarterLevelType acceptTier, int acceptAmount, BarterLevelType exchangeTier, int exchangeAmount, String tradeItem, String acceptGoodName, String exchangeGoodName) {
         this.exchanges = exchanges;
         this.acceptAmount = acceptAmount;
         this.exchangeAmount = exchangeAmount;
         this.acceptTier = acceptTier;
         this.exchangeTier = exchangeTier;
         this.tradeItem = tradeItem;
+        this.acceptGoodName = acceptGoodName;
+        this.exchangeGoodName = exchangeGoodName;
     }
 
     /**
@@ -69,5 +73,13 @@ public class BarterRoute extends JsonObject {
 
     public String getTradeItem() {
         return tradeItem;
+    }
+
+    public String getAcceptGoodName() {
+        return acceptGoodName;
+    }
+
+    public String getExchangeGoodName() {
+        return exchangeGoodName;
     }
 }

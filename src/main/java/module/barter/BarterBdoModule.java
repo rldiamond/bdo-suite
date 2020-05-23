@@ -68,6 +68,7 @@ public class BarterBdoModule extends BdoModule {
         BarterPlan plan = BarterOptimizer.optimize(possibleRoutes, barterLevels, barterGoods);
 
         barterModulePane.setConsoleText(plan.toString());
+        barterModulePane.setBarters(possibleRoutes);
 
     }
 
