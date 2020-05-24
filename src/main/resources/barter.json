@@ -1,45 +1,44 @@
 [
   {
-    "tradeItem": "Log",
     "exchanges": 6,
-    "acceptAmount": 400,
-    "exchangeAmount": 1,
-    "acceptTier": "ZERO",
-    "exchangeTier": "ONE"
+    "acceptGoodName": "Trade Good",
+    "acceptAmount": 1100,
+    "exchangeGoodName": "(PH) LEVEL 1 GOOD",
+    "exchangeAmount": 1
   },
   {
     "exchanges": 2,
+    "acceptGoodName": "(PH) Level 1 Good",
     "acceptAmount": 1,
-    "exchangeAmount": 1,
-    "acceptTier": "ONE",
-    "exchangeTier": "TWO"
+    "exchangeGoodName": "Big Stone Slab",
+    "exchangeAmount": 1
   },
   {
     "exchanges": 4,
+    "acceptGoodName": "Big Stone Slab",
     "acceptAmount": 1,
-    "exchangeAmount": 1,
-    "acceptTier": "TWO",
-    "exchangeTier": "THREE"
+    "exchangeGoodName": "Round Knife",
+    "exchangeAmount": 3
   },
   {
     "exchanges": 6,
+    "acceptGoodName": "Round Knife",
     "acceptAmount": 1,
-    "exchangeAmount": 2,
-    "acceptTier": "THREE",
-    "exchangeTier": "FOUR"
+    "exchangeGoodName": "Boatman's Manual",
+    "exchangeAmount": 2
   },
   {
     "exchanges": 4,
+    "acceptGoodName": "Boatman's Manual",
     "acceptAmount": 1,
-    "exchangeAmount": 1,
-    "acceptTier": "FOUR",
-    "exchangeTier": "FIVE"
+    "exchangeGoodName": "Faded Gold Dragon Figurine",
+    "exchangeAmount": 1
   },
   {
     "exchanges": 1,
+    "acceptGoodName": "Faded Gold Dragon Figurine",
     "acceptAmount": 1,
-    "exchangeAmount": 80,
-    "acceptTier": "FIVE",
-    "exchangeTier": "CROW_COIN"
+    "exchangeGoodName": "Crow Coin",
+    "exchangeAmount": 184
   }
 ]

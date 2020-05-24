@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import module.barter.model.BarterGood;
-import module.barter.model.BarterRoute;
+import module.barter.model.Barter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 /**
  * Editable table allowing for users to enter the routes possible from the in-game UI.
  */
-public class BarterRouteInputTable extends TableView<BarterRoute>  {
+public class BarterRouteInputTable extends TableView<Barter>  {
 
     /**
      * Construct.
@@ -31,8 +31,8 @@ public class BarterRouteInputTable extends TableView<BarterRoute>  {
 
     }
 
-    private List<TableColumn<BarterRoute, ?>> buildColumns() {
-        TableColumn<BarterRoute, String> exchangesCol = new TableColumn<>("Exchanges");
+    private List<TableColumn<Barter, ?>> buildColumns() {
+        TableColumn<Barter, String> exchangesCol = new TableColumn<>("Exchanges");
         exchangesCol.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getExchanges())));
         exchangesCol.setCellFactory(c -> new EditableTextFieldTableCell<>());
         exchangesCol.setOnEditCommit(edit -> {
@@ -45,7 +45,7 @@ public class BarterRouteInputTable extends TableView<BarterRoute>  {
             refresh();
         });
 
-        TableColumn<BarterRoute, String> acceptGoodCol = new TableColumn<>("Accept Good");
+        TableColumn<Barter, String> acceptGoodCol = new TableColumn<>("Accept Good");
         acceptGoodCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAcceptGoodName()));
         final List<String> barterGoods = BarterGood.getBarterGoods().stream().map(BarterGood::getName).collect(Collectors.toList());
         acceptGoodCol.setCellFactory(c -> new EditableComboBoxTableCell<>(barterGoods));
@@ -55,7 +55,7 @@ public class BarterRouteInputTable extends TableView<BarterRoute>  {
             refresh();
         });
 
-        TableColumn<BarterRoute, String> acceptAmountCol = new TableColumn<>("Accept Amount");
+        TableColumn<Barter, String> acceptAmountCol = new TableColumn<>("Accept Amount");
         acceptAmountCol.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getAcceptAmount())));
         acceptAmountCol.setCellFactory(c -> new EditableTextFieldTableCell<>());
         acceptAmountCol.setOnEditCommit(edit -> {
@@ -68,7 +68,7 @@ public class BarterRouteInputTable extends TableView<BarterRoute>  {
             refresh();
         });
 
-        TableColumn<BarterRoute, String> exchangeGoodCol = new TableColumn<>("Exchange Good");
+        TableColumn<Barter, String> exchangeGoodCol = new TableColumn<>("Exchange Good");
         exchangeGoodCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExchangeGoodName()));
         exchangeGoodCol.setCellFactory(c -> new EditableComboBoxTableCell<>(barterGoods));
         exchangeGoodCol.setOnEditCommit(edit -> {
@@ -77,7 +77,7 @@ public class BarterRouteInputTable extends TableView<BarterRoute>  {
             refresh();
         });
 
-        TableColumn<BarterRoute, String> exchangeAmountCol = new TableColumn<>("Exchange Amount");
+        TableColumn<Barter, String> exchangeAmountCol = new TableColumn<>("Exchange Amount");
         exchangeAmountCol.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getExchangeAmount())));
         exchangeAmountCol.setCellFactory(c -> new EditableTextFieldTableCell<>());
         exchangeAmountCol.setOnEditCommit(edit -> {

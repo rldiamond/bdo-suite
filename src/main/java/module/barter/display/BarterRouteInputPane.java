@@ -4,7 +4,7 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.StackPane;
-import module.barter.model.BarterRoute;
+import module.barter.model.Barter;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,14 +15,14 @@ import java.util.List;
  */
 public class BarterRouteInputPane extends StackPane {
 
-    private final ObservableList<BarterRoute> barterRoutes = FXCollections.observableArrayList();
+    private final ObservableList<Barter> barters = FXCollections.observableArrayList();
     private final BarterRouteInputTable routeInputTable;
 
     public BarterRouteInputPane() {
         // table with: Exchanges Available, Accepted Good, Accepted Amount, Exchanged Good, Exchanged Amount
         // Tier can be linked to the good itself.
         routeInputTable = new BarterRouteInputTable();
-        routeInputTable.setItems(barterRoutes);
+        routeInputTable.setItems(barters);
         this.getChildren().add(routeInputTable);
     }
 
@@ -30,30 +30,30 @@ public class BarterRouteInputPane extends StackPane {
      * Get all barter routes entered in the table.
      * @return The barter routes entered by the user.
      */
-    public List<BarterRoute> getEnteredRoutes() {
-        return barterRoutes;
+    public List<Barter> getEnteredRoutes() {
+        return barters;
     }
 
     /**
      * Resets all data entered.
      */
     public void reset() {
-        barterRoutes.clear();
+        barters.clear();
     }
 
-    public void addRoutes(BarterRoute... barterRoutes) {
-        Collections.addAll(this.barterRoutes, barterRoutes);
+    public void addRoutes(Barter... barters) {
+        Collections.addAll(this.barters, barters);
     }
 
-    public BarterRoute getSelectedRoute() {
+    public Barter getSelectedRoute() {
         return routeInputTable.getSelectionModel().getSelectedItem();
     }
 
-    public ReadOnlyObjectProperty<BarterRoute> selectedItemProperty() {
+    public ReadOnlyObjectProperty<Barter> selectedItemProperty() {
         return routeInputTable.getSelectionModel().selectedItemProperty();
     }
 
-    public ObservableList<BarterRoute> getBarterRoutes() {
-        return barterRoutes;
+    public ObservableList<Barter> getBarters() {
+        return barters;
     }
 }

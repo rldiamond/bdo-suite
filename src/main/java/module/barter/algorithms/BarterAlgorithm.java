@@ -3,177 +3,103 @@ package module.barter.algorithms;
 import common.algorithm.Algorithm;
 import common.algorithm.AlgorithmException;
 import module.barter.model.*;
-import module.marketapi.MarketDAO;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
- * The alpha for the barter algorithm assumes only one possible barter path.
- * Does not optimize early routes for later routes.
+ * Note: Still assuming only one possible barter route.
  */
 public class BarterAlgorithm implements Algorithm<BarterPlan> {
 
-    private static final Logger logger = LogManager.getLogger(BarterAlgorithm.class);
+    private final List<Barter> barters;
 
-    private final List<BarterRoute> possibleRoutes;
-
-    public BarterAlgorithm(List<BarterRoute> possibleRoutes) {
-        this.possibleRoutes = possibleRoutes;
+    public BarterAlgorithm(List<Barter> barters) {
+        this.barters = barters;
     }
 
+    /**
+     * @inhertDoc
+     */
     @Override
     public BarterPlan run() throws AlgorithmException {
-        BarterPlan barterPlan = new BarterPlan();
-        BarterRoute level1Route = findBarterRoute(BarterLevelType.ONE);
-        BarterRoute level2Route = findBarterRoute(BarterLevelType.TWO);
+        final BarterPlan barterPlan = new BarterPlan();
 
-        // Figure the first barter
-        double neededLevel1Goods = level2Route.getExchanges() * level2Route.getAcceptAmount();
-        double maxLevel1Goods = level1Route.getExchanges() * level1Route.getExchangeAmount();
+        Barter firstBarter = findBarterAcceptingLevel(BarterLevelType.ZERO).orElseThrow(AlgorithmException::new);
+        Barter secondBarter = findBarterAcceptingGood(firstBarter.getExchangeGoodName()).orElseThrow(AlgorithmException::new);
 
-        double level1Goods;
-        double goodsToTurnIn;
+        double optimalAcceptedGoods = secondBarter.getAcceptAmount() * secondBarter.getExchanges();
+        double maximumAcceptedGoods = firstBarter.getExchangeAmount() * firstBarter.getExchanges();
 
-        if (neededLevel1Goods <= maxLevel1Goods) {
-            // Perform X barters to get full amount
-            double exchangesToPerform = neededLevel1Goods / level1Route.getExchangeAmount();
-            goodsToTurnIn = exchangesToPerform * level1Route.getAcceptAmount();
-            double goodsToReceive = exchangesToPerform * level1Route.getExchangeAmount();
-            String description = "Perform " + exchangesToPerform + " exchanges with " + goodsToTurnIn +
-                    " Tier " + level1Route.getAcceptTier() + " goods to receive " + goodsToReceive + " Tier " +
-                    level1Route.getExchangeTier() + " goods.";
-            barterPlan.addRoute(new PlannedRoute(description, exchangesToPerform));
-            level1Goods = goodsToReceive;
+        PlannedRoute route = new PlannedRoute();
+        route.setTurnInGood(BarterGood.getBarterGoodByName(firstBarter.getAcceptGoodName()).orElseThrow(AlgorithmException::new));
+        route.setReceivedGood(BarterGood.getBarterGoodByName(firstBarter.getExchangeGoodName()).orElseThrow(AlgorithmException::new));
 
-        } else {
-            double exchangesToPerform = level1Route.getExchangeAmount();
-            goodsToTurnIn = exchangesToPerform * level1Route.getAcceptAmount();
-            double goodsToReceive = exchangesToPerform * level1Route.getExchangeAmount();
-            String description = "Perform " + exchangesToPerform + " exchanges with " + goodsToTurnIn +
-                    " Tier " + level1Route.getAcceptTier() + " goods to receive " + goodsToReceive + " Tier " +
-                    level1Route.getExchangeTier() + " goods.";
-            barterPlan.addRoute(new PlannedRoute(description, exchangesToPerform));
-            level1Goods = goodsToReceive;
-        }
-
-        //(try to) figure cost of the original trade item if provided
-        if (level1Route.getTradeItem() != null && !"".equals(level1Route.getTradeItem())) {
-            // we have an entry, lets make it safe..
-            MarketDAO.getInstance().searchByName(level1Route.getTradeItem()).ifPresent(response -> {
-                double costOfGood = 0 - (goodsToTurnIn * response.getPricePerOne());
-                barterPlan.addProfit(costOfGood);
-            });
-        }
-
-        // Figure the second barter
-        // how many exchanges can i perform of the second tier?
-        double maxLevel2Exchanges = level1Goods / level2Route.getAcceptAmount();
+        // How many exchanges do we do to maximize the second barter?
         double exchanges;
-        if (maxLevel2Exchanges <= level2Route.getExchanges()) {
-            exchanges = maxLevel2Exchanges;
+        if (optimalAcceptedGoods <= maximumAcceptedGoods) {
+            // We can full perform the second barter.
+            // so we need to figure out what that is
+            exchanges = optimalAcceptedGoods / firstBarter.getExchangeAmount();
         } else {
-            exchanges = level2Route.getExchanges();
+            exchanges = maximumAcceptedGoods / firstBarter.getExchangeAmount();
         }
-        double level2Goods = level2Route.getExchangeAmount() * exchanges;
-        double level1GoodsTurnIn = exchanges * level2Route.getAcceptAmount();
-        String description = "Perform " + exchanges + " exchanges with " + level1GoodsTurnIn +
-                " Tier " + level2Route.getAcceptTier() + " goods to receive " + level2Goods + " Tier " +
-                level2Route.getExchangeTier() + " goods.";
-        barterPlan.addRoute(new PlannedRoute(description, exchanges));
+        route.setExchanges((int) exchanges);
+        route.setTurnInAmount((int) (firstBarter.getAcceptAmount() * exchanges));
+        route.setReceivedAmount((int)(exchanges * firstBarter.getExchangeAmount()));
+        barterPlan.addRoute(route);
 
-        // Figure third barter
-        BarterRoute level3Route = findBarterRoute(BarterLevelType.THREE);
-        double maxLevel3Exchanges = level2Goods / level3Route.getAcceptAmount();
-        double exchanges3;
-        if (maxLevel3Exchanges <= level3Route.getExchanges()) {
-            exchanges3 = maxLevel3Exchanges;
-        } else {
-            exchanges3 = level3Route.getExchanges();
-        }
-        double level3Goods = level3Route.getExchangeAmount() * exchanges3;
-        double level2GoodsTurnIn = exchanges3 * level3Route.getAcceptAmount();
-        description = "Perform " + exchanges3 + " exchanges with " + level2GoodsTurnIn +
-                " Tier " + level3Route.getAcceptTier() + " goods to receive " + level3Goods + " Tier " +
-                level3Route.getExchangeTier() + " goods.";
-        barterPlan.addRoute(new PlannedRoute(description, exchanges));
-        if (level2Goods > level2GoodsTurnIn) {
-            double extraSilver = (level2Goods - level2GoodsTurnIn) * BarterLevel.getBarterLevelByType(BarterLevelType.TWO).getValue();
-            barterPlan.addProfit(extraSilver);
-        }
-
-        // Figure fourth barter
-        BarterRoute level4Route = findBarterRoute(BarterLevelType.FOUR);
-        double maxLevel4Exchanges = level3Goods / level4Route.getAcceptAmount();
-        double exchanges4;
-        if (maxLevel4Exchanges <= level4Route.getExchanges()) {
-            exchanges4 = maxLevel4Exchanges;
-        } else {
-            exchanges4 = level4Route.getExchanges();
-        }
-        double level4Goods = level4Route.getExchangeAmount() * exchanges4;
-        double level3GoodsTurnIn = exchanges4 * level4Route.getAcceptAmount();
-        description = "Perform " + exchanges4 + " exchanges with " + level3GoodsTurnIn +
-                " Tier " + level4Route.getAcceptTier() + " goods to receive " + level4Goods + " Tier " +
-                level4Route.getExchangeTier() + " goods.";
-        barterPlan.addRoute(new PlannedRoute(description, exchanges));
-        if (level3Goods > level3GoodsTurnIn) {
-            double extraSilver = (level3Goods - level3GoodsTurnIn) * BarterLevel.getBarterLevelByType(BarterLevelType.THREE).getValue();
-            barterPlan.addProfit(extraSilver);
-        }
-
-        // Figure fifth barter
-        BarterRoute level5Route = findBarterRoute(BarterLevelType.FIVE);
-        double maxLevel5Exchanges = level4Goods / level5Route.getAcceptAmount();
-        double exchanges5;
-        if (maxLevel5Exchanges <= level5Route.getExchanges()) {
-            exchanges5 = maxLevel5Exchanges;
-        } else {
-            exchanges5 = level5Route.getExchanges();
-        }
-        double level5Goods = level5Route.getExchangeAmount() * exchanges5;
-        double level4GoodsTurnIn = exchanges5 * level5Route.getAcceptAmount();
-        description = "Perform " + exchanges5 + " exchanges with " + level4GoodsTurnIn +
-                " Tier " + level5Route.getAcceptTier() + " goods to receive " + level5Goods + " Tier " +
-                level5Route.getExchangeTier() + " goods.";
-        barterPlan.addRoute(new PlannedRoute(description, exchanges));
-        if (level4Goods > level4GoodsTurnIn) {
-            double extraSilver = (level4Goods - level4GoodsTurnIn) * BarterLevel.getBarterLevelByType(BarterLevelType.FOUR).getValue();
-            barterPlan.addProfit(extraSilver);
-        }
-
-        // crow coins
-        BarterRoute coinBarter = findBarterRoute(BarterLevelType.CROW_COIN);
-        double maxLevel6Exchanges = level5Goods / coinBarter.getAcceptAmount();
-        double exchanges6;
-        if (maxLevel6Exchanges <= coinBarter.getExchanges()) {
-            exchanges6 = maxLevel6Exchanges;
-        } else {
-            exchanges6 = coinBarter.getExchanges();
-        }
-        double level6Goods = coinBarter.getExchangeAmount() * exchanges6;
-        double level5GoodsTurnIn = exchanges6 * coinBarter.getAcceptAmount();
-        description = "Perform " + exchanges6 + " exchanges with " + level5GoodsTurnIn +
-                " Tier " + coinBarter.getAcceptTier() + " goods to receive " + level6Goods + " Tier " +
-                coinBarter.getExchangeTier() + " goods.";
-        barterPlan.addRoute(new PlannedRoute(description, exchanges));
-        if (level5Goods > level5GoodsTurnIn) {
-            double extraSilver = (level5Goods - level5GoodsTurnIn) * BarterLevel.getBarterLevelByType(BarterLevelType.FIVE).getValue();
-            barterPlan.addProfit(extraSilver);
-        }
-
-        //add crow coins
-        double crowCoinsValue = MarketDAO.getInstance().getCrowCoinValue() * level6Goods;
-        barterPlan.addProfit(crowCoinsValue);
-
+        //Create route for L1-L2
+        PlannedRoute level2Route = createRoute(route);
+        barterPlan.addRoute(level2Route);
+        //Create route for L2-L3
+        PlannedRoute level3Route = createRoute(level2Route);
+        barterPlan.addRoute(level3Route);
+        //Create route for L3-L4
+        PlannedRoute level4Route = createRoute(level3Route);
+        barterPlan.addRoute(level4Route);
+        //Create route for L4-L5
+        PlannedRoute level5Route = createRoute(level4Route);
+        barterPlan.addRoute(level5Route);
+        //Create route for L5-CC
+        PlannedRoute ccRoute = createRoute(level5Route);
+        barterPlan.addRoute(ccRoute);
 
         return barterPlan;
     }
 
-    private BarterRoute findBarterRoute(BarterLevelType exchangeTier) throws AlgorithmException {
-        return possibleRoutes.stream().filter(route -> route.getExchangeTier().equals(exchangeTier)).findFirst().orElseThrow(AlgorithmException::new);
+    private PlannedRoute createRoute(PlannedRoute previousRoute) throws AlgorithmException {
+        PlannedRoute route = new PlannedRoute();
+
+        //find the next barter.
+        Barter barter = findBarterAcceptingGood(previousRoute.getReceivedGood().getName()).orElseThrow(AlgorithmException::new);
+        route.setTurnInGood(previousRoute.getReceivedGood());
+        route.setReceivedGood(BarterGood.getBarterGoodByName(barter.getExchangeGoodName()).orElseThrow(AlgorithmException::new));
+
+        double optimalAcceptedGoods = barter.getAcceptAmount() * barter.getExchanges();
+
+        double exchanges;
+        if (optimalAcceptedGoods <= previousRoute.getReceivedAmount()) {
+            exchanges = optimalAcceptedGoods / barter.getAcceptAmount();
+        } else {
+            exchanges = (double) previousRoute.getReceivedAmount() / barter.getAcceptAmount();
+        }
+        route.setExchanges((int) exchanges);
+        route.setTurnInAmount((int) (barter.getAcceptAmount() * exchanges));
+        route.setReceivedAmount((int)(exchanges*barter.getExchangeAmount()));
+
+        return route;
     }
 
+    private Optional<Barter> findBarterAcceptingGood(String goodName) {
+        return barters.stream().filter(barter -> barter.getAcceptGoodName().equalsIgnoreCase(goodName))
+                .findAny();
+    }
+
+    private Optional<Barter> findBarterAcceptingLevel(BarterLevelType levelType) {
+        return barters.stream().filter(barter -> {
+            return BarterGood.getBarterGoodByName(barter.getAcceptGoodName()).get().getLevel().equals(levelType);
+        }).findAny();
+    }
 
 }

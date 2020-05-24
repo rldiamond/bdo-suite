@@ -283,5 +283,20 @@
     "name": "Islanders' Lunchbox",
     "level" : "TWO",
     "itemId" : 800015
+  },
+  {
+    "name": "Trade Good",
+    "level" : "ZERO",
+    "itemId" : 0
+  },
+  {
+    "name": "Crow Coin",
+    "level" : "CROW_COIN",
+    "itemId" : 0
+  },
+  {
+    "name": "(PH) LEVEL 1 GOOD",
+    "level" : "ONE",
+    "itemId" : 0
   }
 ]

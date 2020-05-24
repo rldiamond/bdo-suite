@@ -4,7 +4,7 @@ import common.json.JsonParseException;
 import module.barter.display.BarterModulePane;
 import module.barter.model.BarterGood;
 import module.barter.model.BarterLevel;
-import module.barter.model.BarterRoute;
+import module.barter.model.Barter;
 import module.common.BdoModule;
 import module.common.ModuleException;
 import module.common.ModulePane;
@@ -38,7 +38,7 @@ public class BarterBdoModule extends BdoModule {
 
         //TODO: This is temporary logic for testing purposes, will be reworked into a GUI
         URL barterUrl = BarterModulePane.class.getClassLoader().getResource("barter.json");
-        List<BarterRoute> possibleRoutes;
+        List<Barter> possibleRoutes;
         try {
             possibleRoutes = BarterJsonFileReader.readBarterRoutesFromFile(new File(barterUrl.getPath()));
         } catch (JsonParseException ex) {

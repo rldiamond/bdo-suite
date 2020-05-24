@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
-import module.barter.model.BarterRoute;
+import module.barter.model.Barter;
 import module.barter.task.BarterOptimizationTask;
 import module.common.ModulePane;
 
@@ -57,14 +57,14 @@ public class BarterModulePane extends ModulePane {
 
         inputControlsPane.getAddBarterButton().setOnMouseClicked(me -> {
             if (me.getButton().equals(MouseButton.PRIMARY)) {
-                BarterRoute newRoute = new BarterRoute();
+                Barter newRoute = new Barter();
                 inputPane.addRoutes(newRoute);
             }
         });
 
         inputControlsPane.getRemoveBarterButton().setOnMouseClicked(me -> {
             if (me.getButton().equals(MouseButton.PRIMARY)) {
-                inputPane.getBarterRoutes().remove(inputPane.getSelectedRoute());
+                inputPane.getBarters().remove(inputPane.getSelectedRoute());
             }
         });
 
@@ -77,14 +77,14 @@ public class BarterModulePane extends ModulePane {
     private void doOptimize() {
         busyProperty.set(true);
         // Get barter routes from the table
-        final List<BarterRoute> barterRoutes = inputPane.getEnteredRoutes();
+        final List<Barter> barters = inputPane.getEnteredRoutes();
         // Create the background task
-        BarterOptimizationTask task = new BarterOptimizationTask(barterRoutes, console, busyProperty);
+        BarterOptimizationTask task = new BarterOptimizationTask(barters, console, busyProperty);
         BackgroundTaskRunner.getInstance().runTask(task);
     }
 
     //TODO REMOVE
-    public void setBarters(List<BarterRoute> barters) {
+    public void setBarters(List<Barter> barters) {
         barters.forEach(inputPane::addRoutes);
     }
 
