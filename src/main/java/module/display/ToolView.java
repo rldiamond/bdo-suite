@@ -1,15 +1,22 @@
 package module.display;
 
 import common.jfx.components.Card;
-import javafx.scene.Node;
+import javafx.geometry.Insets;
+import javafx.scene.layout.StackPane;
 
-public abstract class ToolView extends Card {
+public abstract class ToolView extends StackPane {
+
+    private Card card;
 
     public ToolView(String title) {
-        super(title);
-        setDisplayedContent(getDisplay());
+        setPadding(new Insets(20,20,20,20));
+
+        card = new Card(title);
+        getChildren().setAll(card);
     }
 
-    public abstract Node getDisplay();
+    protected Card getCard() {
+        return card;
+    }
 
 }

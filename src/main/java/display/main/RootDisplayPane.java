@@ -12,7 +12,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -135,9 +134,8 @@ public class RootDisplayPane extends BorderPane {
         setLoading(true);
 
         GenericTask task = new GenericTask(() -> {
-            Node node =  toolView.getDisplay();
             FXUtil.runOnFXThread(() -> {
-                this.displayedContentPane.getChildren().setAll(node);
+                this.displayedContentPane.getChildren().setAll(toolView);
                 setLoading(false);
             });
         });

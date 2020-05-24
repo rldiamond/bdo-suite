@@ -1,5 +1,7 @@
 package display.main;
 
+import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXPopup;
 import common.application.ApplicationSettings;
 import common.jfx.FXUtil;
 import javafx.beans.property.BooleanProperty;
@@ -10,7 +12,9 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -29,7 +33,7 @@ public class HeaderPane extends StackPane {
     public HeaderPane() {
         HBox container = new HBox();
 
-        HBox branding = new HBox();
+        HBox branding = new HBox(20);
         branding.setId("branding");
         branding.setPrefWidth(175);
         branding.setMaxWidth(USE_PREF_SIZE);
@@ -38,7 +42,27 @@ public class HeaderPane extends StackPane {
         branding.setPadding(new Insets(5, 5, 5, 10));
         Label appName = new Label(ApplicationSettings.APPLICATION_NAME);
         appName.setStyle("-fx-text-fill: ghostwhite; -fx-font-size: 16px");
-        branding.getChildren().add(appName);
+
+        //menu
+        Pane menu = new Pane();
+        menu.setPrefSize(24, 16);
+        menu.setMaxSize(24, 16);
+        menu.setId("menu");
+        StackPane menuWrapper = new StackPane(menu);
+        AnchorPane.setLeftAnchor(menuWrapper, 185D);
+        AnchorPane.setTopAnchor(menuWrapper, 0D);
+        AnchorPane.setBottomAnchor(menuWrapper, 0D);
+        Tooltip.install(menu, new Tooltip("Menu"));
+
+        JFXPopup fileMenuPopUp = new JFXPopup();
+        fileMenuPopUp.setAutoHide(true);
+        JFXListView<HBox> fileMenuList = new JFXListView<>();
+        fileMenuPopUp.setPopupContent(fileMenuList);
+
+        menu.setOnMouseClicked(me -> fileMenuPopUp.show(menu, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.LEFT));
+
+
+        branding.getChildren().addAll(menu, appName);
 
         container.getChildren().addAll(branding);
         getChildren().setAll(container);
@@ -88,6 +112,8 @@ public class HeaderPane extends StackPane {
             icon.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
             getChildren().setAll(icon);
             title = moduleTool.getTitle();
+
+            Tooltip.install(this, new Tooltip(moduleTool.getDescription()));
 
             this.setOnMouseClicked(me -> {
                 if (me.getButton().equals(MouseButton.PRIMARY)) {
