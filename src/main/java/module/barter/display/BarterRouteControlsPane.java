@@ -14,9 +14,9 @@ public class BarterRouteControlsPane extends StackPane {
 
     public BarterRouteControlsPane() {
         resetButton = new JFXButton("RESET");
-        resetButton.getStyleClass().add("button-flat-red");
+        resetButton.getStyleClass().add("button-flat-gray");
         optimizeButton = new JFXButton("OPTIMIZE");
-        optimizeButton.getStyleClass().add("button-flat-green");
+        optimizeButton.getStyleClass().add("button-flat-gray");
 
         HBox buttonContainer = new HBox(10);
         buttonContainer.setAlignment(Pos.CENTER);

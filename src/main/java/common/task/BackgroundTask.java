@@ -15,6 +15,6 @@ public abstract class BackgroundTask {
         BackgroundTaskRunner.getInstance().busyProperty().setValue(false);
     }
 
-    abstract void doTask();
+    abstract public void doTask();
 
 }

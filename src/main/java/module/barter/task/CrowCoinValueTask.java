@@ -6,7 +6,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
 import module.marketapi.MarketDAO;
 
-public class CrowCoinValueTask implements BackgroundTask {
+public class CrowCoinValueTask extends BackgroundTask {
 
     private final StringProperty field;
     private final BooleanProperty busyProperty;
@@ -17,7 +17,7 @@ public class CrowCoinValueTask implements BackgroundTask {
     }
 
     @Override
-    public void run() {
+    public void doTask() {
         field.setValue(TextUtil.formatAsSilver(MarketDAO.getInstance().getCrowCoinValue()));
         busyProperty.set(false);
     }

@@ -2,34 +2,44 @@ package common.application;
 
 import module.barter.BarterBdoModule;
 import module.common.BdoModule;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
+public enum ModuleRegistration {
+    BARTER(BarterBdoModule.class, "Bartering", "Calculate optimal routes for your bartering session.", "barter");
 
-/**
- * Manages modules registered with the application.
- * This will assist in allowing the user to enable or disable modules.
- */
-public class ModuleRegistration {
+    private final Class<? extends BdoModule> module;
+    private final String title;
+    private final String description;
+    private final String iconId;
 
-    private static final Logger logger = LogManager.getLogger(ModuleRegistration.class);
-    private static final List<BdoModule> REGISTERED_MODULES = new ArrayList<>();
-
-    static {
-        registerModule(new BarterBdoModule());
+    private ModuleRegistration(Class<? extends BdoModule> module, String title, String description, String iconId) {
+        this.module = module;
+        this.title = title;
+        this.description = description;
+        this.iconId = iconId;
     }
 
-    public static void registerModule(BdoModule module) {
-        REGISTERED_MODULES.add(module);
+    public Class<? extends BdoModule> getModuleClass() {
+        return module;
     }
 
-    public static void unregisterModule(BdoModule module) {
-
+    public BdoModule getNewModule() {
+        try {
+            return getModuleClass().getConstructor().newInstance();
+        } catch (Exception ex) {
+            // shouldnt occur.
+            return null;
+        }
     }
 
-    public static List<BdoModule> getRegisteredModules() {
-        return REGISTERED_MODULES;
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getIconId() {
+        return iconId;
     }
 }

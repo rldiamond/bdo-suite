@@ -58,7 +58,7 @@
 
 /******************** HEADER *******************/
 #header {
-    -fx-background-color: darkred;
+    -fx-background-color: #6378B3;
 }
 
 /******************** LEFT MENU *******************/
@@ -133,7 +133,7 @@
 }
 
 #branding {
-    -fx-background-color: #5A0000;
+    -fx-background-color: #526BC7;
 }
 
 #menu {
@@ -265,8 +265,8 @@
 
 /******************** TABLES *******************/
 .root {
-    -fx-accent: #A32202;
-    -fx-focus-color: #A32202;
+    -fx-accent: darkgray;
+    -fx-focus-color: #6378B3;
     -fx-background-color: #F2F2F2;
 }
 
@@ -293,7 +293,7 @@
 }
 
 .table-row-cell:selected {
-    -fx-background-color: -fx-table-cell-border-color, rosybrown;
+    -fx-background-color: -fx-table-cell-border-color, slategray;
     -fx-text-fill: white;
 }
 
@@ -302,7 +302,7 @@
 }
 
 .table-row-cell:odd:selected {
-    -fx-background-color: -fx-table-cell-border-color, rosybrown;
+    -fx-background-color: -fx-table-cell-border-color, slategray;
 }
 
 .combo-box {
@@ -734,4 +734,37 @@
     -fx-font-weight: bold;
     -fx-font-size: 14px;
     -fx-alignment: center;
+}
+
+#route {
+    -fx-shape: "M416 320h-96c-17.6 0-32-14.4-32-32s14.4-32 32-32h96s96-107 96-160-43-96-96-96-96 43-96 96c0 25.5 22.2 63.4 45.3 96H320c-52.9 0-96 43.1-96 96s43.1 96 96 96h96c17.6 0 32 14.4 32 32s-14.4 32-32 32H185.5c-16 24.8-33.8 47.7-47.3 64H416c52.9 0 96-43.1 96-96s-43.1-96-96-96zm0-256c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zM96 256c-53 0-96 43-96 96s96 160 96 160 96-107 96-160-43-96-96-96zm0 128c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z";
+    -fx-background-color: ghostwhite;
+}
+
+#toolbutton:hover {
+    -fx-cursor: hand;
+}
+
+#toolbutton .label {
+    -fx-text-fill: grey;
+}
+
+#toolbutton .mdTab-icon {
+    -fx-background-color: grey;
+}
+
+#toolbutton:hover .mdTab-icon {
+    -fx-background-color: ghostwhite;
+}
+
+#toolbutton:hover .label {
+    -fx-text-fill: ghostwhite;
+}
+
+#toolbutton:selected .label {
+    -fx-text-fill: ghostwhite;
+}
+
+#toolbutton:selected .mdTab-icon {
+    -fx-background-color: ghostwhite;
 }

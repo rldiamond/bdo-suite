@@ -5,6 +5,8 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Arrays;
+
 public class MainApp extends Application {
 
     public static void main(String[] args) {
@@ -16,7 +18,8 @@ public class MainApp extends Application {
         primaryStage.setTitle("BDO Suite");
 
         RootDisplayPane rootDisplayPane = new RootDisplayPane();
-        ModuleRegistration.getRegisteredModules().forEach(rootDisplayPane::addModule);
+        //Register all modules for now
+        Arrays.stream(ModuleRegistration.values()).forEach(rootDisplayPane::registerModule);
 
         Scene scene = new Scene(rootDisplayPane);
         FXUtil.setThemeOnScene(scene);

@@ -7,7 +7,7 @@ import javafx.beans.property.StringProperty;
 import module.barter.algorithms.MostValuableCoinItemAlgorithm;
 import module.marketapi.model.CrowCoinVendorItem;
 
-public class MostValuableCoinItemTask implements BackgroundTask {
+public class MostValuableCoinItemTask extends BackgroundTask {
 
     private final StringProperty textProperty;
     private final BooleanProperty busyProperty;
@@ -18,7 +18,7 @@ public class MostValuableCoinItemTask implements BackgroundTask {
     }
 
     @Override
-    public void run() {
+    public void doTask() {
         MostValuableCoinItemAlgorithm algorithm = new MostValuableCoinItemAlgorithm();
         try {
             CrowCoinVendorItem item = algorithm.run();

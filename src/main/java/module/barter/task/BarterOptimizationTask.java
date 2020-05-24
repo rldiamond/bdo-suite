@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class BarterOptimizationTask implements BackgroundTask {
+public class BarterOptimizationTask extends BackgroundTask {
 
     private static final Logger logger = LogManager.getLogger(BarterOptimizationTask.class);
     private final TextArea console;
@@ -25,8 +25,7 @@ public class BarterOptimizationTask implements BackgroundTask {
         this.busyProperty = busyProperty;
     }
 
-    @Override
-    public void run() {
+    public void doTask() {
         BarterAlgorithm barterAlgorithm = new BarterAlgorithm(barters);
         try {
             BarterPlan barterPlan = barterAlgorithm.run();

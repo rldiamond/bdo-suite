@@ -3,14 +3,14 @@ package module.marketapi.task;
 import common.task.BackgroundTask;
 import module.marketapi.MarketCache;
 
-public class CachePurgeTask implements BackgroundTask {
+public class CachePurgeTask extends BackgroundTask {
 
     public CachePurgeTask(){
 
     }
 
     @Override
-    public void run() {
+    public void doTask() {
         MarketCache.getInstance().purgeExpiredItems();
     }
 }

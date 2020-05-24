@@ -1,6 +1,7 @@
 package display.main;
 
 import com.jfoenix.transitions.JFXFillTransition;
+import common.application.ModuleRegistration;
 import common.jfx.FXUtil;
 import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
@@ -26,7 +27,7 @@ public class ModuleMenuButton extends StackPane {
     private BooleanProperty selectedProperty = new SimpleBooleanProperty(false);
     private Runnable runnable;
 
-    public ModuleMenuButton(BdoModule module) {
+    public ModuleMenuButton(ModuleRegistration module) {
         titleProperty.setValue(module.getTitle());
         setPadding(new Insets(0, 0, 0, 10));
         setId("mdTab");
