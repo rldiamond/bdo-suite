@@ -4,10 +4,12 @@ public abstract class BdoModule {
 
     private String title;
     private String description;
+    private String iconId;
 
-    public BdoModule(String title, String description) {
+    public BdoModule(String title, String description, String iconId) {
         this.title = title;
         this.description = description;
+        this.iconId = iconId;
         initialize();
     }
 
@@ -30,6 +32,10 @@ public abstract class BdoModule {
      */
     public String getDescription() {
         return description;
+    }
+
+    public String getIconId() {
+        return iconId;
     }
 
     /**

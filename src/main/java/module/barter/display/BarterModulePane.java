@@ -28,6 +28,7 @@ public class BarterModulePane extends ModulePane {
      * Default constructor.
      */
     public BarterModulePane() {
+        super("Bartering");
         console = new TextArea();
         console.setEditable(false);
         inputPane = new BarterRouteInputPane();
@@ -35,8 +36,9 @@ public class BarterModulePane extends ModulePane {
         controlsPane = new BarterRouteControlsPane();
         inputControlsPane = new BarterRouteInputControlsPane();
         VBox stackEm = new VBox(5);
-        stackEm.getChildren().addAll(inputControlsPane, inputPane, console, controlsPane);
-        super.getChildren().add(stackEm);
+        stackEm.getChildren().addAll(inputControlsPane, inputPane, console);
+        getCard().setDisplayedContent(stackEm);
+        getCard().setFooterContent(controlsPane);
 
         // bind controls
         controlsPane.getResetButton().setOnMouseClicked(me -> {

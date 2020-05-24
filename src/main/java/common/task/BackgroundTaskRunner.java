@@ -1,5 +1,7 @@
 package common.task;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,6 +14,7 @@ import java.util.concurrent.Executors;
 public class BackgroundTaskRunner {
 
     private static final BackgroundTaskRunner SINGLETON = new BackgroundTaskRunner();
+    private static final BooleanProperty busyProperty = new SimpleBooleanProperty(false);
 
     /**
      * Get the instance of the background task runner.
@@ -35,6 +38,10 @@ public class BackgroundTaskRunner {
     public void runTask(BackgroundTask task) {
         logger.info("Submitting new task to the background task runner.");
         executorService.submit(task::run);
+    }
+
+    public BooleanProperty busyProperty() {
+        return busyProperty;
     }
 
 }

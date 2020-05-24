@@ -25,7 +25,7 @@ public class BarterBdoModule extends BdoModule {
     private BarterModulePane barterModulePane;
 
     public BarterBdoModule() {
-        super("Bartering", "Calculate optimal routes for your bartering session.");
+        super("Bartering", "Calculate optimal routes for your bartering session.", "barter");
     }
 
     /**

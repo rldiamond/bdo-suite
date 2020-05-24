@@ -1,10 +1,20 @@
 package common.task;
 
-public interface BackgroundTask {
+public abstract class BackgroundTask {
+
+    public BackgroundTask() {
+
+    }
 
     /**
      * The task to run.
      */
-    public void run();
+    public void run() {
+        BackgroundTaskRunner.getInstance().busyProperty().setValue(true);
+        doTask();
+        BackgroundTaskRunner.getInstance().busyProperty().setValue(false);
+    }
+
+    abstract void doTask();
 
 }

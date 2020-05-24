@@ -1,5 +1,6 @@
 package module.barter.display;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -8,12 +9,15 @@ import javafx.scene.layout.StackPane;
 
 public class BarterRouteControlsPane extends StackPane {
 
-    private Button resetButton;
-    private Button optimizeButton;
+    private JFXButton resetButton;
+    private JFXButton optimizeButton;
 
     public BarterRouteControlsPane() {
-        resetButton = new Button("Reset");
-        optimizeButton = new Button("Optimize");
+        resetButton = new JFXButton("RESET");
+        resetButton.getStyleClass().add("button-flat-red");
+        optimizeButton = new JFXButton("OPTIMIZE");
+        optimizeButton.getStyleClass().add("button-flat-green");
+
         HBox buttonContainer = new HBox(10);
         buttonContainer.setAlignment(Pos.CENTER);
         buttonContainer.getChildren().addAll(optimizeButton, resetButton);
