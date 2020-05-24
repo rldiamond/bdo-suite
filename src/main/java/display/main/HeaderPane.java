@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXPopup;
 import common.application.ApplicationSettings;
 import common.jfx.FXUtil;
+import common.jfx.components.PopupMenuEntry;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
@@ -60,7 +62,13 @@ public class HeaderPane extends StackPane {
         fileMenuPopUp.setPopupContent(fileMenuList);
 
         menu.setOnMouseClicked(me -> fileMenuPopUp.show(menu, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.LEFT));
-
+        PopupMenuEntry fileExitMenuEntry = new PopupMenuEntry("Exit");
+        fileExitMenuEntry.setOnMouseClicked(me -> {
+            fileMenuPopUp.hide();
+            Platform.exit();
+        });
+        Tooltip.install(fileExitMenuEntry, new Tooltip("Exit the application."));
+        fileMenuList.getItems().addAll(fileExitMenuEntry);
 
         branding.getChildren().addAll(menu, appName);
 

@@ -68,19 +68,19 @@ public class MarketDAO {
     }
 
     public Optional<MarketResponse> searchByName(String name) {
-        logger.info("Searching market API for: " + name);
-
         // check cache
         MarketResponse r = cache.get(name).orElseGet(() -> {
             String searchTerm = name.trim().replace(" ", "%20");
             MarketResponse response = null;
             try {
+                logger.info("Searching market API for: " + name);
                 response = restClient.get(searchTerm + "/0", MarketResponse.class);
             } catch (Exception ex) {
                 logger.warn("Failed to find data in market API for: " + name);
             }
             if (response != null && response.getName().equalsIgnoreCase(name)) {
                 logger.info("Found item: " + name);
+                cache.add(response);
                 return response;
             }
             return null;

@@ -71,11 +71,11 @@
 }
 
 .list-view .list-cell:selected {
-    -fx-background-color: rosybrown;
+    -fx-background-color: #6378B3;
 }
 
 .list-view .list-cell:hover {
-    -fx-background-color: rosybrown;
+    -fx-background-color: #6378B3;
 }
 
 .list-view .list-cell:hover .label {
@@ -87,7 +87,7 @@
 }
 
 .jfx-popup-container {
-    -fx-border-color: darkred;
+    -fx-border-color: #3058ba;
 }
 
 .text-area .content {
@@ -153,7 +153,7 @@
 }
 
 .jfx-text-field, .jfx-text-area {
-    -jfx-focus-color: rosybrown;
+    -jfx-focus-color: #6378B3;
 }
 
 .button-flat-green {
@@ -315,7 +315,7 @@
 }
 
 .list-cell:selected {
-    -fx-background-color: rosybrown;
+    -fx-background-color: #6378B3;
     -fx-text-fill: white;
 }
 
@@ -324,7 +324,7 @@
 }
 
 .list-cell:odd:selected {
-    -fx-background-color: rosybrown;
+    -fx-background-color: #6378B3;
 }
 
 .list-cell:filled:hover {
@@ -584,11 +584,11 @@
 }
 
 .fileList .list-cell:selected {
-    -fx-background-color: rosybrown;
+    -fx-background-color: #6378B3;
 }
 
 .fileList .list-cell:selected:hover {
-    -fx-background-color: rosybrown;
+    -fx-background-color: #6378B3;
 }
 
 .fileList .list-cell:odd {
@@ -596,11 +596,11 @@
 }
 
 .fileList .list-cell:odd:selected {
-    -fx-background-color: rosybrown;
+    -fx-background-color: #6378B3;
 }
 
 .fileList .list-cell:odd:selected:hover {
-    -fx-background-color: rosybrown;
+    -fx-background-color: #6378B3;
 }
 
 .fileList .list-cell:hover {

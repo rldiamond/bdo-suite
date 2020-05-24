@@ -3,7 +3,9 @@ package common.task;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public abstract class BackgroundTask {
+import java.util.TimerTask;
+
+public abstract class BackgroundTask extends TimerTask {
     private static final Logger logger = LogManager.getLogger(BackgroundTask.class);
 
     public BackgroundTask() {

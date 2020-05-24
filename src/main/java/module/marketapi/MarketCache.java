@@ -4,9 +4,8 @@ import module.marketapi.model.MarketResponse;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Cache introduced to reduce loading times by attempting to not wait for Market API as often.
@@ -20,7 +19,7 @@ public class MarketCache {
         return SINGLETON;
     }
 
-    private List<CachedItem> cache = new ArrayList<>();
+    private CopyOnWriteArrayList<CachedItem> cache = new CopyOnWriteArrayList<>();
 
     private MarketCache() {
 

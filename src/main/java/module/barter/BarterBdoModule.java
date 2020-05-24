@@ -1,11 +1,9 @@
 package module.barter;
 
-import module.barter.display.BarterModulePane;
 import module.barter.display.RouteOptimizationToolView;
 import module.barter.model.BarterGood;
 import module.barter.model.BarterLevel;
 import module.common.BdoModule;
-import module.common.ModulePane;
 import module.common.ModuleTool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

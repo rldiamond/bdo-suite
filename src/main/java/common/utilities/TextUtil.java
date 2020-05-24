@@ -14,4 +14,25 @@ public class TextUtil {
         return formatter.format(number) + "s";
     }
 
+    public static String toTitleCase(String input) {
+        if (input == null) {
+            return "";
+        }
+        StringBuilder titleCase = new StringBuilder();
+        boolean nextTitleCase = true;
+        input = input.toLowerCase();
+        for (char c : input.toCharArray()) {
+            if (Character.isSpaceChar(c)) {
+                nextTitleCase = true;
+            } else if (nextTitleCase) {
+                c = Character.toTitleCase(c);
+                nextTitleCase = false;
+            }
+
+            titleCase.append(c);
+        }
+
+        return titleCase.toString();
+    }
+
 }
