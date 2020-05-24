@@ -21,7 +21,6 @@ import java.util.List;
 public class BarterBdoModule extends BdoModule {
 
     private static final Logger logger = LogManager.getLogger(BarterBdoModule.class);
-
     private List<BarterGood> barterGoods;
     private List<BarterLevel> barterLevels;
     private BarterModulePane barterModulePane;

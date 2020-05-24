@@ -1,6 +1,7 @@
 package module.barter.display;
 
 import common.task.BackgroundTaskRunner;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 public class BarterModulePane extends ModulePane {
 
+    private final SimpleBooleanProperty busyProperty = new SimpleBooleanProperty(false);
     private TextArea console;
     private BarterRouteInputPane inputPane;
     private BarterRouteControlsPane controlsPane;
@@ -43,28 +45,27 @@ public class BarterModulePane extends ModulePane {
                 doOptimize();
             }
         });
+
+        busyProperty.addListener(c -> {
+            if (busyProperty.get()) {
+                console.setText("Loading... please wait.");
+            }
+        });
     }
 
     /**
      * Run the optimization process.
      */
     private void doOptimize() {
+        busyProperty.set(true);
         // Get barter routes from the table
         final List<BarterRoute> barterRoutes = inputPane.getEnteredRoutes();
         // Create the background task
-        BarterOptimizationTask task = new BarterOptimizationTask(barterRoutes, console);
+        BarterOptimizationTask task = new BarterOptimizationTask(barterRoutes, console, busyProperty);
         BackgroundTaskRunner.getInstance().runTask(task);
     }
 
-    /**
-     * Sets the contents of the console to the provided text String.
-     *
-     * @param text The text to display in the console.
-     */
-    public void setConsoleText(String text) {
-        console.setText(text);
-    }
-
+    //TODO REMOVE
     public void setBarters(List<BarterRoute> barters) {
         barters.forEach(inputPane::addRoutes);
     }
