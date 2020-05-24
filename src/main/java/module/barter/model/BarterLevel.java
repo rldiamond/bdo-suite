@@ -28,6 +28,10 @@ public class BarterLevel {
         }
     }
 
+    public static List<BarterLevel> getBarterLevels() {
+        return barterLevels;
+    }
+
     /**
      * Return BarterLevel information for the supplied BarterLevelType.
      *

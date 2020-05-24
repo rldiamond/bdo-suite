@@ -33,24 +33,6 @@ public class BarterBdoModule extends BdoModule {
      * Initializes the module.
      */
     protected void initialize() throws ModuleException {
-        // load in the barter goods from the JSON configuration file.
-        URL goodsUrl = BarterModulePane.class.getClassLoader().getResource("module/barter/BarterGoods.json");
-        try {
-            barterGoods = BarterJsonFileReader.readBarterGoodsFromFile(new File(goodsUrl.getPath()));
-        } catch (JsonParseException ex) {
-            logger.error("Fatal error! Could not parse barter goods JSON!", ex);
-            throw new ModuleException();
-        }
-
-        // load in the barter levels from the JSON configuration file.
-        URL levelUrl = BarterModulePane.class.getClassLoader().getResource("module/barter/BarterLevels.json");
-        try {
-            barterLevels = BarterJsonFileReader.readBarterLevelsFromFile(new File(levelUrl.getPath()));
-        } catch (JsonParseException ex) {
-            logger.error("Fatal error! Could not parse barter levels JSON!", ex);
-            throw new ModuleException();
-        }
-
         // build the barter module pane
         barterModulePane = new BarterModulePane();
 
@@ -63,9 +45,6 @@ public class BarterBdoModule extends BdoModule {
             logger.error("Fatal error! Could not parse the possible barter routes JSON!", ex);
             throw new ModuleException();
         }
-        //BarterPlan plan = BarterOptimizer.optimize(possibleRoutes, barterLevels, barterGoods);
-
-        //barterModulePane.setConsoleText(plan.toString());
         barterModulePane.setBarters(possibleRoutes);
 
     }

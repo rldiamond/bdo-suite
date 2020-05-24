@@ -7,14 +7,14 @@ import common.json.JsonObject;
  */
 public class BarterRoute extends JsonObject {
 
-    private final String tradeItem;
-    private final String acceptGoodName;
-    private final String exchangeGoodName;
-    private final int exchanges;
-    private final int acceptAmount;
-    private final int exchangeAmount;
-    private final BarterLevelType acceptTier;
-    private final BarterLevelType exchangeTier;
+    private String tradeItem;
+    private String acceptGoodName;
+    private String exchangeGoodName;
+    private int exchanges;
+    private int acceptAmount;
+    private int exchangeAmount;
+    private BarterLevelType acceptTier;
+    private BarterLevelType exchangeTier;
 
     /**
      * Construct a full Barter Route.
@@ -34,6 +34,38 @@ public class BarterRoute extends JsonObject {
         this.tradeItem = tradeItem;
         this.acceptGoodName = acceptGoodName;
         this.exchangeGoodName = exchangeGoodName;
+    }
+
+    public void setTradeItem(String tradeItem) {
+        this.tradeItem = tradeItem;
+    }
+
+    public void setAcceptGoodName(String acceptGoodName) {
+        this.acceptGoodName = acceptGoodName;
+    }
+
+    public void setExchangeGoodName(String exchangeGoodName) {
+        this.exchangeGoodName = exchangeGoodName;
+    }
+
+    public void setExchanges(int exchanges) {
+        this.exchanges = exchanges;
+    }
+
+    public void setAcceptAmount(int acceptAmount) {
+        this.acceptAmount = acceptAmount;
+    }
+
+    public void setExchangeAmount(int exchangeAmount) {
+        this.exchangeAmount = exchangeAmount;
+    }
+
+    public void setAcceptTier(BarterLevelType acceptTier) {
+        this.acceptTier = acceptTier;
+    }
+
+    public void setExchangeTier(BarterLevelType exchangeTier) {
+        this.exchangeTier = exchangeTier;
     }
 
     /**
@@ -82,4 +114,6 @@ public class BarterRoute extends JsonObject {
     public String getExchangeGoodName() {
         return exchangeGoodName;
     }
+
+
 }
