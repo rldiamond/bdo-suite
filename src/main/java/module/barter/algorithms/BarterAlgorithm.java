@@ -3,6 +3,7 @@ package module.barter.algorithms;
 import common.algorithm.Algorithm;
 import common.algorithm.AlgorithmException;
 import module.barter.model.*;
+import module.marketapi.algorithms.CrowCoinValueAlgorithm;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,9 +14,12 @@ import java.util.Optional;
 public class BarterAlgorithm implements Algorithm<BarterPlan> {
 
     private final List<Barter> barters;
+    private final BarterPlan barterPlan;
+
 
     public BarterAlgorithm(List<Barter> barters) {
         this.barters = barters;
+        this.barterPlan = new BarterPlan();
     }
 
     /**
@@ -23,7 +27,6 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
      */
     @Override
     public BarterPlan run() throws AlgorithmException {
-        final BarterPlan barterPlan = new BarterPlan();
 
         Barter firstBarter = findBarterAcceptingLevel(BarterLevelType.ZERO).orElseThrow(AlgorithmException::new);
         Barter secondBarter = findBarterAcceptingGood(firstBarter.getExchangeGoodName()).orElseThrow(AlgorithmException::new);
@@ -87,6 +90,18 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
         route.setExchanges((int) exchanges);
         route.setTurnInAmount((int) (barter.getAcceptAmount() * exchanges));
         route.setReceivedAmount((int)(exchanges*barter.getExchangeAmount()));
+
+        //calculate some profit
+        if (previousRoute.getReceivedAmount() > route.getTurnInAmount()) {
+            int excessGoods = previousRoute.getReceivedAmount() - route.getTurnInAmount();
+            double valueOfGood = BarterLevel.getBarterLevelByType(previousRoute.getReceivedGood().getLevel()).getValue();
+            barterPlan.addProfit(valueOfGood * excessGoods);
+        }
+        if (route.getReceivedGood().getLevel().equals(BarterLevelType.CROW_COIN)) {
+            CrowCoinValueAlgorithm crowCoinValueAlgorithm = new CrowCoinValueAlgorithm();
+            double coinValue = crowCoinValueAlgorithm.run();
+            barterPlan.addProfit(coinValue * route.getReceivedAmount());
+        }
 
         return route;
     }

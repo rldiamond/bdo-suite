@@ -1,5 +1,6 @@
 package module.barter.model;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,8 @@ public class BarterPlan {
         for (PlannedRoute route : routes) {
             sb.append(route.getDescription()).append("\n");
         }
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        sb.append("Profit: ").append(formatter.format(profit)).append("s");
         return sb.toString();
     }
 
