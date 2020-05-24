@@ -53,6 +53,8 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
         barterPlan.addParley(firstBarter.getParley() * (int) exchanges);
         barterPlan.addRoute(route);
 
+        //TODO: Put the following in a loop
+
         //Create route for L1-L2
         PlannedRoute level2Route = createRoute(route);
         barterPlan.addRoute(level2Route);

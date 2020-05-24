@@ -15,6 +15,7 @@ import java.util.List;
 /**
  * The display pane for the Barter module.
  */
+//TODO: Cancel button.
 public class BarterModulePane extends ModulePane {
 
     private final SimpleBooleanProperty busyProperty = new SimpleBooleanProperty(false);
@@ -28,7 +29,9 @@ public class BarterModulePane extends ModulePane {
      */
     public BarterModulePane() {
         console = new TextArea();
+        console.setEditable(false);
         inputPane = new BarterRouteInputPane();
+        inputPane.bindDisableProperty(busyProperty);
         controlsPane = new BarterRouteControlsPane();
         inputControlsPane = new BarterRouteInputControlsPane();
         VBox stackEm = new VBox(5);
@@ -42,12 +45,14 @@ public class BarterModulePane extends ModulePane {
                 inputPane.reset();
             }
         });
+        controlsPane.getResetButton().disableProperty().bind(busyProperty);
 
         controlsPane.getOptimizeButton().setOnMouseClicked(me -> {
             if (me.getButton().equals(MouseButton.PRIMARY)) {
                 doOptimize();
             }
         });
+        controlsPane.getOptimizeButton().disableProperty().bind(busyProperty);
 
         busyProperty.addListener(c -> {
             if (busyProperty.get()) {
@@ -61,6 +66,7 @@ public class BarterModulePane extends ModulePane {
                 inputPane.addRoutes(newRoute);
             }
         });
+        inputControlsPane.getAddBarterButton().disableProperty().bind(busyProperty);
 
         inputControlsPane.getRemoveBarterButton().setOnMouseClicked(me -> {
             if (me.getButton().equals(MouseButton.PRIMARY)) {
@@ -68,7 +74,7 @@ public class BarterModulePane extends ModulePane {
             }
         });
 
-        inputControlsPane.getRemoveBarterButton().disableProperty().bind(Bindings.isNull(inputPane.selectedItemProperty()));
+        inputControlsPane.getRemoveBarterButton().disableProperty().bind(Bindings.or(Bindings.isNull(inputPane.selectedItemProperty()),busyProperty));
     }
 
     /**

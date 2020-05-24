@@ -1,8 +1,8 @@
-import display.RootDisplayPane;
+import common.application.ModuleRegistration;
+import display.main.RootDisplayPane;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import module.barter.BarterBdoModule;
 
 public class MainApp extends Application {
 
@@ -15,7 +15,7 @@ public class MainApp extends Application {
         primaryStage.setTitle("BDO Suite");
 
         RootDisplayPane rootDisplayPane = new RootDisplayPane();
-        rootDisplayPane.loadModule(new BarterBdoModule());
+        ModuleRegistration.getRegisteredModules().forEach(rootDisplayPane::addModule);
 
         Scene scene = new Scene(rootDisplayPane);
         primaryStage.setScene(scene);

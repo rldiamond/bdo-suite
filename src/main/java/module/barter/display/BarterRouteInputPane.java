@@ -1,5 +1,6 @@
 package module.barter.display;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -55,5 +56,10 @@ public class BarterRouteInputPane extends StackPane {
 
     public ObservableList<Barter> getBarters() {
         return barters;
+    }
+
+    public void bindDisableProperty(BooleanProperty property) {
+        routeInputTable.disableProperty().unbind();
+        routeInputTable.disableProperty().bind(property);
     }
 }

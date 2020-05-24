@@ -2,11 +2,10 @@ package module.barter;
 
 import common.json.JsonParseException;
 import module.barter.display.BarterModulePane;
+import module.barter.model.Barter;
 import module.barter.model.BarterGood;
 import module.barter.model.BarterLevel;
-import module.barter.model.Barter;
 import module.common.BdoModule;
-import module.common.ModuleException;
 import module.common.ModulePane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,14 +24,14 @@ public class BarterBdoModule extends BdoModule {
     private List<BarterLevel> barterLevels;
     private BarterModulePane barterModulePane;
 
-    public BarterBdoModule() throws ModuleException {
+    public BarterBdoModule() {
         super("Bartering", "Calculate optimal routes for your bartering session.");
     }
 
     /**
      * Initializes the module.
      */
-    protected void initialize() throws ModuleException {
+    protected void initialize() {
         // build the barter module pane
         barterModulePane = new BarterModulePane();
 
@@ -43,7 +42,7 @@ public class BarterBdoModule extends BdoModule {
             possibleRoutes = BarterJsonFileReader.readBarterRoutesFromFile(new File(barterUrl.getPath()));
         } catch (JsonParseException ex) {
             logger.error("Fatal error! Could not parse the possible barter routes JSON!", ex);
-            throw new ModuleException();
+            return;
         }
         barterModulePane.setBarters(possibleRoutes);
 

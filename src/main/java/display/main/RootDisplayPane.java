@@ -1,6 +1,5 @@
-package display;
+package display.main;
 
-import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -13,12 +12,19 @@ import module.common.BdoModule;
  */
 public class RootDisplayPane extends BorderPane {
 
-    ObservableList<BdoModule> modules = FXCollections.observableArrayList();
+    private ObservableList<BdoModule> modules = FXCollections.observableArrayList();
+    private ModuleMenuPane moduleMenuPane;
+    private HeaderPane headerPane;
 
     /**
      * Default constructor.
      */
     public RootDisplayPane() {
+        moduleMenuPane = new ModuleMenuPane();
+        setLeft(moduleMenuPane);
+        headerPane = new HeaderPane();
+        setTop(headerPane);
+
         // Listen for newly added modules and add them to the display.
         modules.addListener((ListChangeListener.Change<? extends BdoModule> c) -> {
             c.next();
@@ -31,6 +37,12 @@ public class RootDisplayPane extends BorderPane {
      * @param module The module to add to the display.
      */
     private void processNewModule(BdoModule module) {
+        moduleMenuPane.addModule(module);
+        loadModule(module);
+
+    }
+
+    private void loadModule(BdoModule module) {
         this.setCenter(module.getModulePane());
     }
 
@@ -39,7 +51,7 @@ public class RootDisplayPane extends BorderPane {
      *
      * @param modules The module(s) to load into the display.
      */
-    public void loadModule(BdoModule... modules) {
+    public void addModule(BdoModule... modules) {
         if (modules != null && modules.length > 0) {
             this.modules.addAll(modules);
         }
