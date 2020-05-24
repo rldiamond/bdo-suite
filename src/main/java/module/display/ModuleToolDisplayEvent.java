@@ -10,15 +10,18 @@ public class ModuleToolDisplayEvent extends Event {
             new EventType<>(Event.ANY, "CHANGEDISPLAY");
 
     private final ToolView view;
+    private final String title;
 
-    public ModuleToolDisplayEvent(ToolView view) {
+    public ModuleToolDisplayEvent(ToolView view, String title) {
         super(CHANGEDISPLAY);
         this.view = view;
+        this.title = title;
     }
 
-    public ModuleToolDisplayEvent(Object source, EventTarget target, ToolView view) {
+    public ModuleToolDisplayEvent(Object source, EventTarget target, ToolView view, String title) {
         super(source, target, CHANGEDISPLAY);
         this.view =view;
+        this.title = title;
     }
 
     @Override
@@ -33,5 +36,9 @@ public class ModuleToolDisplayEvent extends Event {
 
     public ToolView getView() {
         return view;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

@@ -1,6 +1,7 @@
 package module.barter;
 
 import module.barter.display.RouteOptimizationToolView;
+import module.barter.display.ValueToolView;
 import module.barter.model.BarterGood;
 import module.barter.model.BarterLevel;
 import module.common.BdoModule;
@@ -34,5 +35,13 @@ public class BarterBdoModule extends BdoModule {
         routeOptimizationTool.setDescription("Determine optimal barter routes.");
         routeOptimizationTool.setToolView(new RouteOptimizationToolView());
         getModuleToolbar().addTools(routeOptimizationTool);
+
+        //init the values tool
+        ModuleTool valueTool = new ModuleTool();
+        valueTool.setIconId("values");
+        valueTool.setTitle("Values");
+        valueTool.setDescription("View values of various barter items.");
+        valueTool.setToolView(new ValueToolView());
+        getModuleToolbar().addTools(valueTool);
     }
 }

@@ -16,13 +16,10 @@ public abstract class BackgroundTask extends TimerTask {
      * The task to run.
      */
     public void run() {
-        BackgroundTaskRunner.getInstance().busyProperty().setValue(true);
         try {
             doTask();
         } catch (Exception ex) {
             logger.error("An unexpected error occurred when executing a background task!", ex);
-        } finally {
-            BackgroundTaskRunner.getInstance().busyProperty().setValue(false);
         }
     }
 

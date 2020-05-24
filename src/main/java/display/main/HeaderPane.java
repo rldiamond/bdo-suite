@@ -75,12 +75,15 @@ public class HeaderPane extends StackPane {
         container.getChildren().addAll(branding);
         getChildren().setAll(container);
 
-        toolbar = new HBox();
+        toolbar = new HBox(20);
         toolbar.setPadding(new Insets(0, 0, 0, 20));
         container.getChildren().add(toolbar);
 
         setPrefSize(USE_COMPUTED_SIZE, 50D);
         setId("header");
+        this.addEventHandler(ModuleToolDisplayEvent.CHANGEDISPLAY, e -> {
+          toolButtons.stream().filter(tb -> !tb.getTitle().equalsIgnoreCase(e.getTitle())).forEach(ToolButton::deselect);
+        });
 
         toolButtons.addListener((ListChangeListener.Change<? extends ToolButton> c) -> {
             c.next();
@@ -117,6 +120,7 @@ public class HeaderPane extends StackPane {
             icon.setId(moduleTool.getIconId());
             icon.getStyleClass().add("toolbutton"); //todo
             icon.setPrefSize(24, 24);
+            icon.setMinSize(USE_PREF_SIZE, USE_PREF_SIZE);
             icon.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
             getChildren().setAll(icon);
             title = moduleTool.getTitle();
@@ -131,7 +135,7 @@ public class HeaderPane extends StackPane {
 
             selectedProperty.addListener((c, x, selected) -> {
                 if (selected) {
-                    fireEvent(new ModuleToolDisplayEvent(moduleTool.getToolView()));
+                    fireEvent(new ModuleToolDisplayEvent(moduleTool.getToolView(), getTitle()));
                 }
             });
 

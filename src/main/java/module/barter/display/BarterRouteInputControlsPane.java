@@ -1,5 +1,6 @@
 package module.barter.display;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -8,12 +9,14 @@ import javafx.scene.layout.StackPane;
 
 public class BarterRouteInputControlsPane extends StackPane {
 
-    private Button addBarterButton;
-    private Button removeBarterButton;
+    private JFXButton addBarterButton;
+    private JFXButton removeBarterButton;
 
     public BarterRouteInputControlsPane() {
-        addBarterButton = new Button("Add Barter");
-        removeBarterButton = new Button("Remove Barter");
+        addBarterButton = new JFXButton("ADD");
+        addBarterButton.getStyleClass().add("button-flat-gray");
+        removeBarterButton = new JFXButton("REMOVE");
+        removeBarterButton.getStyleClass().add("button-flat-gray");
 
         HBox buttonBar = new HBox(10);
         buttonBar.setAlignment(Pos.CENTER);

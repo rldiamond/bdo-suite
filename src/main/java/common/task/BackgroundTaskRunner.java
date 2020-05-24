@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Service to run background tasks off of the JavaFX thread.
@@ -28,7 +29,6 @@ public class BackgroundTaskRunner {
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     private BackgroundTaskRunner() {
-
     }
 
     /**
@@ -37,7 +37,24 @@ public class BackgroundTaskRunner {
      */
     public void runTask(BackgroundTask task) {
         logger.info("Submitting new task to the background task runner.");
-        executorService.submit(task::run);
+        Runnable runnable = encapsulate(task);
+        executorService.submit(runnable::run);
+    }
+
+    private Runnable encapsulate(BackgroundTask task) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                busyProperty().setValue(true);
+                task.run();
+                busyProperty().setValue(false);
+            }
+        };
+        return runnable;
+    }
+
+    public boolean isRunning() {
+        return ((ThreadPoolExecutor) executorService).getActiveCount() > 0;
     }
 
     public BooleanProperty busyProperty() {

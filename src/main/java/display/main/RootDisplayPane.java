@@ -5,6 +5,7 @@ import common.application.ModuleRegistration;
 import common.jfx.FXUtil;
 import common.task.BackgroundTaskRunner;
 import common.task.GenericTask;
+import common.task.TaskingUtility;
 import javafx.animation.FadeTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -87,8 +88,8 @@ public class RootDisplayPane extends BorderPane {
         leftMenu.setPrefSize(175, USE_COMPUTED_SIZE);
         JFXSpinner backgroundBusyIndicator = new JFXSpinner();
         backgroundBusyIndicator.setRadius(5);
-        backgroundBusyIndicator.managedProperty().bind(BackgroundTaskRunner.getInstance().busyProperty());
-        backgroundBusyIndicator.visibleProperty().bind(BackgroundTaskRunner.getInstance().busyProperty());
+        backgroundBusyIndicator.managedProperty().bind(TaskingUtility.busyProperty);
+        backgroundBusyIndicator.visibleProperty().bind(TaskingUtility.busyProperty);
         AnchorPane.setRightAnchor(backgroundBusyIndicator, 5D);
         AnchorPane.setBottomAnchor(backgroundBusyIndicator, 5D);
         leftMenu.getChildren().add(backgroundBusyIndicator);
