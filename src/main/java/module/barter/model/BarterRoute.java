@@ -36,6 +36,10 @@ public class BarterRoute extends JsonObject {
         this.exchangeGoodName = exchangeGoodName;
     }
 
+    public BarterRoute() {
+
+    }
+
     public void setTradeItem(String tradeItem) {
         this.tradeItem = tradeItem;
     }

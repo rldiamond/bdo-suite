@@ -1,6 +1,7 @@
 package module.barter.display;
 
 import common.task.BackgroundTaskRunner;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseButton;
@@ -20,6 +21,7 @@ public class BarterModulePane extends ModulePane {
     private TextArea console;
     private BarterRouteInputPane inputPane;
     private BarterRouteControlsPane controlsPane;
+    private BarterRouteInputControlsPane inputControlsPane;
 
     /**
      * Default constructor.
@@ -28,8 +30,9 @@ public class BarterModulePane extends ModulePane {
         console = new TextArea();
         inputPane = new BarterRouteInputPane();
         controlsPane = new BarterRouteControlsPane();
+        inputControlsPane = new BarterRouteInputControlsPane();
         VBox stackEm = new VBox(5);
-        stackEm.getChildren().addAll(inputPane, console, controlsPane);
+        stackEm.getChildren().addAll(inputControlsPane, inputPane, console, controlsPane);
         super.getChildren().add(stackEm);
 
         // bind controls
@@ -51,6 +54,21 @@ public class BarterModulePane extends ModulePane {
                 console.setText("Loading... please wait.");
             }
         });
+
+        inputControlsPane.getAddBarterButton().setOnMouseClicked(me -> {
+            if (me.getButton().equals(MouseButton.PRIMARY)) {
+                BarterRoute newRoute = new BarterRoute();
+                inputPane.addRoutes(newRoute);
+            }
+        });
+
+        inputControlsPane.getRemoveBarterButton().setOnMouseClicked(me -> {
+            if (me.getButton().equals(MouseButton.PRIMARY)) {
+                inputPane.getBarterRoutes().remove(inputPane.getSelectedRoute());
+            }
+        });
+
+        inputControlsPane.getRemoveBarterButton().disableProperty().bind(Bindings.isNull(inputPane.selectedItemProperty()));
     }
 
     /**

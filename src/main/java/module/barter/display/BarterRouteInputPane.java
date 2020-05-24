@@ -1,5 +1,6 @@
 package module.barter.display;
 
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.StackPane;
@@ -15,11 +16,12 @@ import java.util.List;
 public class BarterRouteInputPane extends StackPane {
 
     private final ObservableList<BarterRoute> barterRoutes = FXCollections.observableArrayList();
+    private final BarterRouteInputTable routeInputTable;
 
     public BarterRouteInputPane() {
         // table with: Exchanges Available, Accepted Good, Accepted Amount, Exchanged Good, Exchanged Amount
         // Tier can be linked to the good itself.
-        BarterRouteInputTable routeInputTable = new BarterRouteInputTable();
+        routeInputTable = new BarterRouteInputTable();
         routeInputTable.setItems(barterRoutes);
         this.getChildren().add(routeInputTable);
     }
@@ -43,4 +45,15 @@ public class BarterRouteInputPane extends StackPane {
         Collections.addAll(this.barterRoutes, barterRoutes);
     }
 
+    public BarterRoute getSelectedRoute() {
+        return routeInputTable.getSelectionModel().getSelectedItem();
+    }
+
+    public ReadOnlyObjectProperty<BarterRoute> selectedItemProperty() {
+        return routeInputTable.getSelectionModel().selectedItemProperty();
+    }
+
+    public ObservableList<BarterRoute> getBarterRoutes() {
+        return barterRoutes;
+    }
 }
