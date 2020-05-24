@@ -4,7 +4,6 @@ import common.json.JsonParseException;
 import module.barter.display.BarterModulePane;
 import module.barter.model.BarterGood;
 import module.barter.model.BarterLevel;
-import module.barter.model.BarterPlan;
 import module.barter.model.BarterRoute;
 import module.common.BdoModule;
 import module.common.ModuleException;
@@ -65,9 +64,9 @@ public class BarterBdoModule extends BdoModule {
             logger.error("Fatal error! Could not parse the possible barter routes JSON!", ex);
             throw new ModuleException();
         }
-        BarterPlan plan = BarterOptimizer.optimize(possibleRoutes, barterLevels, barterGoods);
+        //BarterPlan plan = BarterOptimizer.optimize(possibleRoutes, barterLevels, barterGoods);
 
-        barterModulePane.setConsoleText(plan.toString());
+        //barterModulePane.setConsoleText(plan.toString());
         barterModulePane.setBarters(possibleRoutes);
 
     }

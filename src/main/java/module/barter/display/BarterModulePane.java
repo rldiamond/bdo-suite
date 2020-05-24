@@ -1,8 +1,11 @@
 package module.barter.display;
 
+import common.task.BackgroundTaskRunner;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import module.barter.model.BarterRoute;
+import module.barter.task.BarterOptimizationTask;
 import module.common.ModulePane;
 
 import java.util.List;
@@ -26,6 +29,31 @@ public class BarterModulePane extends ModulePane {
         VBox stackEm = new VBox(5);
         stackEm.getChildren().addAll(inputPane, console, controlsPane);
         super.getChildren().add(stackEm);
+
+        // bind controls
+        controlsPane.getResetButton().setOnMouseClicked(me -> {
+            if (me.getButton().equals(MouseButton.PRIMARY)) {
+                //TODO: Show a warning dialog
+                inputPane.reset();
+            }
+        });
+
+        controlsPane.getOptimizeButton().setOnMouseClicked(me -> {
+            if (me.getButton().equals(MouseButton.PRIMARY)) {
+                doOptimize();
+            }
+        });
+    }
+
+    /**
+     * Run the optimization process.
+     */
+    private void doOptimize() {
+        // Get barter routes from the table
+        final List<BarterRoute> barterRoutes = inputPane.getEnteredRoutes();
+        // Create the background task
+        BarterOptimizationTask task = new BarterOptimizationTask(barterRoutes, console);
+        BackgroundTaskRunner.getInstance().runTask(task);
     }
 
     /**

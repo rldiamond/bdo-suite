@@ -1,5 +1,8 @@
 package common.task;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -14,10 +17,11 @@ public class BackgroundTaskRunner {
      * Get the instance of the background task runner.
      * @return
      */
-    private static final BackgroundTaskRunner getInstance() {
+    public static final BackgroundTaskRunner getInstance() {
         return SINGLETON;
     }
 
+    private static final Logger logger = LogManager.getLogger(BackgroundTaskRunner.class);
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     private BackgroundTaskRunner() {
@@ -29,6 +33,7 @@ public class BackgroundTaskRunner {
      * @param task The task to run.
      */
     public void runTask(BackgroundTask task) {
+        logger.info("Submitting new task to the background task runner.");
         executorService.submit(task::run);
     }
 
