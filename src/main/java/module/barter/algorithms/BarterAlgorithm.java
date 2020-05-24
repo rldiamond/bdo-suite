@@ -50,6 +50,7 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
         route.setExchanges((int) exchanges);
         route.setTurnInAmount((int) (firstBarter.getAcceptAmount() * exchanges));
         route.setReceivedAmount((int)(exchanges * firstBarter.getExchangeAmount()));
+        barterPlan.addParley(firstBarter.getParley() * (int) exchanges);
         barterPlan.addRoute(route);
 
         //Create route for L1-L2
@@ -90,6 +91,7 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
         route.setExchanges((int) exchanges);
         route.setTurnInAmount((int) (barter.getAcceptAmount() * exchanges));
         route.setReceivedAmount((int)(exchanges*barter.getExchangeAmount()));
+        barterPlan.addParley(barter.getParley() * (int) exchanges);
 
         //calculate some profit
         if (previousRoute.getReceivedAmount() > route.getTurnInAmount()) {

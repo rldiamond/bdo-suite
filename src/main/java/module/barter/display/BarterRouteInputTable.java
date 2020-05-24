@@ -45,6 +45,19 @@ public class BarterRouteInputTable extends TableView<Barter>  {
             refresh();
         });
 
+        TableColumn<Barter, String> parleyCol = new TableColumn<>("Parley");
+        parleyCol.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getParley())));
+        parleyCol.setCellFactory(c -> new EditableTextFieldTableCell<>());
+        parleyCol.setOnEditCommit(edit -> {
+            String newContent = edit.getNewValue().trim();
+            try {
+                edit.getRowValue().setParley(Integer.parseInt(newContent));
+            } catch (Exception ex) {
+                // invalid format
+            }
+            refresh();
+        });
+
         TableColumn<Barter, String> acceptGoodCol = new TableColumn<>("Accept Good");
         acceptGoodCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAcceptGoodName()));
         final List<String> barterGoods = BarterGood.getBarterGoods().stream().map(BarterGood::getName).collect(Collectors.toList());
@@ -90,7 +103,7 @@ public class BarterRouteInputTable extends TableView<Barter>  {
             refresh();
         });
 
-        return Arrays.asList(exchangesCol, acceptGoodCol, acceptAmountCol, exchangeGoodCol, exchangeAmountCol);
+        return Arrays.asList(exchangesCol, parleyCol, acceptAmountCol, acceptGoodCol, exchangeAmountCol, exchangeGoodCol);
     }
 
 }

@@ -7,6 +7,7 @@ import java.util.List;
 public class BarterPlan {
 
     private double profit;
+    private int parley;
     private List<PlannedRoute> routes = new ArrayList<>();
 
     public BarterPlan() {
@@ -21,6 +22,10 @@ public class BarterPlan {
         this.profit += profit;
     }
 
+    public void addParley(int parley) {
+        this.parley += parley;
+    }
+
     public double getProfit() {
         return profit;
     }
@@ -31,6 +36,7 @@ public class BarterPlan {
             sb.append(route.getDescription()).append("\n");
         }
         DecimalFormat formatter = new DecimalFormat("#,###");
+        sb.append("Parley: ").append(formatter.format(parley)).append("\n");
         sb.append("Profit: ").append(formatter.format(profit)).append("s");
         return sb.toString();
     }

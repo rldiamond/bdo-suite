@@ -13,6 +13,7 @@ public class Barter extends JsonObject {
     private int exchanges;
     private int acceptAmount;
     private int exchangeAmount;
+    private int parley;
 
     public Barter() {
 
@@ -75,5 +76,11 @@ public class Barter extends JsonObject {
         return exchangeGoodName;
     }
 
+    public int getParley() {
+        return parley;
+    }
 
+    public void setParley(int parley) {
+        this.parley = parley;
+    }
 }
