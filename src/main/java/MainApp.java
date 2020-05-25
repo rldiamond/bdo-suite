@@ -22,7 +22,7 @@ public class MainApp extends Application {
 
         primaryStage.setTitle("BDO Suite");
 
-        RootDisplayPane rootDisplayPane = new RootDisplayPane();
+        RootDisplayPane rootDisplayPane = RootDisplayPane.getInstance();
         //Register all modules for now
         Arrays.stream(ModuleRegistration.values()).forEach(rootDisplayPane::registerModule);
 

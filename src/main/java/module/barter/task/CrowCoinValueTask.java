@@ -3,6 +3,7 @@ package module.barter.task;
 import common.jfx.FXUtil;
 import common.task.BackgroundTask;
 import common.utilities.TextUtil;
+import common.utilities.ToastUtil;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
 import module.marketapi.MarketDAO;
@@ -30,6 +31,7 @@ public class CrowCoinValueTask extends BackgroundTask {
             field.setValue(TextUtil.formatAsSilver(value));
             busyProperty.setValue(false);
             logger.info("Crow Coin value update complete.");
+            ToastUtil.sendToast("Crow Coin value has been updated.");
         });
 
     }

@@ -13,8 +13,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import module.barter.task.CrowCoinValueTask;
+import module.barter.task.MostValuableCoinItemTask;
 import module.display.ToolView;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class ValueToolView extends ToolView {
@@ -22,12 +24,12 @@ public class ValueToolView extends ToolView {
     public ValueToolView() {
         super("Values");
 
-        VBox container = new VBox(10);
+        VBox container = new VBox(15);
 
         HBox crowCoinValueBox = new HBox(10);
         ImageView imageView = new ImageView(new Image("/module/barter/images/crowcoin.png"));
-        imageView.setFitHeight(25);
-        imageView.setFitWidth(25);
+        imageView.setFitHeight(30);
+        imageView.setFitWidth(30);
         Label crowCoinLabel = new Label("Crow Coin Value: ");
         crowCoinLabel.setStyle("-fx-font-size: 16px");
         Label crowCoinValueLabel = new Label();
@@ -39,11 +41,27 @@ public class ValueToolView extends ToolView {
         //schedule the crowcoin update task
         ScheduledTaskRunner.getInstance().scheduleTask(new CrowCoinValueTask(crowCoinValueLabel.textProperty(), loadingCrowCoins), TimeUnit.MINUTES.toMillis(5));
 
-        container.getChildren().addAll(crowCoinValueBox);
+        //most valuable crow coin item
+        HBox valuableItem = new HBox(10);
+        valuableItem.setAlignment(Pos.CENTER_LEFT);
+        Label valuableItemLabel = new Label("Most Valuable Item: ");
+        valuableItemLabel.setStyle("-fx-font-size: 16px");
+        Label valuableCrowItem = new Label();
+        valuableCrowItem.setStyle("-fx-font-size: 16px");
+        ImageView valuableCrowCoinImage = new ImageView();
+        imageView.setFitHeight(30);
+        imageView.setFitWidth(30);
+        valuableItem.getChildren().addAll(valuableItemLabel, valuableCrowCoinImage, valuableCrowItem);
+        BooleanProperty loadingItem = injectLoadingSpinner(valuableItem, valuableCrowItem, valuableCrowCoinImage);
+
+        //schedule task
+        ScheduledTaskRunner.getInstance().scheduleTask(new MostValuableCoinItemTask(valuableCrowItem.textProperty(), valuableCrowCoinImage.imageProperty(), loadingItem), TimeUnit.MINUTES.toMillis(5));
+
+        container.getChildren().addAll(crowCoinValueBox, valuableItem);
         getCard().setDisplayedContent(container);
     }
 
-    public BooleanProperty injectLoadingSpinner(Pane container, Node nodeToHide) {
+    public BooleanProperty injectLoadingSpinner(Pane container, Node... nodesToHide) {
         JFXSpinner loadingSpinner = new JFXSpinner();
         loadingSpinner.setRadius(5);
         BooleanProperty loadingProperty = new SimpleBooleanProperty(false);
@@ -52,8 +70,11 @@ public class ValueToolView extends ToolView {
 
         container.getChildren().add(loadingSpinner);
 
-        nodeToHide.visibleProperty().bind(loadingProperty.not());
-        nodeToHide.managedProperty().bind(loadingProperty.not());
+        Arrays.stream(nodesToHide).forEach(nodeToHide -> {
+            nodeToHide.visibleProperty().bind(loadingProperty.not());
+            nodeToHide.managedProperty().bind(loadingProperty.not());
+        });
+
 
         return loadingProperty;
     }

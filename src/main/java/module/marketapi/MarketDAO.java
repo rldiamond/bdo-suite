@@ -2,6 +2,7 @@ package module.marketapi;
 
 import common.algorithm.AlgorithmException;
 import common.rest.RestClient;
+import javafx.scene.image.Image;
 import module.marketapi.algorithms.CrowCoinValueAlgorithm;
 import module.marketapi.model.MarketResponse;
 import org.apache.logging.log4j.LogManager;
@@ -88,6 +89,16 @@ public class MarketDAO {
 
         return Optional.ofNullable(r);
 
+    }
+
+    public Image getItemImage(long id) {
+        Image image = null;
+        try {
+            image = new Image("/module/barter/images/"+id+".png");
+        } catch (Exception ex) {
+            logger.warn("Could not find image for item with ID: " + id);
+        }
+        return image;
     }
 
     /**

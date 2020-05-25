@@ -1,5 +1,6 @@
 package display.main;
 
+import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSpinner;
 import common.application.ModuleRegistration;
 import common.jfx.FXUtil;
@@ -30,21 +31,34 @@ import java.util.List;
  */
 public class RootDisplayPane extends BorderPane {
 
+    private static RootDisplayPane singleton;
+
+    public static RootDisplayPane getInstance() {
+        if (singleton == null) {
+            singleton = new RootDisplayPane();
+        }
+        return singleton;
+    }
+
     private ObservableList<ModuleRegistration> modules = FXCollections.observableArrayList();
     private List<ModuleMenuButton> menuButtons = new ArrayList<>();
     private BooleanProperty displayLoading = new SimpleBooleanProperty(false);
     private HeaderPane headerPane;
     private VBox moduleMenu;
     private StackPane displayedContentPane;
+    private JFXSnackbar toastBar;
 
     /**
      * Default constructor.
      */
-    public RootDisplayPane() {
+    private RootDisplayPane() {
         setLoading(true);
         setPrefSize(1000, 700);
         displayedContentPane = new StackPane();
         setCenter(displayedContentPane);
+
+        toastBar = new JFXSnackbar(this);
+        toastBar.setPrefWidth(350);
 
         // displayed content
         //when loadingContent, display a loading indicator
@@ -177,4 +191,7 @@ public class RootDisplayPane extends BorderPane {
         }
     }
 
+    public JFXSnackbar getToastBar() {
+        return toastBar;
+    }
 }
