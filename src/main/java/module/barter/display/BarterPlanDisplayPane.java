@@ -3,14 +3,16 @@ package module.barter.display;
 import common.jfx.FXUtil;
 import common.task.BackgroundTaskRunner;
 import common.task.GenericTask;
+import common.utilities.TextUtil;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import module.barter.model.BarterPlan;
 import module.barter.model.PlannedRoute;
 
@@ -22,6 +24,8 @@ public class BarterPlanDisplayPane extends StackPane {
     private List<RouteDisplayPane> routeDisplayPanes = new ArrayList<>();
     private final StackPane displayPane;
     private ObjectProperty<RouteDisplayPane> currentlyDisplayed = new SimpleObjectProperty<>();
+    private SimpleStringProperty profitText = new SimpleStringProperty();
+    private SimpleStringProperty parleyText = new SimpleStringProperty();
     private Pane leftArrowButton;
     private Pane rightArrowButton;
 
@@ -29,7 +33,9 @@ public class BarterPlanDisplayPane extends StackPane {
         setPrefSize(USE_COMPUTED_SIZE, 55);
         setMinSize(USE_COMPUTED_SIZE, USE_PREF_SIZE);
         setMaxSize(USE_COMPUTED_SIZE, USE_PREF_SIZE);
+        setPadding(new Insets(10,0,10,0));
         HBox container = new HBox(10);
+        container.setPrefHeight(50);
         container.setAlignment(Pos.CENTER);
 
         //left arrow
@@ -62,7 +68,6 @@ public class BarterPlanDisplayPane extends StackPane {
         });
 
         container.getChildren().addAll(leftArrowButton,displayPane,rightArrowButton);
-        getChildren().setAll(container);
 
         currentlyDisplayed.addListener((obs, ov, nv) -> {
             FXUtil.runOnFXThread(() -> displayPane.getChildren().setAll(nv));
@@ -78,9 +83,40 @@ public class BarterPlanDisplayPane extends StackPane {
 
         barterPlanProperty.addListener((obs,ov,barterPlan) -> {
             createRouteDisplayPanes(barterPlan);
+            FXUtil.runOnFXThread(() -> {
+                if (barterPlan == null) {
+                    parleyText.setValue("");
+                    profitText.setValue("");
+                } else {
+                    profitText.setValue(TextUtil.formatAsSilver(barterPlan.getProfit()));
+                    parleyText.setValue(TextUtil.formatWithCommas(barterPlan.getParley()));
+                }
+            });
         });
 
+        HBox profitAndParley = new HBox(10);
+        profitAndParley.visibleProperty().bind(Bindings.or(Bindings.equal("",profitText).not(),Bindings.equal("",parleyText).not()));
+        profitAndParley.managedProperty().bind(Bindings.or(Bindings.equal("",profitText).not(),Bindings.equal("",parleyText).not()));
+        profitAndParley.setAlignment(Pos.CENTER);
 
+        HBox profitContainer = new HBox(5);
+        profitContainer.setAlignment(Pos.CENTER_LEFT);
+        Label profitLabel = new Label("Profit: ");
+        Label profitAmountLabel = new Label();
+        profitAmountLabel.textProperty().bind(profitText);
+        profitContainer.getChildren().setAll(profitLabel, profitAmountLabel);
+
+        HBox parleyContainer = new HBox(5);
+        parleyContainer.setAlignment(Pos.CENTER_LEFT);
+        Label parleyLabel = new Label("Parley: ");
+        Label parleyAmountLabel = new Label();
+        parleyAmountLabel.textProperty().bind(parleyText);
+        parleyContainer.getChildren().setAll(parleyLabel, parleyAmountLabel);
+
+        profitAndParley.getChildren().setAll(profitContainer, parleyContainer);
+        VBox wrapper = new VBox(5);
+        wrapper.getChildren().setAll(container, profitAndParley);
+        getChildren().setAll(wrapper);
     }
 
     private void createRouteDisplayPanes(BarterPlan barterPlan) {

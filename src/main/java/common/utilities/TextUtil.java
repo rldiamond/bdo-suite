@@ -14,6 +14,11 @@ public class TextUtil {
         return formatter.format(number) + "s";
     }
 
+    public static String formatWithCommas(Number number) {
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        return formatter.format(number);
+    }
+
     public static String toTitleCase(String input) {
         if (input == null) {
             return "";
