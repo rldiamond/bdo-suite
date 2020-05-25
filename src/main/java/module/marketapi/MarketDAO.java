@@ -43,9 +43,16 @@ public class MarketDAO {
      * @return MarketResponse with all data on the supplied ID.
      */
     public MarketResponse fetchData(long id) {
+        logger.info("Fetching data for " + id);
         return cache.get(id).orElseGet(() -> {
-            MarketResponse response = restClient.get(String.valueOf(id) + "/0", MarketResponse.class);
-            cache.add(response);
+            MarketResponse response;
+            try {
+                response = restClient.get(String.valueOf(id) + "/0", MarketResponse.class);
+                cache.add(response);
+            } catch (Exception ex) {
+                logger.warn("Could not fetch data for: " + id);
+                response = new MarketResponse();
+            }
             return response;
         });
     }
@@ -94,7 +101,7 @@ public class MarketDAO {
     public Image getItemImage(long id) {
         Image image = null;
         try {
-            image = new Image("/module/barter/images/"+id+".png");
+            image = new Image("/module/barter/images/" + id + ".png");
         } catch (Exception ex) {
             logger.warn("Could not find image for item with ID: " + id);
         }
@@ -103,6 +110,7 @@ public class MarketDAO {
 
     /**
      * Get the current value of a single crow coin based on the best item from the Crow Coin vendor.
+     *
      * @return
      */
     public double getCrowCoinValue() {

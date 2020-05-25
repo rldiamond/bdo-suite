@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -26,7 +27,7 @@ public class BackgroundTaskRunner {
     }
 
     private static final Logger logger = LogManager.getLogger(BackgroundTaskRunner.class);
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private final ExecutorService executorService = Executors.newFixedThreadPool(100);
 
     private BackgroundTaskRunner() {
     }
@@ -35,10 +36,10 @@ public class BackgroundTaskRunner {
      * Run the provided task.
      * @param task The task to run.
      */
-    public void runTask(BackgroundTask task) {
+    public Future runTask(BackgroundTask task) {
         logger.info("Submitting new task to the background task runner.");
         Runnable runnable = encapsulate(task);
-        executorService.submit(runnable::run);
+        return executorService.submit(runnable::run);
     }
 
     private Runnable encapsulate(BackgroundTask task) {

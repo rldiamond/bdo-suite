@@ -17,7 +17,6 @@ import module.barter.task.MostValuableCoinItemTask;
 import module.display.ToolView;
 
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
 public class ValueToolView extends ToolView {
 
@@ -38,7 +37,7 @@ public class ValueToolView extends ToolView {
         BooleanProperty loadingCrowCoins = injectLoadingSpinner(crowCoinValueBox, crowCoinValueLabel);
 
         //schedule the crowcoin update task
-        ScheduledTaskRunner.getInstance().scheduleTask(new CrowCoinValueTask(crowCoinValueLabel.textProperty(), loadingCrowCoins), TimeUnit.MINUTES.toMillis(5));
+        ScheduledTaskRunner.getInstance().scheduleTask(new CrowCoinValueTask(crowCoinValueLabel.textProperty(), loadingCrowCoins),5);
 
         //most valuable crow coin item
         HBox valuableItem = new HBox(10);
@@ -54,7 +53,7 @@ public class ValueToolView extends ToolView {
         BooleanProperty loadingItem = injectLoadingSpinner(valuableItem, valuableCrowItem, valuableCrowCoinImage);
 
         //schedule task
-        ScheduledTaskRunner.getInstance().scheduleTask(new MostValuableCoinItemTask(valuableCrowItem.textProperty(), valuableCrowCoinImage.imageProperty(), loadingItem), TimeUnit.MINUTES.toMillis(5));
+        ScheduledTaskRunner.getInstance().scheduleTask(new MostValuableCoinItemTask(valuableCrowItem.textProperty(), valuableCrowCoinImage.imageProperty(), loadingItem), 5);
 
         container.getChildren().addAll(crowCoinValueBox, valuableItem);
         getCard().setDisplayedContent(container);

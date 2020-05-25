@@ -51,4 +51,5 @@ public class GardenProfitabilityAlgorithm implements Algorithm<List<CropAnalysis
             return cropAnalysis;
         }).collect(Collectors.toList());
     }
+
 }

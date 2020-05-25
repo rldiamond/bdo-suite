@@ -1,6 +1,9 @@
 package module.gardening.model;
 
 import common.json.JsonParseException;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import module.common.model.BdoItem;
 import module.gardening.GardeningJsonFileReader;
 import org.apache.logging.log4j.LogManager;
@@ -35,6 +38,13 @@ public class Crop extends BdoItem {
     private long cropId;
     private long seedId;
     private int grids;
+    private BooleanProperty cropLoaded = new SimpleBooleanProperty(false);
+    private BooleanProperty seedLoaded = new SimpleBooleanProperty(false);
+    private BooleanProperty loaded = new SimpleBooleanProperty(false);
+
+    public Crop() {
+        loaded.bind(Bindings.and(cropLoaded, seedLoaded));
+    }
 
     public int getGrids() {
         return grids;
@@ -74,6 +84,18 @@ public class Crop extends BdoItem {
 
     public void setSeedId(long seedId) {
         this.seedId = seedId;
+    }
+
+    public void setSeedLoaded(boolean loaded) {
+        seedLoaded.setValue(loaded);
+    }
+
+    public void setCropLoaded(boolean loaded) {
+        cropLoaded.setValue(loaded);
+    }
+
+    public BooleanProperty loadedProperty() {
+        return loaded;
     }
 
     @Override
