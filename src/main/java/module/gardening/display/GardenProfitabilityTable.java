@@ -3,6 +3,7 @@ package module.gardening.display;
 import common.jfx.components.ItemWithImageTableCell;
 import common.jfx.components.SilverTableCell;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -29,11 +30,16 @@ public class GardenProfitabilityTable extends TableView<CropAnalysis> {
         cropCol.setCellFactory(c -> new ItemWithImageTableCell<>());
         cropCol.setCellValueFactory(new PropertyValueFactory<>("crop"));
 
+        TableColumn<CropAnalysis, CropAnalysis> neededSeedsCol = new TableColumn<>("Seeds");
+        neededSeedsCol.setCellFactory(c -> new SeedTableCell());
+        neededSeedsCol.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue()));
+
+
         TableColumn<CropAnalysis, Double> profitCol = new TableColumn<>("Profit");
         profitCol.setCellFactory(c -> new SilverTableCell<>());
         profitCol.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getValuePerHarvest()).asObject());
 
-        return Arrays.asList(cropCol, profitCol);
+        return Arrays.asList(cropCol, neededSeedsCol, profitCol);
     }
 
 }
