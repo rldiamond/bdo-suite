@@ -17,8 +17,6 @@ import module.display.ToolView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.net.URL;
 import java.util.List;
 
 public class RouteOptimizationToolView extends ToolView {
@@ -78,10 +76,9 @@ public class RouteOptimizationToolView extends ToolView {
         inputControlsPane.getRemoveBarterButton().disableProperty().bind(Bindings.or(Bindings.isNull(inputPane.selectedItemProperty()),busyProperty));
 
         //TODO: TEMPORARY CODE FOR TESTING PURPOSES!!!
-        URL barterUrl = RouteOptimizationToolView.class.getClassLoader().getResource("barter.json");
         List<Barter> possibleRoutes;
         try {
-            possibleRoutes = BarterJsonFileReader.readBarterRoutesFromFile(new File(barterUrl.getPath()));
+            possibleRoutes = BarterJsonFileReader.readBarterRoutesFromFile(RouteOptimizationToolView.class.getResourceAsStream("/barter.json"));
         } catch (JsonParseException ex) {
             logger.error("Fatal error! Could not parse the possible barter routes JSON!");
             possibleRoutes = null;

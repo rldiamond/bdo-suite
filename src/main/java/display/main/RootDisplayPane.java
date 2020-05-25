@@ -23,7 +23,9 @@ import module.display.ModuleToolDisplayEvent;
 import module.display.ToolView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The root display for the entire software.
@@ -47,6 +49,7 @@ public class RootDisplayPane extends BorderPane {
     private VBox moduleMenu;
     private StackPane displayedContentPane;
     private JFXSnackbar toastBar;
+    private Map<ModuleRegistration, BdoModule> loadedModules = new HashMap<>();
 
     /**
      * Default constructor.
@@ -134,7 +137,13 @@ public class RootDisplayPane extends BorderPane {
         setLoading(true);
 
         GenericTask task = new GenericTask(() -> {
-            BdoModule module = moduleRegistration.getNewModule();
+            BdoModule module;
+            if (loadedModules.containsKey(moduleRegistration)) {
+                module = loadedModules.get(moduleRegistration);
+            } else {
+                module = moduleRegistration.getNewModule();
+                loadedModules.put(moduleRegistration, module);
+            }
             headerPane.setToolBar(module.getModuleToolbar());
             FXUtil.runOnFXThread(() -> {
                 headerPane.selectFirstTool();

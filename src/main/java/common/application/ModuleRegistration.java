@@ -2,9 +2,11 @@ package common.application;
 
 import module.barter.BarterBdoModule;
 import module.common.BdoModule;
+import module.gardening.GardeningBdoModule;
 
 public enum ModuleRegistration {
-    BARTER(BarterBdoModule.class, "Bartering", "Calculate optimal routes for your bartering session.", "barter");
+    BARTER(BarterBdoModule.class, "Bartering", "Calculate optimal routes for your bartering session.", "barter"),
+    GARDENING(GardeningBdoModule.class, "Gardening", "Determine the most profitable crops to garden.", "garden");
 
     private final Class<? extends BdoModule> module;
     private final String title;

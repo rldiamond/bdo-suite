@@ -2,8 +2,8 @@ package common.json;
 
 import com.google.gson.Gson;
 
-import java.io.File;
-import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * Reads data from a provided JSON file into an object.
@@ -20,11 +20,18 @@ public class JsonFileReader {
      * @return A serialized object read from the provided JSON file.
      * @throws JsonParseException if an error occurs parsing the JSON file.
      */
-    public static <T extends JsonObject> T readFromFile(File file, Class<T> clazz) throws JsonParseException {
-        try {
-            return GSON.fromJson(new FileReader(file), clazz);
+    public static <T extends JsonObject> T readFromFile(InputStream file, Class<T> clazz) throws JsonParseException {
+        try (InputStreamReader reader = new InputStreamReader(file)){
+            return getGson().fromJson(reader, clazz);
         } catch (Exception ex) {
             throw new JsonParseException();
+        } finally {
+            if (file != null) {
+                try {
+                    file.close();
+                } catch (Exception ex) {
+                }
+            }
         }
     }
 

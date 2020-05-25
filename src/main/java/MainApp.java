@@ -3,6 +3,7 @@ import common.jfx.FXUtil;
 import display.main.RootDisplayPane;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import module.marketapi.MarketApiBdoModule;
 import org.apache.logging.log4j.Level;
@@ -21,6 +22,7 @@ public class MainApp extends Application {
         Configurator.setRootLevel(Level.INFO);
 
         primaryStage.setTitle("BDO Suite");
+        primaryStage.getIcons().add(new Image(MainApp.class.getResourceAsStream("/theme/icon.png")));
 
         RootDisplayPane rootDisplayPane = RootDisplayPane.getInstance();
         //Register all modules for now

@@ -5,8 +5,6 @@ import module.barter.BarterJsonFileReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,9 +17,8 @@ public class BarterGood {
     private static final List<BarterGood> barterGoods;
 
     static {
-        URL goodsUrl = BarterGood.class.getClassLoader().getResource("module/barter/BarterGoods.json");
         try {
-            barterGoods = BarterJsonFileReader.readBarterGoodsFromFile(new File(goodsUrl.getPath()));
+            barterGoods = BarterJsonFileReader.readBarterGoodsFromFile(BarterGood.class.getResourceAsStream("/module/barter/BarterGoods.json"));
         } catch (JsonParseException ex) {
             logger.error("Fatal error! Could not parse barter goods JSON!", ex);
             throw new RuntimeException(ex);

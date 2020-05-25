@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 public class ScheduledTaskRunner {
 
@@ -16,7 +17,11 @@ public class ScheduledTaskRunner {
     }
 
     public void scheduleTask(BackgroundTask task, long minutes) {
-        new Timer().scheduleAtFixedRate(encapsulate(task), 30, minutes);
+        scheduleTask(task, minutes, 1);
+    }
+
+    public void scheduleTask(BackgroundTask task, long repeatMinutes, long delaySeconds) {
+        new Timer().scheduleAtFixedRate(encapsulate(task), TimeUnit.SECONDS.toMillis(delaySeconds), TimeUnit.MINUTES.toMillis(repeatMinutes));
     }
 
     private TimerTask encapsulate(BackgroundTask task) {
