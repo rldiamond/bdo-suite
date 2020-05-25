@@ -57,7 +57,7 @@ public class MarketDAO {
                     attempt++;
                     logger.warn("Could not fetch data for: " + id + ". Attempt " + attempt + "/" + retries);
                     if (attempt == retries) {
-                        logger.error("Failed to retrieve data for: " +id + " after retrying several times!");
+                        logger.error("Failed to retrieve data for: " + id + " after retrying several times!");
                         response = new MarketResponse();
                     } else {
                         try {
