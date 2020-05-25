@@ -1,6 +1,7 @@
 package module.gardening.model;
 
 import common.json.JsonParseException;
+import module.common.model.BdoItem;
 import module.gardening.GardeningJsonFileReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,7 +11,7 @@ import java.net.URL;
 import java.util.List;
 
 
-public class Crop {
+public class Crop extends BdoItem {
 
     private static final Logger logger = LogManager.getLogger(Crop.class);
     private static final List<Crop> crops;
@@ -73,5 +74,15 @@ public class Crop {
 
     public void setSeedId(long seedId) {
         this.seedId = seedId;
+    }
+
+    @Override
+    public String getName() {
+        return getCropName();
+    }
+
+    @Override
+    public long getItemId() {
+        return getCropId();
     }
 }

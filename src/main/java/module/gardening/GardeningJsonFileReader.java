@@ -5,6 +5,8 @@ import common.json.JsonFileReader;
 import common.json.JsonParseException;
 import module.gardening.model.Crop;
 import module.gardening.model.Fence;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileReader;
@@ -12,6 +14,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 public class GardeningJsonFileReader extends JsonFileReader {
+    private static final Logger logger = LogManager.getLogger(GardeningJsonFileReader.class);
 
     public static List<Crop> readCropsFromFile(File file) throws JsonParseException {
         try {
@@ -19,6 +22,7 @@ public class GardeningJsonFileReader extends JsonFileReader {
             }.getType();
             return getGson().fromJson(new FileReader(file), listType);
         } catch (Exception ex) {
+            logger.error("Failed to parse JSON!", ex);
             throw new JsonParseException();
         }
     }
@@ -29,6 +33,7 @@ public class GardeningJsonFileReader extends JsonFileReader {
             }.getType();
             return getGson().fromJson(new FileReader(file), listType);
         } catch (Exception ex) {
+            logger.error("Failed to parse JSON!", ex);
             throw new JsonParseException();
         }
     }
