@@ -52,24 +52,14 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
         route.setReceivedAmount((int)(exchanges * firstBarter.getExchangeAmount()));
         barterPlan.addParley(firstBarter.getParley() * (int) exchanges);
         barterPlan.addRoute(route);
+        barters.remove(firstBarter);
 
-        //TODO: Put the following in a loop
-
-        //Create route for L1-L2
-        PlannedRoute level2Route = createRoute(route);
-        barterPlan.addRoute(level2Route);
-        //Create route for L2-L3
-        PlannedRoute level3Route = createRoute(level2Route);
-        barterPlan.addRoute(level3Route);
-        //Create route for L3-L4
-        PlannedRoute level4Route = createRoute(level3Route);
-        barterPlan.addRoute(level4Route);
-        //Create route for L4-L5
-        PlannedRoute level5Route = createRoute(level4Route);
-        barterPlan.addRoute(level5Route);
-        //Create route for L5-CC
-        PlannedRoute ccRoute = createRoute(level5Route);
-        barterPlan.addRoute(ccRoute);
+        PlannedRoute previousRoute = route;
+        for (Barter barter : barters) {
+            PlannedRoute plannedRoute = createRoute(previousRoute);
+            barterPlan.addRoute(plannedRoute);
+            previousRoute = plannedRoute;
+        }
 
         return barterPlan;
     }
