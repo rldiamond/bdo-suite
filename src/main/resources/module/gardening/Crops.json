@@ -1,9 +1,289 @@
 [
   {
-    "cropName" : "Special Wheat",
-    "seedName" : "Special Wheat Seed",
+    "cropName" : "Special Acacia",
+    "seedName" : "Special Acacia Leaf",
+    "grids" : 2,
+    "cropId" : 54022,
+    "seedId" : 7000
+  },
+  {
+    "cropName" : "Special Amanita Mushroom",
+    "seedName" : "Special Amanita Mushroom Hypha",
     "grids" : 1,
+    "cropId" : 5482,
+    "seedId" : 6990
+  },
+  {
+    "seedId" : 6989,
+    "seedName" : "Special Ancient Mushroom Hypha",
+    "cropId" : 5481,
+    "cropName" : "Special Ancient Mushroom",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6979,
+    "seedName" : "Special Arrow Mushroom Hypha",
+    "cropId" : 5481,
+    "cropName" : "Special Ancient Mushroom",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6827,
+    "seedName" : "Special Barley Seed",
+    "cropId" : 7012,
+    "cropName" : "Special Barley",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6988,
+    "seedName" : "Special Bluffer Mushroom Hypha",
+    "cropId" : 5480,
+    "cropName" : "Special Bluffer Mushroom",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6995,
+    "seedName" : "Special Bouquet Mushroom Hypha",
+    "cropId" : 5506,
+    "cropName" : "Special Bouquet Mushroom",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6723,
+    "seedName" : "Special Carrot Seed",
+    "cropId" : 54005,
+    "cropName" : "Special Carrot",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6981,
+    "seedName" : "Special Cloud Mushroom Hypha",
+    "cropId" : 5473,
+    "cropName" : "Special Cloud Mushroom",
+    "grids" : 1,
+  },
+  {
+    "seedId" : 6829,
+    "seedName" : "Special Corn Seed",
+    "cropId" : 7015,
+    "cropName" : "Special Corn",
+    "grids" : 2
+  },
+  {
+    "seedId" : 6994,
+    "seedName" : "Special Dalvenia Alrea Seed",
+    "cropId" : 5505,
+    "cropName" : "Special Dalvenia Alrea",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6975,
+    "seedName" : "Special Dry Mane Grass Seed",
+    "cropId" : 5467,
+    "cropName" : "Special Dry Mane Grass",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6984,
+    "seedName" : "Special Emperor Mushroom Hypha",
+    "cropId" : 5476,
+    "cropName" : "Special Emperor Mushroom",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6974,
+    "seedName" : "Special Fire Flake Flower Seed",
+    "cropId" : 5466,
+    "cropName" : "Special Fire Flake Flower",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6986,
+    "seedName" : "Special Fog Mushroom Hypha",
+    "cropId" : 5478,
+    "cropName" : "Special Fog Mushroom",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6978,
+    "seedName" : "Special Fortune Teller Mushroom Hypha",
+    "cropId" : 5470,
+    "cropName" : "Special Fortune Teller Mushroom",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6718,
+    "seedName" : "Special Garlic Seed",
+    "cropId" : 7336,
+    "cropName" : "Special Garlic",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6985,
+    "seedName" : "Special Ghost Mushroom Hypha",
+    "cropId" : 5477,
+    "cropName" : "Special Ghost Mushroom",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6821,
+    "seedName" : "Special Grape Seed",
+    "cropId" : 7341,
+    "cropName" : "Special Grape",
+    "grids" : 2
+  },
+  {
+    "seedId" : 6721,
+    "seedName" : "Special Hot Pepper Seed",
+    "cropId" : 7339,
+    "cropName" : "Special Hot Pepper",
+    "grids" : 2
+  },
+  {
+    "seedId" : 6987,
+    "seedName" : "Special Hump Mushroom Hypha",
+    "cropId" : 5479,
+    "cropName" : "Special Hump Mushroom",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6996,
+    "seedName" : "Special Leccinum Hypha",
+    "cropId" : 5507,
+    "cropName" : "Special Leccinum",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6992,
+    "seedName" : "Special Nolina Seed",
+    "cropId" : 5003,
+    "cropName" : "Special Nolina",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6823,
+    "seedName" : "Special Olive Seed",
+    "cropId" : 7343,
+    "cropName" : "Special Olive",
+    "grids" : 2
+  },
+  {
+    "seedId" : 6719,
+    "seedName" : "Special Onion Seed",
+    "cropId" : 7337,
+    "cropName" : "Special Onion",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6825,
+    "seedName" : "Special Paprika Seed",
+    "cropId" : 7346,
+    "cropName" : "Special Paprika",
+    "grids" : 2
+  },
+  {
+    "seedId" : 6993,
+    "seedName" : "Special Penestraria Seed",
+    "cropId" : 5504,
+    "cropName" : "Special Penestraria",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6717,
+    "seedName" : "Special Pepper Seed",
+    "cropId" : 7335,
+    "cropName" : "Special Pepper",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6998,
+    "seedName" : "Special Pie Mushroom Hypha",
+    "cropId" : 5509,
+    "cropName" : "Special Pie Mushroom",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6722,
+    "seedName" : "Special Pumpkin Seed",
+    "cropId" : 7340,
+    "cropName" : "Special Pumpkin",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6997,
+    "seedName" : "Special Purple Mushroom Hypha",
+    "cropId" : 5508,
+    "cropName" : "Special Purple Mushroom",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6830,
+    "seedName" : "Special Sweet Potato Seed",
+    "cropId" : 7014,
+    "cropName" : "Special Sweet Potato",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6976,
+    "seedName" : "Special Silk Honey Grass Seed",
+    "cropId" : 5468,
+    "cropName" : "Special Silk Honey Grass",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6973,
+    "seedName" : "Special Silver Azalea Seed",
+    "cropId" : 5465,
+    "cropName" : "Special Silver Azalea",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6982,
+    "seedName" : "Special Sky Mushroom Hypha",
+    "cropId" : 5474,
+    "cropName" : "Special Sky Mushroom",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6709,
+    "seedName" : "Special Strawberry Seed",
+    "cropId" : 7322,
+    "cropName" : "Special Strawberry",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6822,
+    "seedName" : "Special Sunflower Seed",
+    "cropId" : 7342,
+    "cropName" : "Special Sunflower",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6972,
+    "seedName" : "Special Sunrise Herb Seed",
+    "cropId" : 5464,
+    "cropName" : "Special Sunrise Herb",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6983,
+    "seedName" : "Special Tiger Mushroom Hypha",
+    "cropId" : 5475,
+    "cropName" : "Special Tiger Mushroom",
+    "grids" : 1
+  },
+  {
+    "seedId" : 6824,
+    "seedName" : "Special Tomato Seed",
+    "cropId" : 7345,
+    "cropName" : "Special Tomato",
+    "grids" : 2
+  },
+  {
+    "seedId" : 6828,
+    "seedName" : "Special Wheat Seed",
     "cropId" : 7011,
-    "seedId" : 6828
+    "cropName" : "Special Wheat",
+    "grids" : 1
   }
 ]
