@@ -1,7 +1,9 @@
 [
   {
-    "level" : "ZERO",
-    "weight" : 0,
-    "value" : 0
+    "cropName" : "Special Wheat",
+    "seedName" : "Special Wheat Seed",
+    "grids" : 1,
+    "cropId" : 7011,
+    "seedId" : 6828
   }
 ]
