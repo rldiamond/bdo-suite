@@ -1,44 +1,61 @@
 package module.barter.model;
 
-/**
- * Object model for the route planned by the barter algorithms.
- */
 public class PlannedRoute {
 
-    private String title;
-    private String description;
-    private double exchanges;
+    private BarterGood turnInGood;
+    private int turnInAmount;
+    private BarterGood receivedGood;
+    private int receivedAmount;
+    private int exchanges;
 
-    /**
-     * Construct a PlannedRoute with the provided title and number of exchanged.
-     *
-     * @param title     The title of the PlannedRoute.
-     * @param exchanges The number of exchanges to complete for this PlannedRoute.
-     */
-    public PlannedRoute(String title, double exchanges) {
-        this.title = title;
-        this.exchanges = exchanges;
+    public PlannedRoute() {
+
     }
 
-    /**
-     * @return The title for the plan.
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    /**
-     * @return The number of exchanges to complete in this plan.
-     */
-    public double getExchanges() {
+    public int getExchanges() {
         return exchanges;
     }
 
-    /**
-     * @inheritDoc
-     */
-    @Override
-    public String toString() {
-        return "ROUTE: " + title + ", EXCHANGES: " + exchanges;
+    public void setExchanges(int exchanges) {
+        this.exchanges = exchanges;
+    }
+
+    public BarterGood getTurnInGood() {
+        return turnInGood;
+    }
+
+    public void setTurnInGood(BarterGood turnInGood) {
+        this.turnInGood = turnInGood;
+    }
+
+    public int getTurnInAmount() {
+        return turnInAmount;
+    }
+
+    public void setTurnInAmount(int turnInAmount) {
+        this.turnInAmount = turnInAmount;
+    }
+
+    public BarterGood getReceivedGood() {
+        return receivedGood;
+    }
+
+    public void setReceivedGood(BarterGood receivedGood) {
+        this.receivedGood = receivedGood;
+    }
+
+    public int getReceivedAmount() {
+        return receivedAmount;
+    }
+
+    public void setReceivedAmount(int receivedAmount) {
+        this.receivedAmount = receivedAmount;
+    }
+
+    public String getDescription() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Turn in ").append(getTurnInAmount()).append(" ").append(getTurnInGood().getName());
+        sb.append(" for ").append(getReceivedAmount()).append(" ").append(getReceivedGood().getName()).append(".");
+        return sb.toString();
     }
 }

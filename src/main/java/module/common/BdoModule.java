@@ -2,12 +2,10 @@ package module.common;
 
 public abstract class BdoModule {
 
-    private String title;
-    private String description;
+    private ModuleToolbar moduleToolbar;
 
-    public BdoModule(String title, String description) {
-        this.title = title;
-        this.description = description;
+    public BdoModule() {
+        moduleToolbar = new ModuleToolbar();
         initialize();
     }
 
@@ -16,25 +14,7 @@ public abstract class BdoModule {
      */
     protected abstract void initialize();
 
-    /**
-     * The human-friendly title of the module.
-     * @return
-     */
-    public String getTitle() {
-        return title;
+    public ModuleToolbar getModuleToolbar(){
+        return moduleToolbar;
     }
-
-    /**
-     * The human-friendly description of the module.
-     * @return
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * The display pane of the module.
-     * @return
-     */
-    public abstract ModulePane getModulePane();
 }

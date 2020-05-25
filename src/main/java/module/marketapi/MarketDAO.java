@@ -2,6 +2,7 @@ package module.marketapi;
 
 import common.algorithm.AlgorithmException;
 import common.rest.RestClient;
+import javafx.scene.image.Image;
 import module.marketapi.algorithms.CrowCoinValueAlgorithm;
 import module.marketapi.model.MarketResponse;
 import org.apache.logging.log4j.LogManager;
@@ -17,6 +18,7 @@ public class MarketDAO {
 
     private static final MarketDAO SINGLETON = new MarketDAO();
     private static final Logger logger = LogManager.getLogger(MarketDAO.class);
+    private static final MarketCache cache = MarketCache.getInstance();
 
     /**
      * Retrieve the instance of the MarketDAO.
@@ -41,7 +43,11 @@ public class MarketDAO {
      * @return MarketResponse with all data on the supplied ID.
      */
     public MarketResponse fetchData(long id) {
-        return restClient.get(String.valueOf(id) + "/0", MarketResponse.class);
+        return cache.get(id).orElseGet(() -> {
+            MarketResponse response = restClient.get(String.valueOf(id) + "/0", MarketResponse.class);
+            cache.add(response);
+            return response;
+        });
     }
 
     /**
@@ -63,23 +69,36 @@ public class MarketDAO {
     }
 
     public Optional<MarketResponse> searchByName(String name) {
-        logger.info("Searching market API for: " + name);
+        // check cache
+        MarketResponse r = cache.get(name).orElseGet(() -> {
+            String searchTerm = name.trim().replace(" ", "%20");
+            MarketResponse response = null;
+            try {
+                logger.info("Searching market API for: " + name);
+                response = restClient.get(searchTerm + "/0", MarketResponse.class);
+            } catch (Exception ex) {
+                logger.warn("Failed to find data in market API for: " + name);
+            }
+            if (response != null && response.getName().equalsIgnoreCase(name)) {
+                logger.info("Found item: " + name);
+                cache.add(response);
+                return response;
+            }
+            return null;
+        });
 
-        String searchTerm = name.trim().replace(" ", "%20");
-        MarketResponse response = null;
+        return Optional.ofNullable(r);
+
+    }
+
+    public Image getItemImage(long id) {
+        Image image = null;
         try {
-            response = restClient.get(searchTerm + "/0", MarketResponse.class);
+            image = new Image("/module/barter/images/"+id+".png");
         } catch (Exception ex) {
-            logger.warn("Failed to find data in market API for: " + name);
+            logger.warn("Could not find image for item with ID: " + id);
         }
-
-        if (response != null && response.getName().equalsIgnoreCase(name)) {
-            logger.info("Found item: " + name);
-            return Optional.of(response);
-        }
-
-        logger.warn("Failed to find data in market API for: " + name);
-        return Optional.empty();
+        return image;
     }
 
     /**

@@ -7,7 +7,7 @@ public class MarketResponse {
     private int grade;
     private int keyType;
     private int mainCategory;
-    private int mainKey;
+    private long mainKey;
     private String name;
     private double pricePerOne;
     private int subCategory;
@@ -58,11 +58,11 @@ public class MarketResponse {
         this.mainCategory = mainCategory;
     }
 
-    public int getMainKey() {
+    public long getMainKey() {
         return mainKey;
     }
 
-    public void setMainKey(int mainKey) {
+    public void setMainKey(long mainKey) {
         this.mainKey = mainKey;
     }
 
