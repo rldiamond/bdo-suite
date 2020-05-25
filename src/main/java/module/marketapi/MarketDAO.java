@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Data access object for performing GET REST calls to API to obtain Marketplace information
@@ -45,13 +46,28 @@ public class MarketDAO {
     public MarketResponse fetchData(long id) {
         logger.info("Fetching data for " + id);
         return cache.get(id).orElseGet(() -> {
-            MarketResponse response;
-            try {
-                response = restClient.get(String.valueOf(id) + "/0", MarketResponse.class);
-                cache.add(response);
-            } catch (Exception ex) {
-                logger.warn("Could not fetch data for: " + id);
-                response = new MarketResponse();
+            final int retries = 3;
+            MarketResponse response = null;
+            int attempt = 0;
+            while (response == null) {
+                try {
+                    response = restClient.get(String.valueOf(id) + "/0", MarketResponse.class);
+                    cache.add(response);
+                } catch (Exception ex) {
+                    attempt++;
+                    logger.warn("Could not fetch data for: " + id + ". Attempt " + attempt + "/" + retries);
+                    if (attempt == retries) {
+                        logger.error("Failed to retrieve data for: " +id + " after retrying several times!");
+                        response = new MarketResponse();
+                    } else {
+                        try {
+                            TimeUnit.SECONDS.sleep(5);
+                        } catch (InterruptedException e) {
+                            logger.error(e);
+                            break;
+                        }
+                    }
+                }
             }
             return response;
         });

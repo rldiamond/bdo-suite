@@ -27,7 +27,7 @@ public class BackgroundTaskRunner {
     }
 
     private static final Logger logger = LogManager.getLogger(BackgroundTaskRunner.class);
-    private final ExecutorService executorService = Executors.newFixedThreadPool(100);
+    private final ExecutorService executorService = Executors.newFixedThreadPool(25);
 
     private BackgroundTaskRunner() {
     }
