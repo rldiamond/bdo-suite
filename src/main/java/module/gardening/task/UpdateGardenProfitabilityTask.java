@@ -3,6 +3,7 @@ package module.gardening.task;
 import common.algorithm.AlgorithmException;
 import common.task.BackgroundTask;
 import common.utilities.ToastUtil;
+import javafx.beans.property.BooleanProperty;
 import javafx.collections.ObservableList;
 import module.gardening.algorithms.GardenProfitabilityAlgorithm;
 import module.gardening.model.CropAnalysis;
@@ -19,13 +20,16 @@ public class UpdateGardenProfitabilityTask extends BackgroundTask {
     private final Logger logger = LogManager.getLogger(UpdateGardenProfitabilityTask.class);
 
     private final ObservableList<CropAnalysis> cropAnalyses;
+    private final BooleanProperty busy;
 
-    public UpdateGardenProfitabilityTask(ObservableList<CropAnalysis> cropAnalyses) {
+    public UpdateGardenProfitabilityTask(ObservableList<CropAnalysis> cropAnalyses, BooleanProperty busy) {
         this.cropAnalyses = cropAnalyses;
+        this.busy = busy;
     }
 
     @Override
     public void doTask() {
+        busy.setValue(true);
         Fence fence = new Fence();
         fence.setGrids(10);
         fence.setName("Strong Fence");
@@ -39,6 +43,7 @@ public class UpdateGardenProfitabilityTask extends BackgroundTask {
 
         cropAnalyses.clear();
         cropAnalyses.addAll(analyses);
+        busy.setValue(false);
         ToastUtil.sendToast("Crop profitability has been updated.");
     }
 }

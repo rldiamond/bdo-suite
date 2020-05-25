@@ -9,7 +9,6 @@ import module.gardening.GardeningJsonFileReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
 import java.net.URL;
 import java.util.List;
 
@@ -20,9 +19,9 @@ public class Crop extends BdoItem {
     private static final List<Crop> crops;
 
     static {
-        URL cropsUrl = Crop.class.getClassLoader().getResource("module/gardening/Crops.json");
+        URL cropsUrl = Crop.class.getResource("/module/gardening/Crops.json");
         try {
-            crops = GardeningJsonFileReader.readCropsFromFile(new File(cropsUrl.getPath()));
+            crops = GardeningJsonFileReader.readCropsFromFile(Crop.class.getResourceAsStream("/module/gardening/Crops.json"));
         } catch (JsonParseException ex) {
             logger.error("Fatal error! Could not parse crops JSON!", ex);
             throw new RuntimeException(ex);

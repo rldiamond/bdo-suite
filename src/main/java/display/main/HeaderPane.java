@@ -16,7 +16,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -50,10 +49,6 @@ public class HeaderPane extends StackPane {
         menu.setPrefSize(24, 16);
         menu.setMaxSize(24, 16);
         menu.setId("menu");
-        StackPane menuWrapper = new StackPane(menu);
-        AnchorPane.setLeftAnchor(menuWrapper, 185D);
-        AnchorPane.setTopAnchor(menuWrapper, 0D);
-        AnchorPane.setBottomAnchor(menuWrapper, 0D);
         Tooltip.install(menu, new Tooltip("Menu"));
 
         JFXPopup fileMenuPopUp = new JFXPopup();
