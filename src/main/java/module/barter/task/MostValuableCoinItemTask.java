@@ -4,12 +4,12 @@ import common.algorithm.AlgorithmException;
 import common.jfx.FXUtil;
 import common.task.BackgroundTask;
 import common.utilities.ToastUtil;
+import data.image.ImageDAO;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 import module.barter.algorithms.MostValuableCoinItemAlgorithm;
-import module.marketapi.MarketDAO;
 import module.marketapi.model.CrowCoinVendorItem;
 
 public class MostValuableCoinItemTask extends BackgroundTask {
@@ -30,7 +30,7 @@ public class MostValuableCoinItemTask extends BackgroundTask {
         MostValuableCoinItemAlgorithm algorithm = new MostValuableCoinItemAlgorithm();
         try {
             CrowCoinVendorItem item = algorithm.run();
-            Image itemImage = MarketDAO.getInstance().getItemImage(item.getItemNumber());
+            Image itemImage = ImageDAO.getInstance().getImage(item.getItemNumber());
             FXUtil.runOnFXThread(() -> {
                 textProperty.setValue(item.getItemName());
                 imageProperty.setValue(itemImage);

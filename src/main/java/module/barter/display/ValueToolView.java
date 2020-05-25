@@ -1,13 +1,13 @@
 package module.barter.display;
 
 import com.jfoenix.controls.JFXSpinner;
+import common.jfx.components.ItemImage;
 import common.task.ScheduledTaskRunner;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -27,15 +27,14 @@ public class ValueToolView extends ToolView {
         VBox container = new VBox(15);
 
         HBox crowCoinValueBox = new HBox(10);
-        ImageView imageView = new ImageView(new Image("/module/barter/images/crowcoin.png"));
-        imageView.setFitHeight(30);
-        imageView.setFitWidth(30);
+        ItemImage crowCoinImage = new ItemImage(10);
+        crowCoinImage.setSize(30);
         Label crowCoinLabel = new Label("Crow Coin Value: ");
         crowCoinLabel.setStyle("-fx-font-size: 16px");
         Label crowCoinValueLabel = new Label();
         crowCoinValueLabel.setStyle("-fx-font-size: 16px");
         crowCoinValueBox.setAlignment(Pos.CENTER_LEFT);
-        crowCoinValueBox.getChildren().addAll(imageView, crowCoinLabel, crowCoinValueLabel);
+        crowCoinValueBox.getChildren().addAll(crowCoinImage, crowCoinLabel, crowCoinValueLabel);
         BooleanProperty loadingCrowCoins = injectLoadingSpinner(crowCoinValueBox, crowCoinValueLabel);
 
         //schedule the crowcoin update task
@@ -49,8 +48,8 @@ public class ValueToolView extends ToolView {
         Label valuableCrowItem = new Label();
         valuableCrowItem.setStyle("-fx-font-size: 16px");
         ImageView valuableCrowCoinImage = new ImageView();
-        imageView.setFitHeight(30);
-        imageView.setFitWidth(30);
+        valuableCrowCoinImage.setFitHeight(30);
+        valuableCrowCoinImage.setFitWidth(30);
         valuableItem.getChildren().addAll(valuableItemLabel, valuableCrowCoinImage, valuableCrowItem);
         BooleanProperty loadingItem = injectLoadingSpinner(valuableItem, valuableCrowItem, valuableCrowCoinImage);
 
