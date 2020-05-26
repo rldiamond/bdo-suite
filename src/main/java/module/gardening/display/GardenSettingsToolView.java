@@ -8,6 +8,8 @@ import common.task.BackgroundTaskRunner;
 import common.task.GenericTask;
 import common.utilities.FileUtil;
 import common.utilities.ToastUtil;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
@@ -25,7 +27,7 @@ public class GardenSettingsToolView extends ToolView {
     private JFXComboBox<String> numberOfFences;
     private Button saveButton;
     private Button discardButton;
-    private GardeningSettings settings;
+    private ObjectProperty<GardeningSettings> settings = new SimpleObjectProperty<>();
 
     public GardenSettingsToolView() {
         super("Settings");
@@ -43,10 +45,10 @@ public class GardenSettingsToolView extends ToolView {
         getCard().setFooterContent(buttonContainer);
 
         //Load the settings
-        settings = GardeningSettings.getSettings();
-
-        //Set the fields
-        setFieldsToSettings();
+        BackgroundTaskRunner.getInstance().runTask(new GenericTask(() -> {
+            settings.setValue(GardeningSettings.getSettings());
+            FXUtil.runOnFXThread(this::setFieldsToSettings);
+        }));
 
         //Add listeners to the buttons
         discardButton.setOnMouseClicked(me -> {
@@ -57,9 +59,9 @@ public class GardenSettingsToolView extends ToolView {
         saveButton.setOnMouseClicked(me -> {
             if (me.getButton().equals(MouseButton.PRIMARY)) {
                 GenericTask task = new GenericTask(() -> {
-                    settings.setNumberOfFences(Integer.parseInt(numberOfFences.getValue()));
-                    settings.setPlayerFence(playerFence.getValue());
-                    FileUtil.saveSettings(settings);
+                    settings.getValue().setNumberOfFences(Integer.parseInt(numberOfFences.getValue()));
+                    settings.getValue().setPlayerFence(playerFence.getValue());
+                    FileUtil.saveSettings(settings.getValue());
                     FXUtil.runOnFXThread(this::setFieldsToSettings);
                     ToastUtil.sendToast("Gardening settings saved.");
                 });
@@ -69,8 +71,8 @@ public class GardenSettingsToolView extends ToolView {
     }
 
     private void setFieldsToSettings() {
-        playerFence.getItems().stream().filter(fence -> fence.getName().equalsIgnoreCase(settings.getPlayerFence().getName())).findAny().ifPresent(playerFence.getSelectionModel()::select);
-        numberOfFences.getSelectionModel().select(String.valueOf(settings.getNumberOfFences()));
+        playerFence.getItems().stream().filter(fence -> fence.getName().equalsIgnoreCase(settings.getValue().getPlayerFence().getName())).findAny().ifPresent(playerFence.getSelectionModel()::select);
+        numberOfFences.getSelectionModel().select(String.valueOf(settings.getValue().getNumberOfFences()));
     }
 
     

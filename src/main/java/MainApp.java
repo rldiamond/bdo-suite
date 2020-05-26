@@ -24,16 +24,15 @@ public class MainApp extends Application {
         primaryStage.setTitle("BDO Suite");
         primaryStage.getIcons().add(new Image(MainApp.class.getResourceAsStream("/theme/icon.png")));
 
+        //load all this in the bg
         RootDisplayPane rootDisplayPane = RootDisplayPane.getInstance();
-        //Register all modules for now
         Arrays.stream(ModuleRegistration.values()).forEach(rootDisplayPane::registerModule);
-
         //Register this separately for now as theres no usage..
         MarketApiBdoModule module = new MarketApiBdoModule();
-
         Scene scene = new Scene(rootDisplayPane);
         FXUtil.setThemeOnScene(scene);
         primaryStage.setScene(scene);
         primaryStage.show();
+
     }
 }

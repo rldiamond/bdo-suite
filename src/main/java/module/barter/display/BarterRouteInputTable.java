@@ -6,10 +6,11 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import module.barter.model.BarterGood;
 import module.barter.model.Barter;
+import module.barter.model.BarterGood;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,6 +62,7 @@ public class BarterRouteInputTable extends TableView<Barter>  {
         TableColumn<Barter, String> acceptGoodCol = new TableColumn<>("Accept Good");
         acceptGoodCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAcceptGoodName()));
         final List<String> barterGoods = BarterGood.getBarterGoods().stream().map(BarterGood::getName).collect(Collectors.toList());
+        Collections.sort(barterGoods);
         acceptGoodCol.setCellFactory(c -> new EditableComboBoxTableCell<>(barterGoods));
         acceptGoodCol.setOnEditCommit(edit -> {
             String newContent = edit.getNewValue().trim();
