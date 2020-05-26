@@ -42,10 +42,10 @@ public class GardenProfitabilityAlgorithm implements Algorithm<List<CropAnalysis
 
             //get the value of the crop
             double individualCropValue = MARKET_DAO.getMarketValue(crop.getCropId());
-            double grossValue = individualCropValue * HarvestSettings.cropsPerHarvest;
+            double grossValue = individualCropValue * (HarvestSettings.cropsPerGrid * gridsAvailable);
 
             double netValue = grossValue - (grossValue * marketTax);
-            netValue = netValue + (netValue * playerBonus);
+            netValue = netValue + (netValue * playerBonus) - totalSeedCost;
             cropAnalysis.setValuePerHarvest(netValue);
 
             return cropAnalysis;

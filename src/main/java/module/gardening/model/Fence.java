@@ -20,7 +20,7 @@ public class Fence {
         }
     }
 
-    public List<Fence> getFences() {
+    public static List<Fence> getFences() {
         return fences;
     }
 
@@ -41,5 +41,10 @@ public class Fence {
 
     public void setGrids(int grids) {
         this.grids = grids;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

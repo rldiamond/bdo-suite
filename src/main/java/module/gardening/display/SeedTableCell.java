@@ -3,7 +3,7 @@ package module.gardening.display;
 import common.utilities.TextUtil;
 import javafx.scene.control.TableCell;
 import module.gardening.model.CropAnalysis;
-import module.gardening.model.Fence;
+import module.gardening.model.GardeningSettings;
 
 public class SeedTableCell extends TableCell<CropAnalysis, CropAnalysis> {
 
@@ -19,13 +19,7 @@ public class SeedTableCell extends TableCell<CropAnalysis, CropAnalysis> {
             setText("");
         } else {
 
-            // calculate
-            Fence fence = new Fence();
-            fence.setName("Strong Fence");
-            fence.setGrids(10);
-
-            int playerFences = 10;
-            double grids = fence.getGrids() * playerFences;
+            double grids = GardeningSettings.getSettings().getPlayerFence().getGrids() * GardeningSettings.getSettings().getNumberOfFences();
 
             double seedsNeeded = grids / item.getCrop().getGrids();
             setText(TextUtil.formatWithCommas(seedsNeeded));

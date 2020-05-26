@@ -7,7 +7,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.collections.ObservableList;
 import module.gardening.algorithms.GardenProfitabilityAlgorithm;
 import module.gardening.model.CropAnalysis;
-import module.gardening.model.Fence;
+import module.gardening.model.GardeningSettings;
 import module.gardening.model.HarvestSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,10 +30,7 @@ public class UpdateGardenProfitabilityTask extends BackgroundTask {
     @Override
     public void doTask() {
         busy.setValue(true);
-        Fence fence = new Fence();
-        fence.setGrids(10);
-        fence.setName("Strong Fence");
-        GardenProfitabilityAlgorithm algorithm = new GardenProfitabilityAlgorithm(HarvestSettings.marketTax, HarvestSettings.playerBonus, fence, HarvestSettings.amountOfFences);
+        GardenProfitabilityAlgorithm algorithm = new GardenProfitabilityAlgorithm(HarvestSettings.marketTax, HarvestSettings.playerBonus, GardeningSettings.getSettings().getPlayerFence(), GardeningSettings.getSettings().getNumberOfFences());
         List<CropAnalysis> analyses = Collections.EMPTY_LIST;
         try {
             analyses = algorithm.run();
