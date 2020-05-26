@@ -4,6 +4,7 @@ import common.task.BackgroundTaskRunner;
 import module.common.BdoModule;
 import module.common.ModuleTool;
 import module.gardening.display.GardenProfitabilityToolView;
+import module.gardening.display.GardenSettingsToolView;
 import module.gardening.task.GetCropValuesTask;
 
 public class GardeningBdoModule extends BdoModule {
@@ -19,5 +20,13 @@ public class GardeningBdoModule extends BdoModule {
         gardeningProfitTool.setIconId("values");
         gardeningProfitTool.setToolView(new GardenProfitabilityToolView());
         getModuleToolbar().addTools(gardeningProfitTool);
+
+        ModuleTool gardeningSettingsTool = new ModuleTool();
+        gardeningSettingsTool.setTitle("Settings");
+        gardeningSettingsTool.setDescription("Configure user settings for the Gardening module.");
+        gardeningSettingsTool.setIconId("settingsTool");
+        gardeningSettingsTool.setToolView(new GardenSettingsToolView());
+        getModuleToolbar().addTools(gardeningSettingsTool);
+
     }
 }

@@ -9,7 +9,6 @@ import module.gardening.GardeningJsonFileReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.net.URL;
 import java.util.List;
 
 
@@ -19,7 +18,6 @@ public class Crop extends BdoItem {
     private static final List<Crop> crops;
 
     static {
-        URL cropsUrl = Crop.class.getResource("/module/gardening/Crops.json");
         try {
             crops = GardeningJsonFileReader.readCropsFromFile(Crop.class.getResourceAsStream("/module/gardening/Crops.json"));
         } catch (JsonParseException ex) {
