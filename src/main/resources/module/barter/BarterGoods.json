@@ -505,11 +505,6 @@
     "itemId" : 4805
   },
   {
-    "name": "Trade Good",
-    "level" : "ZERO",
-    "itemId" : 0
-  },
-  {
     "name": "Processed Coal",
     "level" : "ZERO",
     "itemId" : 4070
