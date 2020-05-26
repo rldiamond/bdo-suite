@@ -1,4 +1,4 @@
-package module.barter.display;
+package module.barter.display.optimizer;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.geometry.Insets;

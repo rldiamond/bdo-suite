@@ -1,5 +1,6 @@
 package module.barter;
 
+import module.barter.display.BarterStorageToolView;
 import module.barter.display.RouteOptimizationToolView;
 import module.barter.display.ValueToolView;
 import module.barter.model.BarterGood;
@@ -35,6 +36,14 @@ public class BarterBdoModule extends BdoModule {
         routeOptimizationTool.setDescription("Determine optimal barter routes.");
         routeOptimizationTool.setToolView(new RouteOptimizationToolView());
         getModuleToolbar().addTools(routeOptimizationTool);
+
+        //init the storage tool
+        ModuleTool storageTool = new ModuleTool();
+        storageTool.setIconId("storage");
+        storageTool.setTitle("Storage");
+        storageTool.setDescription("Bartering storage management assistant.");
+        storageTool.setToolView(new BarterStorageToolView());
+        getModuleToolbar().addTools(storageTool);
 
         //init the values tool
         ModuleTool valueTool = new ModuleTool();

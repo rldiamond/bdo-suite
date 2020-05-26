@@ -1,4 +1,4 @@
-package module.barter.display;
+package module.barter.display.optimizer;
 
 import common.jfx.FXUtil;
 import common.task.BackgroundTaskRunner;

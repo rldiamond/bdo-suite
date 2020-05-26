@@ -4,7 +4,7 @@ import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSpinner;
 import common.application.ModuleRegistration;
 import common.jfx.FXUtil;
-import common.task.BackgroundTaskRunner;
+import common.task.DisplayTaskRunner;
 import common.task.GenericTask;
 import common.task.TaskingUtility;
 import javafx.animation.FadeTransition;
@@ -151,7 +151,7 @@ public class RootDisplayPane extends BorderPane {
             });
         });
 
-        BackgroundTaskRunner.getInstance().runTask(task);
+        DisplayTaskRunner.getInstance().runTask(task);
     }
 
     private void loadToolView(ToolView toolView) {
@@ -164,7 +164,7 @@ public class RootDisplayPane extends BorderPane {
             });
         });
 
-        BackgroundTaskRunner.getInstance().runTask(task);
+        DisplayTaskRunner.getInstance().runTask(task);
     }
 
     /**
