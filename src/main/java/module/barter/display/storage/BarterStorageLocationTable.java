@@ -21,7 +21,7 @@ public class BarterStorageLocationTable extends TableView<StorageLocation> {
     }
 
     private List<TableColumn<StorageLocation, ?>> buildColumns() {
-        TableColumn<StorageLocation, String> locationNameCol = new TableColumn<>("Location");
+        TableColumn<StorageLocation, String> locationNameCol = new TableColumn<>("Item");
         locationNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
 
         TableColumn<StorageLocation, String> totalSlotsCol = new TableColumn<>("Slots");

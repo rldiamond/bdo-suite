@@ -1,17 +1,10 @@
 package module.barter.storage;
 
-public class StorageItem {
+import module.common.model.BdoItem;
 
-    private String name;
+public class StorageItem extends BdoItem {
+
     private int amount;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public int getAmount() {
         return amount;

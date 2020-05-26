@@ -111,7 +111,9 @@ public class BarterStorageToolView extends ToolView {
     private void initManagementCard() {
         //Add & Edit storage section
         Card card = new Card("Location Management");
-        card.setMaxHeight(250);
+        card.setMaxHeight(USE_PREF_SIZE);
+        card.setPrefHeight(250);
+        card.setMinHeight(USE_PREF_SIZE);
         cardContainer.getChildren().add(card);
 
         HBox managementWrapper = new HBox(15);

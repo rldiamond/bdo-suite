@@ -7,11 +7,10 @@ import common.task.DisplayTaskRunner;
 import common.task.GenericTask;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.layout.StackPane;
 import module.barter.model.StorageLocation;
-
-import java.util.concurrent.TimeUnit;
 
 public class StorageLocationManager extends StackPane {
 
@@ -39,9 +38,12 @@ public class StorageLocationManager extends StackPane {
     private void initialize() {
 
         Card card = new Card(storageLocation.getName());
+        BarterStorageManagerTable table = new BarterStorageManagerTable();
+        table.setItems(FXCollections.observableArrayList(storageLocation.getStorage().getStoredItems()));
+        card.setDisplayedContent(table);
 
         try {
-            TimeUnit.SECONDS.sleep(5);
+            //TimeUnit.SECONDS.sleep(5);
             FXUtil.runOnFXThread(() -> {
                 getChildren().add(card);
                 loading.set(false);
