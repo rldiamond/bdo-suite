@@ -73,7 +73,6 @@ public class BarterStorageLocationEditCard extends JFXDialog {
         card.setFooterContent(buttonContainer);
         deleteButton.setOnMouseClicked(me -> {
             if (me.getButton().equals(MouseButton.PRIMARY)) {
-                //TODO: CONFIRMATION DIALOG
                 ActionableAlertDialog alert = new ActionableAlertDialog(AlertDialogType.CONFIRMATION);
                 alert.setActionButtonText("Confirm");
                 alert.setTitle("Are you sure?");

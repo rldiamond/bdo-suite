@@ -24,7 +24,7 @@ public class DisplayTaskRunner {
     }
 
     private static final Logger logger = LogManager.getLogger(DisplayTaskRunner.class);
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private final ExecutorService executorService = Executors.newFixedThreadPool(5);
 
     private DisplayTaskRunner() {
     }

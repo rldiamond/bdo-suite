@@ -11,6 +11,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.input.MouseButton;
@@ -19,20 +20,27 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import module.barter.display.storage.BarterStorageLocationEditCard;
 import module.barter.display.storage.BarterStorageLocationTable;
+import module.barter.display.storage.StorageLocationManager;
 import module.barter.model.BarterModuleEvent;
 import module.barter.model.PlayerStorageLocations;
 import module.barter.model.StorageLocation;
 import module.display.ToolView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BarterStorageToolView extends ToolView {
 
     private final ObjectProperty<PlayerStorageLocations> storageLocationsProperty = new SimpleObjectProperty<>();
     private ObservableList<StorageLocation> storageLocations = FXCollections.observableArrayList();
     private final VBox cardContainer;
+    private final VBox locationsContainer = new VBox(15);
     private BarterStorageLocationTable storageLocationTable = new BarterStorageLocationTable();;
+    private List<StorageLocationManager> locationManagerCards = new ArrayList<>();
 
     public BarterStorageToolView() {
         super("Storage Location Management");
+
         // load the storage locations
         BackgroundTaskRunner.getInstance().runTask(new GenericTask(() -> {
             storageLocationsProperty.setValue(FileUtil.loadModuleData(PlayerStorageLocations.class));
@@ -44,6 +52,7 @@ public class BarterStorageToolView extends ToolView {
             BackgroundTaskRunner.getInstance().runTask(new GenericTask(() -> {
                 storageLocationsProperty.getValue().setStorageLocations(storageLocations);
                 FileUtil.saveModuleData(storageLocationsProperty.getValue());
+                updateLocationCards();
             }));
             storageLocationTable.refresh();
             e.consume();
@@ -60,11 +69,43 @@ public class BarterStorageToolView extends ToolView {
             e.consume();
         });
 
-        //remove default as we want multiple cards here
+        // remove default as we want multiple cards here
         cardContainer = new VBox(15);
         getChildren().setAll(cardContainer);
 
         initManagementCard();
+
+        cardContainer.getChildren().add(locationsContainer);
+
+        storageLocations.addListener((ListChangeListener.Change<? extends StorageLocation> c) -> {
+            c.next();
+            DisplayTaskRunner.getInstance().runTask(new GenericTask(() -> {
+                c.getAddedSubList().forEach(this::createLocationManagementCard);
+                c.getRemoved().forEach(this::removeLocationManagementCard);
+            }));
+        });
+    }
+
+    private void updateLocationCards() {
+        locationManagerCards.clear();
+        FXUtil.runOnFXThread(() -> {
+            locationsContainer.getChildren().clear();
+            storageLocations.stream().map(StorageLocationManager::new).forEach(locationsContainer.getChildren()::add);
+        });
+    }
+
+    private void createLocationManagementCard(StorageLocation storageLocation) {
+        StorageLocationManager manager = new StorageLocationManager(storageLocation);
+        locationManagerCards.add(manager);
+        FXUtil.runOnFXThread(() -> locationsContainer.getChildren().add(manager));
+
+    }
+
+    private void removeLocationManagementCard(StorageLocation storageLocation) {
+        locationManagerCards.stream().filter(card -> card.getStorageLocation().equals(storageLocation)).findAny().ifPresent(card -> {
+            locationManagerCards.remove(card);
+            FXUtil.runOnFXThread(() -> locationsContainer.getChildren().remove(card));
+        });
     }
 
     private void initManagementCard() {
@@ -88,7 +129,8 @@ public class BarterStorageToolView extends ToolView {
         addButton.getStyleClass().add("button-flat-gray");
         addButton.setOnMouseClicked(me -> {
             if (me.getButton().equals(MouseButton.PRIMARY)) {
-                storageLocations.add(new StorageLocation("N/A", 1));
+                storageLocations.add(new StorageLocation("New Location", 1));
+                FXUtil.runOnFXThread(() -> storageLocationTable.refresh());
             }
         });
 
