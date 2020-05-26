@@ -17,4 +17,8 @@ public class StorageItem extends BdoItem {
     public void removeItems(int amount) {
         this.amount -= amount;
     }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
 }

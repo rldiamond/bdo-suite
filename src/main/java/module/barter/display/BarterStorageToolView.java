@@ -14,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -71,7 +72,10 @@ public class BarterStorageToolView extends ToolView {
 
         // remove default as we want multiple cards here
         cardContainer = new VBox(15);
-        getChildren().setAll(cardContainer);
+        ScrollPane scrollPane = new ScrollPane(cardContainer);
+        scrollPane.getStyleClass().add("edge-to-edge");
+        scrollPane.setFitToWidth(true);
+        getChildren().setAll(scrollPane);
 
         initManagementCard();
 

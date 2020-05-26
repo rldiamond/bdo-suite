@@ -419,25 +419,30 @@
 }
 
 .scroll-bar .track {
-    -fx-background-color: transparent;
+    visibility: hidden;
+    /*-fx-background-color: transparent;*/
 }
 
 .scroll-bar .track-background {
-    -fx-background-color: transparent;
+    visibility: hidden;
+    /*-fx-background-color: transparent;*/
 }
 
 .scroll-bar:vertical .track {
-    -fx-background-color: transparent;
+    /*-fx-background-color: transparent;*/
+    visibility: hidden;
 }
 
 .scroll-bar:vertical .track-background {
-    -fx-background-color: transparent;
+    visibility: hidden;
+    /*-fx-background-color: transparent;*/
+
 }
 
 .scroll-bar:horizontal .track,
 .scroll-bar:vertical .track {
-    -fx-background-color: ghostwhite;
-    -fx-border-color: transparent;
+    -fx-background-color:  #F2F2F2;
+    /*-fx-border-color: transparent;*/
 
 }
 
