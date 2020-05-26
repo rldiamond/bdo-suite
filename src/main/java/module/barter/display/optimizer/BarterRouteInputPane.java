@@ -1,4 +1,4 @@
-package module.barter.display;
+package module.barter.display.optimizer;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;

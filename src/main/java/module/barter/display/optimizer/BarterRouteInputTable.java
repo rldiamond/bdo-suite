@@ -1,4 +1,4 @@
-package module.barter.display;
+package module.barter.display.optimizer;
 
 import common.jfx.components.EditableComboBoxTableCell;
 import common.jfx.components.EditableTextFieldTableCell;

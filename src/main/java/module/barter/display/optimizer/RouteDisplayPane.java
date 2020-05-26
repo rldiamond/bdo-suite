@@ -1,4 +1,4 @@
-package module.barter.display;
+package module.barter.display.optimizer;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
