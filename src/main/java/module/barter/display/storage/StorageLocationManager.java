@@ -9,6 +9,8 @@ import common.task.GenericTask;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.input.MouseButton;
@@ -21,6 +23,8 @@ public class StorageLocationManager extends StackPane {
 
     private final BooleanProperty loading = new SimpleBooleanProperty(true);
     private final StorageLocation storageLocation;
+    private final StringProperty titleProperty = new SimpleStringProperty();
+    private BarterStorageManagerTable table;
 
     public StorageLocationManager(StorageLocation storageLocation) {
         this.storageLocation = storageLocation;
@@ -40,11 +44,17 @@ public class StorageLocationManager extends StackPane {
         return storageLocation;
     }
 
+    public void refresh() {
+        titleProperty.setValue(storageLocation.getName());
+        table.setItems(FXCollections.observableArrayList(storageLocation.getStorage().getStoredItems()));
+        table.refresh();
+    }
+
     private void initialize() {
 
-        Card card = new Card(storageLocation.getName());
+        Card card = new Card(titleProperty);
         card.setMaxHeight(350);
-        BarterStorageManagerTable table = new BarterStorageManagerTable();
+        table = new BarterStorageManagerTable();
         table.setItems(FXCollections.observableArrayList(storageLocation.getStorage().getStoredItems()));
         card.setDisplayedContent(table);
 

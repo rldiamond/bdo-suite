@@ -91,11 +91,7 @@ public class BarterStorageToolView extends ToolView {
     }
 
     private void updateLocationCards() {
-        locationManagerCards.clear();
-        FXUtil.runOnFXThread(() -> {
-            locationsContainer.getChildren().clear();
-            storageLocations.stream().map(StorageLocationManager::new).forEach(locationsContainer.getChildren()::add);
-        });
+        FXUtil.runOnFXThread(() ->locationManagerCards.forEach(StorageLocationManager::refresh));
     }
 
     private void createLocationManagementCard(StorageLocation storageLocation) {
@@ -106,7 +102,7 @@ public class BarterStorageToolView extends ToolView {
     }
 
     private void removeLocationManagementCard(StorageLocation storageLocation) {
-        locationManagerCards.stream().filter(card -> card.getStorageLocation().equals(storageLocation)).findAny().ifPresent(card -> {
+        locationManagerCards.stream().filter(card -> card.getStorageLocation().getName().equalsIgnoreCase(storageLocation.getName())).findAny().ifPresent(card -> {
             locationManagerCards.remove(card);
             FXUtil.runOnFXThread(() -> locationsContainer.getChildren().remove(card));
         });

@@ -1,5 +1,6 @@
 package common.jfx.components;
 
+import javafx.beans.property.StringProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -48,6 +49,19 @@ public class Card extends StackPane {
 
         //title
         Label titleLabel = new Label(title);
+        titleLabel.getStyleClass().add("title");
+        header = new HBox(titleLabel);
+        header.setAlignment(Pos.CENTER);
+
+        cardContent.getChildren().add(0, header);
+    }
+
+    public Card(StringProperty title) {
+        this();
+
+        //title
+        Label titleLabel = new Label();
+        titleLabel.textProperty().bind(title);
         titleLabel.getStyleClass().add("title");
         header = new HBox(titleLabel);
         header.setAlignment(Pos.CENTER);
