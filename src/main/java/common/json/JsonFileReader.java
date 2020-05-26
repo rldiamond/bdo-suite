@@ -20,7 +20,7 @@ public class JsonFileReader {
      * @return A serialized object read from the provided JSON file.
      * @throws JsonParseException if an error occurs parsing the JSON file.
      */
-    public static <T extends JsonObject> T readFromFile(InputStream file, Class<T> clazz) throws JsonParseException {
+    public static <T extends ModuleData> T readFromFile(InputStream file, Class<T> clazz) throws JsonParseException {
         try (InputStreamReader reader = new InputStreamReader(file)){
             return getGson().fromJson(reader, clazz);
         } catch (Exception ex) {
