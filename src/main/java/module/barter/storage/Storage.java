@@ -51,6 +51,10 @@ public class Storage {
         return storedItems;
     }
 
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
     public boolean hasItem(String name) {
         return storedItems.stream().anyMatch(storageItem -> name.equalsIgnoreCase(storageItem.getName()));
     }

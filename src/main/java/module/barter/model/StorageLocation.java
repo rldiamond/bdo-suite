@@ -7,7 +7,6 @@ public class StorageLocation extends Location {
     private final Storage storage;
 
     public StorageLocation(String name, int storageCapacity) {
-        super(name);
         this.storage = new Storage(storageCapacity);
     }
 

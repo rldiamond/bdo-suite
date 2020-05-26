@@ -1,7 +1,12 @@
 package module.barter.display;
 
 import com.jfoenix.controls.JFXButton;
+import common.jfx.FXUtil;
 import common.jfx.components.Card;
+import common.task.BackgroundTaskRunner;
+import common.task.DisplayTaskRunner;
+import common.task.GenericTask;
+import common.utilities.FileUtil;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -12,7 +17,9 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import module.barter.display.storage.BarterStorageLocationEditCard;
 import module.barter.display.storage.BarterStorageLocationTable;
+import module.barter.model.BarterModuleEvent;
 import module.barter.model.PlayerStorageLocations;
 import module.barter.model.StorageLocation;
 import module.display.ToolView;
@@ -20,11 +27,39 @@ import module.display.ToolView;
 public class BarterStorageToolView extends ToolView {
 
     private final ObjectProperty<PlayerStorageLocations> storageLocationsProperty = new SimpleObjectProperty<>();
-    private final ObservableList<StorageLocation> storageLocations = FXCollections.observableArrayList();
+    private ObservableList<StorageLocation> storageLocations = FXCollections.observableArrayList();
     private final VBox cardContainer;
+    private BarterStorageLocationTable storageLocationTable = new BarterStorageLocationTable();;
 
     public BarterStorageToolView() {
         super("Storage Location Management");
+        // load the storage locations
+        BackgroundTaskRunner.getInstance().runTask(new GenericTask(() -> {
+            storageLocationsProperty.setValue(FileUtil.loadModuleData(PlayerStorageLocations.class));
+            storageLocations.addAll(storageLocationsProperty.get().getStorageLocations());
+        }));
+
+        // save event handler
+        this.addEventHandler(BarterModuleEvent.BARTERSAVEEVENT, e -> {
+            BackgroundTaskRunner.getInstance().runTask(new GenericTask(() -> {
+                storageLocationsProperty.getValue().setStorageLocations(storageLocations);
+                FileUtil.saveModuleData(storageLocationsProperty.getValue());
+            }));
+            storageLocationTable.refresh();
+            e.consume();
+        });
+
+        // delete event handler
+        this.addEventHandler(BarterModuleEvent.BARTERDELETELOCATIONEVENT, e -> {
+            BackgroundTaskRunner.getInstance().runTask(new GenericTask(() -> {
+                storageLocations.remove(storageLocationTable.getSelectionModel().getSelectedItem());
+                storageLocationsProperty.getValue().setStorageLocations(storageLocations);
+                FileUtil.saveModuleData(storageLocationsProperty.getValue());
+            }));
+            storageLocationTable.refresh();
+            e.consume();
+        });
+
         //remove default as we want multiple cards here
         cardContainer = new VBox(15);
         getChildren().setAll(cardContainer);
@@ -40,7 +75,6 @@ public class BarterStorageToolView extends ToolView {
 
         HBox managementWrapper = new HBox(15);
         card.setDisplayedContent(managementWrapper);
-        BarterStorageLocationTable storageLocationTable = new BarterStorageLocationTable();
         storageLocationTable.setItems(storageLocations);
         HBox.setHgrow(storageLocationTable, Priority.ALWAYS);
         managementWrapper.getChildren().add(storageLocationTable);
@@ -60,7 +94,14 @@ public class BarterStorageToolView extends ToolView {
 
         JFXButton editButton = new JFXButton("EDIT");
         editButton.getStyleClass().add("button-flat-gray");
-        //TODO
+        editButton.setOnMouseClicked(me -> {
+            if (me.getButton().equals(MouseButton.PRIMARY)) {
+                DisplayTaskRunner.getInstance().runTask(new GenericTask(() -> {
+                    BarterStorageLocationEditCard editCard = new BarterStorageLocationEditCard(this, storageLocationTable.getSelectionModel().getSelectedItem());
+                    FXUtil.runOnFXThread(editCard::show);
+                }));
+            }
+        });
 
         editButton.disableProperty().bind(Bindings.isNull(storageLocationTable.getSelectionModel().selectedItemProperty()));
 

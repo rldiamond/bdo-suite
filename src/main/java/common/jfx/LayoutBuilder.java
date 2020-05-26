@@ -20,13 +20,13 @@ public class LayoutBuilder {
         Tooltip.install(container, new Tooltip(tooltip));
         container.setAlignment(Pos.CENTER_LEFT);
 
-        Label labelField = new Label(label);
-        JFXTextField textFieldLabel = new JFXTextField();
-        HBox.setHgrow(textFieldLabel, Priority.ALWAYS);
+        Label fieldLabel = new Label(label);
+        JFXTextField textField = new JFXTextField();
+        HBox.setHgrow(textField, Priority.ALWAYS);
 
-        container.getChildren().setAll(labelField, textFieldLabel);
+        container.getChildren().setAll(fieldLabel, textField);
         parent.getChildren().add(container);
-        return textFieldLabel;
+        return textField;
     }
 
     public static <T extends Enum> EnumComboBox<T> createEnumComboBox(String label, String tooltip, Class<T> enumType, Pane parent) {
