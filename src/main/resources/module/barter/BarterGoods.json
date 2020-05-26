@@ -300,16 +300,6 @@
     "itemId" : 0
   },
   {
-    "name": "(PH) LEVEL 1 GOOD",
-    "level" : "ONE",
-    "itemId" : 0
-  },
-  {
-    "name": "Trade Good",
-    "level" : "ZERO",
-    "itemId" : 0
-  },
-  {
     "name": "Bag of Muddy Water",
     "level" : "ZERO",
     "itemId" : 6657
@@ -358,11 +348,6 @@
     "name": "Copper Ingot",
     "level" : "ZERO",
     "itemId" : 4058
-  },
-  {
-    "name": "Trade Good",
-    "level" : "ZERO",
-    "itemId" : 0
   },
   {
     "name": "Elder Tree Sap",
@@ -638,5 +623,80 @@
     "name": "Wolf Hide",
     "level" : "ZERO",
     "itemId" : 6014
+  },
+  {
+    "name": "Pirates' Gunpowder",
+    "level" : "ONE",
+    "itemId" : 800014
+  },
+  {
+    "name": "Fertile Soil",
+    "level" : "ONE",
+    "itemId" : 800013
+  },
+  {
+    "name": "Rakeflower Seed Pouch",
+    "level" : "ONE",
+    "itemId" : 800012
+  },
+  {
+    "name": "Roa Flower Seed Pouch",
+    "level" : "ONE",
+    "itemId" : 800011
+  },
+  {
+    "name": "Golden Sand",
+    "level" : "ONE",
+    "itemId" : 800010
+  },
+  {
+    "name": "Cherry Tree Seed Pouch",
+    "level" : "ONE",
+    "itemId" : 800009
+  },
+  {
+    "name": "Golden Sand",
+    "level" : "ONE",
+    "itemId" : 800010
+  },
+  {
+    "name": "Unidentified Ancient Mural",
+    "level" : "ONE",
+    "itemId" : 800008
+  },
+  {
+    "name": "Ancient Urn Piece",
+    "level" : "ONE",
+    "itemId" : 800007
+  },
+  {
+    "name": "Chewy Raw Gizzard",
+    "level" : "ONE",
+    "itemId" : 800006
+  },
+  {
+    "name": "Raft Toy",
+    "level" : "ONE",
+    "itemId" : 800005
+  },
+  {
+    "name": "Stained Seagull Figurine",
+    "level" : "ONE",
+    "itemId" : 800004
+  },
+  {
+    "name": "Naval Ration",
+    "level" : "ONE",
+    "itemId" : 800003
+  },
+  {
+    "name": "Giant Fish Bone",
+    "level" : "ONE",
+    "itemId" : 800002
+  },
+  {
+    "name": "Dried Blue Rose",
+    "level" : "ONE",
+    "itemId" : 800001
   }
 ]
