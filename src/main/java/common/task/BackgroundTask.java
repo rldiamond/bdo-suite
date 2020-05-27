@@ -1,15 +1,21 @@
 package common.task;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import common.logging.AppLogger;
 
 import java.util.TimerTask;
 
+/**
+ * Abstract class defining tasks that can be ran in the background.
+ */
 public abstract class BackgroundTask extends TimerTask {
-    private static final Logger logger = LogManager.getLogger(BackgroundTask.class);
 
+    private static final AppLogger logger = AppLogger.getLogger();
+
+    /**
+     * Default constructor.
+     */
     public BackgroundTask() {
-
+        //..
     }
 
     /**
@@ -23,6 +29,9 @@ public abstract class BackgroundTask extends TimerTask {
         }
     }
 
+    /**
+     * The contents of this method are ran when the executor runs this background task.
+     */
     abstract public void doTask();
 
 }
