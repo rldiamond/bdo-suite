@@ -55,7 +55,6 @@ public class StorageLocationManager extends StackPane {
         Card card = new Card(titleProperty);
         card.setMaxHeight(350);
         table = new BarterStorageManagerTable();
-        table.setItems(FXCollections.observableArrayList(storageLocation.getStorage().getStoredItems()));
         card.setDisplayedContent(table);
 
         HBox buttonContainer = new HBox(15);
@@ -88,15 +87,11 @@ public class StorageLocationManager extends StackPane {
         buttonContainer.getChildren().setAll(addButton, deleteButton);
         card.setFooterContent(buttonContainer);
 
-        try {
-            //TimeUnit.SECONDS.sleep(5);
-            FXUtil.runOnFXThread(() -> {
-                getChildren().add(card);
-                loading.set(false);
-            });
-        } catch (Exception ex) {
-
-        }
+        FXUtil.runOnFXThread(() -> {
+            refresh();
+            getChildren().add(card);
+            loading.set(false);
+        });
     }
 
 }
