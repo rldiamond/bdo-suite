@@ -55,7 +55,6 @@ public class StorageLocationManager extends StackPane {
         Card card = new Card(titleProperty);
         card.setMaxHeight(350);
         table = new BarterStorageManagerTable();
-        card.setDisplayedContent(table);
 
         HBox buttonContainer = new HBox(15);
         buttonContainer.setAlignment(Pos.CENTER);
