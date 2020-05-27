@@ -52,10 +52,12 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
         route.setReceivedAmount((int)(exchanges * firstBarter.getExchangeAmount()));
         barterPlan.addParley(firstBarter.getParley() * (int) exchanges);
         barterPlan.addRoute(route);
-        barters.remove(firstBarter);
 
         PlannedRoute previousRoute = route;
         for (Barter barter : barters) {
+            if (barter.equals(firstBarter)) {
+                continue;
+            }
             PlannedRoute plannedRoute = createRoute(previousRoute);
             barterPlan.addRoute(plannedRoute);
             previousRoute = plannedRoute;
