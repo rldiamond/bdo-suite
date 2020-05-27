@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSpinner;
 import common.jfx.FXUtil;
 import common.jfx.components.Card;
+import common.task.BackgroundTaskRunner;
 import common.task.DisplayTaskRunner;
 import common.task.GenericTask;
 import javafx.beans.binding.Bindings;
@@ -13,17 +14,23 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import module.barter.model.BarterGood;
+import module.barter.model.BarterLevel;
 import module.barter.model.BarterModuleEvent;
 import module.barter.model.StorageLocation;
+import module.barter.storage.StorageItem;
 
 public class StorageLocationManager extends StackPane {
 
     private final BooleanProperty loading = new SimpleBooleanProperty(true);
     private final StorageLocation storageLocation;
     private final StringProperty titleProperty = new SimpleStringProperty();
+    private final StringProperty slotsTextProperty = new SimpleStringProperty();
     private BarterStorageManagerTable table;
 
     public StorageLocationManager(StorageLocation storageLocation) {
@@ -48,6 +55,25 @@ public class StorageLocationManager extends StackPane {
         titleProperty.setValue(storageLocation.getName());
         table.setItems(FXCollections.observableArrayList(storageLocation.getStorage().getStoredItems()));
         table.refresh();
+        BackgroundTaskRunner.getInstance().runTask(new GenericTask(() -> {
+            int slotsUsed = calculateSlotsUsed();
+            FXUtil.runOnFXThread(() -> slotsTextProperty.setValue(slotsUsed + "/" +storageLocation.getStorage().getCapacity()));
+        }));
+    }
+
+    private int calculateSlotsUsed() {
+        int slots = 0;
+        for (StorageItem storedItem : storageLocation.getStorage().getStoredItems()) {
+            BarterGood good = BarterGood.getBarterGoodByName(storedItem.getName()).get();
+
+            if (BarterLevel.getBarterLevelByType(good.getLevel()).doesStack()) {
+                slots++;
+            } else {
+                slots += storedItem.getAmount();
+            }
+        }
+
+        return slots;
     }
 
     private void initialize() {
@@ -55,6 +81,7 @@ public class StorageLocationManager extends StackPane {
         Card card = new Card(titleProperty);
         card.setMaxHeight(350);
         table = new BarterStorageManagerTable();
+        card.setDisplayedContent(new StackPane(table));
 
         HBox buttonContainer = new HBox(15);
         buttonContainer.setAlignment(Pos.CENTER);
@@ -84,7 +111,16 @@ public class StorageLocationManager extends StackPane {
             table.refresh();
         });
         buttonContainer.getChildren().setAll(addButton, deleteButton);
-        card.setFooterContent(buttonContainer);
+
+        AnchorPane slotsPane = new AnchorPane();
+        Label slotsLabel = new Label();
+        slotsLabel.setStyle("-fx-font-size: 14px");
+        AnchorPane.setRightAnchor(slotsLabel, 5D);
+        AnchorPane.setBottomAnchor(slotsLabel, 5D);
+        slotsLabel.setAlignment(Pos.CENTER_RIGHT);
+        slotsLabel.textProperty().bind(slotsTextProperty);
+        slotsPane.getChildren().setAll(slotsLabel);
+        card.setFooterContent(new StackPane(slotsPane, buttonContainer));
 
         FXUtil.runOnFXThread(() -> {
             refresh();

@@ -1,5 +1,6 @@
 package module.barter.display.storage;
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -27,7 +28,11 @@ public class BarterStorageLocationTable extends TableView<StorageLocation> {
         TableColumn<StorageLocation, String> totalSlotsCol = new TableColumn<>("Slots");
         totalSlotsCol.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getStorage().getCapacity())));
 
-        return Arrays.asList(locationNameCol, totalSlotsCol);
+        TableColumn<StorageLocation, StorageLocation> valueCol = new TableColumn<>("Value of Goods");
+        valueCol.setCellFactory(c -> new StorageLocationValueTableCell<>());
+        valueCol.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue()));
+
+        return Arrays.asList(locationNameCol, totalSlotsCol, valueCol);
     }
 
 }
