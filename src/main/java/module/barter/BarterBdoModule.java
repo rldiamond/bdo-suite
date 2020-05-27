@@ -3,7 +3,7 @@ package module.barter;
 import module.barter.display.BarterStorageToolView;
 import module.barter.display.RouteOptimizationToolView;
 import module.barter.display.ValueToolView;
-import module.barter.display.storage.BarterSettingsToolView;
+import module.barter.display.BarterSettingsToolView;
 import module.barter.model.BarterGood;
 import module.barter.model.BarterLevel;
 import module.common.BdoModule;

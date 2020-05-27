@@ -32,8 +32,17 @@ public class BarterSettings implements Settings {
     }
 
     private boolean autofillAcceptGood;
+    private boolean hasValuePack;
     private int shipWeightCapacity;
     private int shipStorageCapacity;
+
+    public boolean hasValuePack() {
+        return hasValuePack;
+    }
+
+    public void setHasValuePack(boolean hasValuePack) {
+        this.hasValuePack = hasValuePack;
+    }
 
     public int getShipWeightCapacity() {
         return shipWeightCapacity;
