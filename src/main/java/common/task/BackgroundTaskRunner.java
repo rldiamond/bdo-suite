@@ -1,14 +1,12 @@
 package common.task;
 
+import common.logging.AppLogger;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Service to run background tasks off of the JavaFX thread.
@@ -20,20 +18,25 @@ public class BackgroundTaskRunner {
 
     /**
      * Get the instance of the background task runner.
+     *
      * @return
      */
-    public static final BackgroundTaskRunner getInstance() {
+    public static BackgroundTaskRunner getInstance() {
         return SINGLETON;
     }
 
-    private static final Logger logger = LogManager.getLogger(BackgroundTaskRunner.class);
+    private static final AppLogger logger = AppLogger.getLogger();
     private final ExecutorService executorService = Executors.newFixedThreadPool(25);
 
+    /**
+     * Hidden constructor.
+     */
     private BackgroundTaskRunner() {
     }
 
     /**
      * Run the provided task.
+     *
      * @param task The task to run.
      */
     public Future runTask(BackgroundTask task) {
@@ -42,22 +45,23 @@ public class BackgroundTaskRunner {
         return executorService.submit(runnable::run);
     }
 
+    /**
+     * Encapsulate the task so that loading status can be determined.
+     *
+     * @param task The task being encapsulated.
+     * @return Encapsulated task to run,
+     */
     private Runnable encapsulate(BackgroundTask task) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                busyProperty().setValue(true);
-                task.run();
-                busyProperty().setValue(false);
-            }
+        return () -> {
+            busyProperty().setValue(true);
+            task.run();
+            busyProperty().setValue(false);
         };
-        return runnable;
     }
 
-    public boolean isRunning() {
-        return ((ThreadPoolExecutor) executorService).getActiveCount() > 0;
-    }
-
+    /**
+     * @return Busy property for the background task runner.
+     */
     public BooleanProperty busyProperty() {
         return busyProperty;
     }

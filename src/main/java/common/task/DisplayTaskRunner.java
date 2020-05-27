@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
 
 public class DisplayTaskRunner {
 
@@ -49,10 +48,6 @@ public class DisplayTaskRunner {
             }
         };
         return runnable;
-    }
-
-    public boolean isRunning() {
-        return ((ThreadPoolExecutor) executorService).getActiveCount() > 0;
     }
 
     public BooleanProperty busyProperty() {

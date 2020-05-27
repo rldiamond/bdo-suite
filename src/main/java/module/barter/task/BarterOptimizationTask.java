@@ -1,5 +1,6 @@
 package module.barter.task;
 
+import common.logging.AppLogger;
 import common.task.BackgroundTask;
 import common.utilities.ToastUtil;
 import javafx.beans.property.BooleanProperty;
@@ -7,14 +8,12 @@ import javafx.beans.property.ObjectProperty;
 import module.barter.algorithms.BarterAlgorithm;
 import module.barter.model.Barter;
 import module.barter.model.BarterPlan;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public class BarterOptimizationTask extends BackgroundTask {
 
-    private static final Logger logger = LogManager.getLogger(BarterOptimizationTask.class);
+    private static final AppLogger logger = AppLogger.getLogger();
     private final ObjectProperty<BarterPlan> barterPlanProperty;
     private final List<Barter> barters;
     private final BooleanProperty busyProperty;

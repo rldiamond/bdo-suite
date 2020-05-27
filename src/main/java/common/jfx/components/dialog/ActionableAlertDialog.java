@@ -11,17 +11,16 @@
 package common.jfx.components.dialog;
 
 import com.jfoenix.controls.JFXButton;
+import common.logging.AppLogger;
 import javafx.geometry.Pos;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.stage.Window;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class ActionableAlertDialog extends AlertDialog {
 
-    private static final Logger LOGGER = LogManager.getLogger(ActionableAlertDialog.class);
+    private static final AppLogger LOGGER = AppLogger.getLogger();
     private JFXButton actionButton;
     private Runnable action;
 

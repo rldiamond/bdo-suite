@@ -1,8 +1,10 @@
 package common.utilities;
 
+import com.google.gson.reflect.TypeToken;
 import common.application.ModuleRegistration;
 import common.json.JsonFileReader;
 import common.json.ModuleData;
+import common.logging.Log;
 import common.settings.Settings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,10 +12,48 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.lang.reflect.Type;
+import java.util.Collections;
+import java.util.List;
 
 public class FileUtil {
 
     private static final Logger logger = LogManager.getLogger(FileUtil.class);
+
+    public static void saveLogData(List<Log> logs) {
+        final String path = getUserDirectory() + "/logs/log.json";
+
+        File dataDir = new File(getUserDirectory() + "/logs/");
+        if (!dataDir.exists()) {
+            try {
+                dataDir.mkdirs();
+            } catch (Exception ex) {
+                logger.error("Failed to create data directory.", ex);
+            }
+        }
+
+        try (FileWriter fileWriter = new FileWriter(path)) {
+            JsonFileReader.getGson().toJson(logs, fileWriter);
+        } catch (Exception ex) {
+            logger.error("Failed to save logs file!", ex);
+        }
+    }
+
+    public static List<Log> loadLogs() {
+        List<Log> loadedLogs = Collections.EMPTY_LIST;
+        final String path = getUserDirectory() + "/logs/log.json";
+        File settingsFile = new File(path);
+        if (settingsFile.exists()) {
+            try (FileReader fileReader = new FileReader(path)) {
+                Type listType = new TypeToken<List<Log>>() {}.getType();
+                loadedLogs = JsonFileReader.getGson().fromJson(fileReader, listType);
+            } catch (Exception ex) {
+                logger.error("Failed to load logs file!", ex);
+            }
+        }
+
+        return loadedLogs;
+    }
 
     public static void saveModuleData(ModuleData moduleData) {
         final String path = getUserDirectory() + "/data/" + moduleData.getModule().getTitle().toLowerCase() + "/" + moduleData.fileName() + ".json";
