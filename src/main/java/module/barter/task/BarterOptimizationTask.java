@@ -1,7 +1,7 @@
 package module.barter.task;
 
-import common.algorithm.AlgorithmException;
 import common.task.BackgroundTask;
+import common.utilities.ToastUtil;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import module.barter.algorithms.BarterAlgorithm;
@@ -30,9 +30,11 @@ public class BarterOptimizationTask extends BackgroundTask {
         try {
             BarterPlan barterPlan = barterAlgorithm.run();
             barterPlanProperty.setValue(barterPlan);
-        } catch (AlgorithmException ex) {
+        } catch (Exception ex) {
             logger.error("Failed to execute the barter algorithm.", ex);
             barterPlanProperty.setValue(null);
+            busyProperty.set(false);
+            ToastUtil.sendErrorToast("An error occurred optimizing barters.");
         }
         busyProperty.setValue(false);
     }

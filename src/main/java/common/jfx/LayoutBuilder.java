@@ -23,7 +23,6 @@ public class LayoutBuilder {
 
         Label fieldLabel = new Label(label);
         JFXTextField textField = new JFXTextField();
-        HBox.setHgrow(textField, Priority.ALWAYS);
 
         container.getChildren().setAll(fieldLabel, textField);
         parent.getChildren().add(container);

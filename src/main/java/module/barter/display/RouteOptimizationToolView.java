@@ -64,9 +64,7 @@ public class RouteOptimizationToolView extends ToolView {
                 doOptimize();
             }
         });
-        controlsPane.getOptimizeButton().disableProperty().bind(busyProperty);
-
-
+        controlsPane.getOptimizeButton().disableProperty().bind(Bindings.or(busyProperty, Bindings.equal(0, Bindings.size(inputPane.getBarters()))));
 
         inputControlsPane.getAddBarterButton().setOnMouseClicked(me -> {
             if (me.getButton().equals(MouseButton.PRIMARY)) {
@@ -92,7 +90,7 @@ public class RouteOptimizationToolView extends ToolView {
             }
         });
 
-        inputControlsPane.getRemoveBarterButton().disableProperty().bind(Bindings.or(Bindings.isNull(inputPane.selectedItemProperty()),busyProperty));
+        inputControlsPane.getRemoveBarterButton().disableProperty().bind(Bindings.or(Bindings.isNull(inputPane.selectedItemProperty()), busyProperty));
     }
 
     /**
