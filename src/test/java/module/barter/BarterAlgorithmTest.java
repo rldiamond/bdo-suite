@@ -1,6 +1,6 @@
 package module.barter;
 
-import module.barter.algorithms.NewBarterAlgorithm;
+import module.barter.algorithms.BarterAlgorithm;
 import module.barter.model.Barter;
 import module.barter.model.BarterPlan;
 import org.junit.Test;
@@ -14,9 +14,10 @@ public class BarterAlgorithmTest {
     @Test
     public void testAlgorithm_happyPath() throws Exception {
 
-        NewBarterAlgorithm algorithm = new NewBarterAlgorithm(createHappyPathBarters());
+        BarterAlgorithm algorithm = new BarterAlgorithm(createHappyPathBarters());
 
         BarterPlan barterPlan = algorithm.run();
+        System.out.println(barterPlan.getDescription());
 
     }
 

@@ -5,30 +5,52 @@ import common.algorithm.AlgorithmException;
 import module.barter.model.*;
 import module.marketapi.algorithms.CrowCoinValueAlgorithm;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-/**
- * Note: Still assuming only one possible barter route.
- */
 public class BarterAlgorithm implements Algorithm<BarterPlan> {
 
+    private static final double MAX_PARLEY = 1000000;
+    private static final double VP_PARLEY_DISCOUNT_RATE = 0.10;
     private final List<Barter> barters;
-    private final BarterPlan barterPlan;
+    private List<Barter> completedBarters;
 
+    private BarterPlan barterPlan;
 
     public BarterAlgorithm(List<Barter> barters) {
         this.barters = barters;
-        this.barterPlan = new BarterPlan();
+    }
+
+    @Override
+    public BarterPlan run() throws AlgorithmException {
+        barterPlan = new BarterPlan();
+        completedBarters = new ArrayList<>();
+
+        // We will work in reverse, from crow coins, as they are most valuable.
+        for (Barter barter : findBartersWithExchangeTier(BarterLevelType.CROW_COIN)) {
+            Barter firstBarter = findFirstBarterInChain(barter);
+            createPlannedRoutesFromBarter(firstBarter).forEach(barterPlan::addRoute);
+        }
+
+        return barterPlan;
     }
 
     /**
-     * @inhertDoc
+     * Create an entire route plan from the first barter in a chain.
+     * <p>
+     * NOTE: This version of the barter optimization algorithm does not take into account:
+     * Ship weight, ship capacity, items in storage, if enough parley is available.
+     *
+     * @param firstBarter The first barter in a chain to create a route with.
+     * @return An entire route plan.
      */
-    @Override
-    public BarterPlan run() throws AlgorithmException {
+    private List<PlannedRoute> createPlannedRoutesFromBarter(Barter firstBarter) throws AlgorithmException {
+        List<PlannedRoute> plannedRoutes = new ArrayList<>();
 
-        Barter firstBarter = findBarterAcceptingLevel(BarterLevelType.ZERO).orElseThrow(AlgorithmException::new);
+        //calculate the first barter
+        //Barter firstBarter = findBarterAcceptingLevel(BarterLevelType.ZERO).orElseThrow(AlgorithmException::new);
         Barter secondBarter = findBarterAcceptingGood(firstBarter.getExchangeGoodName()).orElseThrow(AlgorithmException::new);
 
         double optimalAcceptedGoods = secondBarter.getAcceptAmount() * secondBarter.getExchanges();
@@ -49,24 +71,30 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
         }
         route.setExchanges((int) exchanges);
         route.setTurnInAmount((int) (firstBarter.getAcceptAmount() * exchanges));
-        route.setReceivedAmount((int)(exchanges * firstBarter.getExchangeAmount()));
-        barterPlan.addParley(firstBarter.getParley() * (int) exchanges);
-        barterPlan.addRoute(route);
+        route.setReceivedAmount((int) (exchanges * firstBarter.getExchangeAmount()));
+        barterPlan.addParley(calculateParley(firstBarter.getParley(), (int) exchanges));
+        //barterPlan.addRoute(route);
+        plannedRoutes.add(route);
+        this.completedBarters.add(firstBarter);
 
+        Barter currentBarter = firstBarter;
         PlannedRoute previousRoute = route;
-        for (Barter barter : barters) {
-            if (barter.equals(firstBarter)) {
-                continue;
-            }
-            PlannedRoute plannedRoute = createRoute(previousRoute);
-            barterPlan.addRoute(plannedRoute);
-            previousRoute = plannedRoute;
+        while (findNextBarter(currentBarter).isPresent()) {
+            PlannedRoute newRoute = createRouteFromPrevious(previousRoute);
+            plannedRoutes.add(newRoute);
+            currentBarter = findNextBarter(currentBarter).get();
+            previousRoute = newRoute;
         }
 
-        return barterPlan;
+
+        return plannedRoutes;
     }
 
-    private PlannedRoute createRoute(PlannedRoute previousRoute) throws AlgorithmException {
+    private Optional<Barter> findNextBarter(Barter barter) {
+        return findBarterAcceptingGood(barter.getExchangeGoodName());
+    }
+
+    private PlannedRoute createRouteFromPrevious(PlannedRoute previousRoute) throws AlgorithmException {
         PlannedRoute route = new PlannedRoute();
 
         //find the next barter.
@@ -84,8 +112,9 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
         }
         route.setExchanges((int) exchanges);
         route.setTurnInAmount((int) (barter.getAcceptAmount() * exchanges));
-        route.setReceivedAmount((int)(exchanges*barter.getExchangeAmount()));
-        barterPlan.addParley(barter.getParley() * (int) exchanges);
+        route.setReceivedAmount((int) (exchanges * barter.getExchangeAmount()));
+        barterPlan.addParley(calculateParley(barter.getParley(), (int) exchanges));
+        completedBarters.add(barter);
 
         //calculate some profit
         if (previousRoute.getReceivedAmount() > route.getTurnInAmount()) {
@@ -102,12 +131,58 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
         return route;
     }
 
+    private Barter findFirstBarterInChain(Barter barter) {
+        // find previous barter
+        if (findBarterExchangingGood(barter.getAcceptGoodName()).isPresent()) {
+            Barter previousBarter = findBarterExchangingGood(barter.getAcceptGoodName()).get();
+            if (completedBarters.contains(previousBarter)) {
+                return barter;
+            }
+            return findFirstBarterInChain(previousBarter);
+        } else {
+            return barter;
+        }
+    }
+
+    /**
+     * Calculate the total parley required based on the number of exchanges to perform,
+     * the required parley per exchange, taking into account if the player has a value pack.
+     *
+     * @param requiredParley The amount of parley required for one exchange.
+     * @param exchanges      The amount of exchanges to calculate total parley for.
+     * @return Total parley cost to perform said exchanges.
+     */
+    private int calculateParley(double requiredParley, int exchanges) {
+        // User gets a parley discount if they have an active value pack.
+        if (BarterSettings.getSettings().hasValuePack()) {
+            requiredParley = requiredParley - (requiredParley * VP_PARLEY_DISCOUNT_RATE);
+        }
+        return (int) requiredParley * exchanges;
+    }
+
+    private List<Barter> findBartersWithExchangeTier(BarterLevelType levelType) {
+        return barters.stream().filter(barter -> {
+            return BarterGood.getBarterGoodByName(barter.getExchangeGoodName()).get().getLevel().equals(levelType);
+        }).filter(barter -> !completedBarters.contains(barter)).collect(Collectors.toList());
+    }
+
     private Optional<Barter> findBarterAcceptingGood(String goodName) {
         return barters.stream().filter(barter -> barter.getAcceptGoodName().equalsIgnoreCase(goodName))
                 .findAny();
     }
 
+    private Optional<Barter> findBarterExchangingGood(String goodName) {
+        return barters.stream().filter(barter -> barter.getExchangeGoodName().equalsIgnoreCase(goodName))
+                .findAny();
+    }
+
     private Optional<Barter> findBarterAcceptingLevel(BarterLevelType levelType) {
+        return barters.stream().filter(barter -> {
+            return BarterGood.getBarterGoodByName(barter.getAcceptGoodName()).get().getLevel().equals(levelType);
+        }).findAny();
+    }
+
+    private Optional<Barter> findBarterExchangeLevel(BarterLevelType levelType) {
         return barters.stream().filter(barter -> {
             return BarterGood.getBarterGoodByName(barter.getAcceptGoodName()).get().getLevel().equals(levelType);
         }).findAny();

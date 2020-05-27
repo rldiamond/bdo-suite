@@ -200,6 +200,11 @@
     "itemId" : 800033
   },
   {
+    "name": "Wool",
+    "level": "ZERO",
+    "itemId": 5858
+  },
+  {
     "name": "Torn Pirate Treasure Map",
     "level" : "THREE",
     "itemId" : 800030
@@ -292,7 +297,7 @@
   {
     "name": "Crow Coin",
     "level" : "CROW_COIN",
-    "itemId" : 0
+    "itemId" : 10
   },
   {
     "name": "Bag of Muddy Water",
