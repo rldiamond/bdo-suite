@@ -1,8 +1,15 @@
-import display.RootDisplayPane;
+import common.application.ModuleRegistration;
+import common.jfx.FXUtil;
+import display.main.RootDisplayPane;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import module.barter.BarterBdoModule;
+import module.marketapi.MarketApiBdoModule;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+
+import java.util.Arrays;
 
 public class MainApp extends Application {
 
@@ -12,13 +19,20 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Configurator.setRootLevel(Level.INFO);
+
         primaryStage.setTitle("BDO Suite");
+        primaryStage.getIcons().add(new Image(MainApp.class.getResourceAsStream("/theme/icon.png")));
 
-        RootDisplayPane rootDisplayPane = new RootDisplayPane();
-        rootDisplayPane.loadModule(new BarterBdoModule());
-
+        //load all this in the bg
+        RootDisplayPane rootDisplayPane = RootDisplayPane.getInstance();
+        Arrays.stream(ModuleRegistration.values()).forEach(rootDisplayPane::registerModule);
+        //Register this separately for now as theres no usage..
+        MarketApiBdoModule module = new MarketApiBdoModule();
         Scene scene = new Scene(rootDisplayPane);
+        FXUtil.setThemeOnScene(scene);
         primaryStage.setScene(scene);
         primaryStage.show();
+
     }
 }

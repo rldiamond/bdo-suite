@@ -30,6 +30,14 @@ public class BarterPlan {
         return profit;
     }
 
+    public List<PlannedRoute> getRoutes() {
+        return routes;
+    }
+
+    public int getParley() {
+        return parley;
+    }
+
     public String getDescription() {
         StringBuilder sb = new StringBuilder();
         for (PlannedRoute route : routes) {

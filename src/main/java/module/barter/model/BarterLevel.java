@@ -6,8 +6,6 @@ import module.common.ModuleException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.net.URL;
 import java.util.List;
 
 /**
@@ -19,9 +17,8 @@ public class BarterLevel {
     private static final Logger logger = LogManager.getLogger(BarterLevel.class);
 
     static {
-        final URL JsonUrl = BarterLevelType.class.getClassLoader().getResource("module/barter/BarterLevels.json");
         try {
-            barterLevels = BarterJsonFileReader.readBarterLevelsFromFile(new File(JsonUrl.getPath()));
+            barterLevels = BarterJsonFileReader.readBarterLevelsFromFile(BarterLevelType.class.getResourceAsStream("/module/barter/BarterLevels.json"));
         } catch (JsonParseException ex) {
             logger.error("Fatal error! Could not load Barter Levels from JSON!", ex);
             throw new RuntimeException(ex);
@@ -46,15 +43,17 @@ public class BarterLevel {
     private BarterLevelType level;
     private double weight;
     private double value;
+    private boolean stacks;
 
     public BarterLevel() {
 
     }
 
-    public BarterLevel(BarterLevelType level, double weight, double value) {
+    public BarterLevel(BarterLevelType level, double weight, double value, boolean stacks) {
         this.level = level;
         this.weight = weight;
         this.value = value;
+        this.stacks =  stacks;
     }
 
     public BarterLevelType getLevel() {
@@ -67,5 +66,9 @@ public class BarterLevel {
 
     public double getValue() {
         return value;
+    }
+
+    public boolean doesStack() {
+        return stacks;
     }
 }

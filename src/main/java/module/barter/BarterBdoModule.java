@@ -1,18 +1,16 @@
 package module.barter;
 
-import common.json.JsonParseException;
-import module.barter.display.BarterModulePane;
+import module.barter.display.BarterStorageToolView;
+import module.barter.display.RouteOptimizationToolView;
+import module.barter.display.ValueToolView;
+import module.barter.display.storage.BarterSettingsToolView;
 import module.barter.model.BarterGood;
 import module.barter.model.BarterLevel;
-import module.barter.model.Barter;
 import module.common.BdoModule;
-import module.common.ModuleException;
-import module.common.ModulePane;
+import module.common.ModuleTool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.net.URL;
 import java.util.List;
 
 /**
@@ -23,37 +21,45 @@ public class BarterBdoModule extends BdoModule {
     private static final Logger logger = LogManager.getLogger(BarterBdoModule.class);
     private List<BarterGood> barterGoods;
     private List<BarterLevel> barterLevels;
-    private BarterModulePane barterModulePane;
 
-    public BarterBdoModule() throws ModuleException {
-        super("Bartering", "Calculate optimal routes for your bartering session.");
+    public BarterBdoModule() {
+        super();
     }
 
     /**
      * Initializes the module.
      */
-    protected void initialize() throws ModuleException {
-        // build the barter module pane
-        barterModulePane = new BarterModulePane();
+    protected void initialize() {
+        //init the route optimization tool
+        ModuleTool routeOptimizationTool = new ModuleTool();
+        routeOptimizationTool.setIconId("route");
+        routeOptimizationTool.setTitle("Route");
+        routeOptimizationTool.setDescription("Determine optimal barter routes.");
+        routeOptimizationTool.setToolView(new RouteOptimizationToolView());
+        getModuleToolbar().addTools(routeOptimizationTool);
 
-        //TODO: This is temporary logic for testing purposes, will be reworked into a GUI
-        URL barterUrl = BarterModulePane.class.getClassLoader().getResource("barter.json");
-        List<Barter> possibleRoutes;
-        try {
-            possibleRoutes = BarterJsonFileReader.readBarterRoutesFromFile(new File(barterUrl.getPath()));
-        } catch (JsonParseException ex) {
-            logger.error("Fatal error! Could not parse the possible barter routes JSON!", ex);
-            throw new ModuleException();
-        }
-        barterModulePane.setBarters(possibleRoutes);
+        //init the storage tool
+        ModuleTool storageTool = new ModuleTool();
+        storageTool.setIconId("storage");
+        storageTool.setTitle("Storage");
+        storageTool.setDescription("Bartering storage management assistant.");
+        storageTool.setToolView(new BarterStorageToolView());
+        getModuleToolbar().addTools(storageTool);
 
-    }
+        //init the values tool
+        ModuleTool valueTool = new ModuleTool();
+        valueTool.setIconId("values");
+        valueTool.setTitle("Values");
+        valueTool.setDescription("View values of various barter items.");
+        valueTool.setToolView(new ValueToolView());
+        getModuleToolbar().addTools(valueTool);
 
-    /**
-     * @inheritDoc
-     */
-    @Override
-    public ModulePane getModulePane() {
-        return barterModulePane;
+        //init the settings tool
+        ModuleTool settingsTool = new ModuleTool();
+        settingsTool.setIconId("settingsTool");
+        settingsTool.setTitle("Settings");
+        settingsTool.setDescription("Configure the barter module.");
+        settingsTool.setToolView(new BarterSettingsToolView());
+        getModuleToolbar().addTools(settingsTool);
     }
 }

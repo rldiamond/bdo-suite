@@ -140,11 +140,6 @@
     "itemId" : 800044
   },
   {
-    "name": "Amethyst Fragment",
-    "level" : "FOUR",
-    "itemId" : 800046
-  },
-  {
     "name": "Ancient Orders",
     "level" : "THREE",
     "itemId" : 800041
@@ -285,9 +280,14 @@
     "itemId" : 800015
   },
   {
-    "name": "Trade Good",
+    "name": "Acacia Sap",
     "level" : "ZERO",
-    "itemId" : 0
+    "itemId" : 5013
+  },
+  {
+    "name": "Aloe",
+    "level" : "ZERO",
+    "itemId" : 7347
   },
   {
     "name": "Crow Coin",
@@ -295,8 +295,398 @@
     "itemId" : 0
   },
   {
-    "name": "(PH) LEVEL 1 GOOD",
+    "name": "Bag of Muddy Water",
+    "level" : "ZERO",
+    "itemId" : 6657
+  },
+  {
+    "name": "Beer",
+    "level" : "ZERO",
+    "itemId" : 9213
+  },
+  {
+    "name": "Big Arrow Mushroom",
+    "level" : "ZERO",
+    "itemId" : 5427
+  },
+  {
+    "name": "Bloody Tree Knot",
+    "level" : "ZERO",
+    "itemId" : 5005
+  },
+  {
+    "name": "Cactus Rind",
+    "level" : "ZERO",
+    "itemId" : 4612
+  },
+  {
+    "name": "Cedar Plank",
+    "level" : "ZERO",
+    "itemId" : 4666
+  },
+  {
+    "name": "Cloud Mushroom",
+    "level" : "ZERO",
+    "itemId" : 5410
+  },
+  {
+    "name": "Clown's Blood",
+    "level" : "ZERO",
+    "itemId" : 6353
+  },
+  {
+    "name": "Coal",
+    "level" : "ZERO",
+    "itemId" : 4007
+  },
+  {
+    "name": "Copper Ingot",
+    "level" : "ZERO",
+    "itemId" : 4058
+  },
+  {
+    "name": "Elder Tree Sap",
+    "level" : "ZERO",
+    "itemId" : 5014
+  },
+  {
+    "name": "Essence of Liquor",
+    "level" : "ZERO",
+    "itemId" : 9057
+  },
+  {
+    "name": "Feather Wolf Hide",
+    "level" : "ZERO",
+    "itemId" : 6021
+  },
+  {
+    "name": "Flax",
+    "level" : "ZERO",
+    "itemId" : 5802
+  },
+  {
+    "name": "Flax Fabric",
+    "level" : "ZERO",
+    "itemId" : 5856
+  },
+  {
+    "name": "Flax Thread",
+    "level" : "ZERO",
+    "itemId" : 5852
+  },
+  {
+    "name": "Fleece",
+    "level" : "ZERO",
+    "itemId" : 5804
+  },
+  {
+    "name": "Fortune Teller Mushroom",
+    "level" : "ZERO",
+    "itemId" : 5407
+  },
+  {
+    "name": "Fruit of Abundance",
+    "level" : "ZERO",
+    "itemId" : 5203
+  },
+  {
+    "name": "Fruit of Destruction",
+    "level" : "ZERO,",
+    "itemId" : 5215
+  },
+  {
+    "name": "Fruit of Magic Power",
+    "level" : "ZERO",
+    "itemId" : 5211
+  },
+  {
+    "name": "Fruit of Nature",
+    "level" : "ZERO",
+    "itemId" : 5205
+  },
+  {
+    "name": "Fruit of Perfection",
+    "level" : "ZERO",
+    "itemId" : 5213
+  },
+  {
+    "name": "Grilled Bird Meat",
+    "level" : "ZERO",
+    "itemId" : 9492
+  },
+  {
+    "name": "Ground Bird Meat",
+    "level" : "ZERO",
+    "itemId" : 7958
+  },
+  {
+    "name": "Knitting Yarn",
+    "level" : "ZERO",
+    "itemId" : 5854
+  },
+  {
+    "name": "Lead Ore",
+    "level" : "ZERO",
+    "itemId" : 4002
+  },
+  {
+    "name": "Log",
+    "level" : "ZERO",
+    "itemId" : 4605
+  },
+  {
+    "name": "Loopy Tree Plank",
+    "level" : "ZERO",
+    "itemId" : 4697
+  },
+  {
+    "name": "Melted Iron Shard",
+    "level" : "ZERO",
+    "itemId" : 4051
+  },
+  {
+    "name": "Monk's Branch",
+    "level" : "ZERO",
+    "itemId" : 5007
+  },
+  {
+    "name": "Noc Ore",
+    "level" : "ZERO",
+    "itemId" : 4011
+  },
+  {
+    "name": "Nutmeg",
+    "level" : "ZERO",
+    "itemId" : 7020
+  },
+  {
+    "name": "Old Tree Bark",
+    "level" : "ZERO",
+    "itemId" : 5008
+  },
+  {
+    "name": "Pile of Sunrise Herbs",
+    "level" : "ZERO",
+    "itemId" : 5421
+  },
+  {
+    "name": "Pistachio",
+    "level" : "ZERO",
+    "itemId" : 7017
+  },
+  {
+    "name": "Powder of Crevice",
+    "level" : "ZERO",
+    "itemId" : 4803
+  },
+  {
+    "name": "Powder Of Darkness",
+    "level" : "ZERO",
+    "itemId" : 4801
+  },
+  {
+    "name": "Powder of Earth",
+    "level" : "ZERO",
+    "itemId" : 4804
+  },
+  {
+    "name": "Powder of Flame",
+    "level" : "ZERO",
+    "itemId" : 4802
+  },
+  {
+    "name": "Powder of Time",
+    "level" : "ZERO",
+    "itemId" : 4805
+  },
+  {
+    "name": "Processed Coal",
+    "level" : "ZERO",
+    "itemId" : 4070
+  },
+  {
+    "name": "Purified Water",
+    "level" : "ZERO",
+    "itemId" : 6656
+  },
+  {
+    "name": "Red Tree Lump",
+    "level" : "ZERO",
+    "itemId" : 5011
+  },
+  {
+    "name": "Rough Black Crystal",
+    "level" : "ZERO",
+    "itemId" : 4410
+  },
+  {
+    "name": "Rough Blue Crystal",
+    "level" : "ZERO",
+    "itemId" : 4411
+  },
+  {
+    "name": "Rough Green Crystal",
+    "level" : "ZERO",
+    "itemId" : 4409
+  },
+  {
+    "name": "Rough Mud Crystal",
+    "level" : "ZERO",
+    "itemId" : 4407
+  },
+  {
+    "name": "Rough Red Crystal",
+    "level" : "ZERO",
+    "itemId" : 4408
+  },
+  {
+    "name": "Rough Stone",
+    "level" : "ZERO",
+    "itemId" : 4006
+  },
+  {
+    "name": "Rough Violet Crystal",
+    "level" : "ZERO",
+    "itemId" : 4412
+  },
+  {
+    "name": "Silkworm Cocoon",
+    "level" : "ZERO",
+    "itemId" : 5803
+  },
+  {
+    "name": "Silver Azalea",
+    "level" : "ZERO",
+    "itemId" : 5402
+  },
+  {
+    "name": "Sinner's Blood",
+    "level" : "ZERO",
+    "itemId" : 6354
+  },
+  {
+    "name": "Soft Ferri Feather",
+    "level" : "ZERO",
+    "itemId" : 6025
+  },
+  {
+    "name": "Spirit's Leaf",
+    "level" : "ZERO",
+    "itemId" : 5006
+  },
+  {
+    "name": "Star Anise",
+    "level" : "ZERO",
+    "itemId" : 7019
+  },
+  {
+    "name": "Thick Meat Stew",
+    "level" : "ZERO",
+    "itemId" : 9442
+  },
+  {
+    "name": "Vinegar",
+    "level" : "ZERO",
+    "itemId" : 9066
+  },
+  {
+    "name": "Violet Crystal",
+    "level" : "ZERO",
+    "itemId" : 4482
+  },
+  {
+    "name": "Wheat",
+    "level" : "ZERO",
+    "itemId" : 7001
+  },
+  {
+    "name": "White Cedar Sap",
+    "level" : "ZERO",
+    "itemId" : 5012
+  },
+  {
+    "name": "Wild Grass",
+    "level" : "ZERO",
+    "itemId" : 5439
+  },
+  {
+    "name": "Wolf Hide",
+    "level" : "ZERO",
+    "itemId" : 6014
+  },
+  {
+    "name": "Pirates' Gunpowder",
     "level" : "ONE",
-    "itemId" : 0
+    "itemId" : 800014
+  },
+  {
+    "name": "Fertile Soil",
+    "level" : "ONE",
+    "itemId" : 800013
+  },
+  {
+    "name": "Rakeflower Seed Pouch",
+    "level" : "ONE",
+    "itemId" : 800012
+  },
+  {
+    "name": "Roa Flower Seed Pouch",
+    "level" : "ONE",
+    "itemId" : 800011
+  },
+  {
+    "name": "Golden Sand",
+    "level" : "ONE",
+    "itemId" : 800010
+  },
+  {
+    "name": "Cherry Tree Seed Pouch",
+    "level" : "ONE",
+    "itemId" : 800009
+  },
+  {
+    "name": "Golden Sand",
+    "level" : "ONE",
+    "itemId" : 800010
+  },
+  {
+    "name": "Unidentified Ancient Mural",
+    "level" : "ONE",
+    "itemId" : 800008
+  },
+  {
+    "name": "Ancient Urn Piece",
+    "level" : "ONE",
+    "itemId" : 800007
+  },
+  {
+    "name": "Chewy Raw Gizzard",
+    "level" : "ONE",
+    "itemId" : 800006
+  },
+  {
+    "name": "Raft Toy",
+    "level" : "ONE",
+    "itemId" : 800005
+  },
+  {
+    "name": "Stained Seagull Figurine",
+    "level" : "ONE",
+    "itemId" : 800004
+  },
+  {
+    "name": "Naval Ration",
+    "level" : "ONE",
+    "itemId" : 800003
+  },
+  {
+    "name": "Giant Fish Bone",
+    "level" : "ONE",
+    "itemId" : 800002
+  },
+  {
+    "name": "Dried Blue Rose",
+    "level" : "ONE",
+    "itemId" : 800001
   }
 ]

@@ -2,13 +2,10 @@ package module.marketapi.algorithms;
 
 import common.algorithm.Algorithm;
 import common.algorithm.AlgorithmException;
+import module.barter.algorithms.MostValuableCoinItemAlgorithm;
 import module.marketapi.model.CrowCoinVendorItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Calculates the value of a single Crow Coin based on the value of various items available from the Crow Coin vendor.
@@ -23,25 +20,9 @@ public class CrowCoinValueAlgorithm implements Algorithm<Double> {
     @Override
     public Double run() throws AlgorithmException {
 
-        List<CrowCoinVendorItem> crowCoinVendorItems = new ArrayList<>();
-        crowCoinVendorItems.add(CrowCoinVendorItem.buildWithName("Caphras Stone", 30));
-        crowCoinVendorItems.add(CrowCoinVendorItem.buildWithName("Manos Ring", 2500));
-        crowCoinVendorItems.add(CrowCoinVendorItem.buildWithName("Manos Earring", 2500));
-        crowCoinVendorItems.add(CrowCoinVendorItem.buildWithName("Manos Belt", 2500));
-        crowCoinVendorItems.add(CrowCoinVendorItem.buildWithName("Manos Necklace", 2500));
-
-        CrowCoinVendorItem mostValuableItem = null;
-
-        for (CrowCoinVendorItem item : crowCoinVendorItems) {
-            if (mostValuableItem == null) {
-                mostValuableItem = item;
-            } else if (calculateCoinValueForItem(mostValuableItem) < calculateCoinValueForItem(item)) {
-                mostValuableItem = item;
-            }
-        }
-
-        logger.info("Mouse valuable Crow Coin item: " + mostValuableItem.getItemName());
-        return calculateCoinValueForItem(mostValuableItem);
+        MostValuableCoinItemAlgorithm mostValuableCoinItemAlgorithm = new MostValuableCoinItemAlgorithm();
+        CrowCoinVendorItem item = mostValuableCoinItemAlgorithm.run();
+        return calculateCoinValueForItem(item);
     }
 
     /**

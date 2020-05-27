@@ -1,0 +1,22 @@
+[
+  {
+    "name" : "Strong Fence",
+    "grids" : 10
+  },
+  {
+    "name" : "Old Moon Fence",
+    "grids" : 10
+  },
+  {
+    "name" : "Plain Fence",
+    "grids" : 7
+  },
+  {
+    "name" : "Small Fence",
+    "grids" : 3
+  },
+  {
+    "name" : "Shabby Fence",
+    "grids" : 1
+  }
+]
