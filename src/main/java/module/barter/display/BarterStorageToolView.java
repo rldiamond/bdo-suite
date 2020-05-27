@@ -133,6 +133,7 @@ public class BarterStorageToolView extends ToolView {
             if (me.getButton().equals(MouseButton.PRIMARY)) {
                 storageLocations.add(new StorageLocation("New Location", 1));
                 FXUtil.runOnFXThread(() -> storageLocationTable.refresh());
+                fireEvent(new BarterModuleEvent(BarterModuleEvent.ModuleEventType.SAVE));
             }
         });
 
