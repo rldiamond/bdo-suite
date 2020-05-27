@@ -16,6 +16,7 @@ import module.barter.display.optimizer.BarterRouteInputControlsPane;
 import module.barter.display.optimizer.BarterRouteInputPane;
 import module.barter.model.Barter;
 import module.barter.model.BarterPlan;
+import module.barter.model.BarterSettings;
 import module.barter.task.BarterOptimizationTask;
 import module.display.ToolView;
 import org.apache.logging.log4j.LogManager;
@@ -70,6 +71,16 @@ public class RouteOptimizationToolView extends ToolView {
         inputControlsPane.getAddBarterButton().setOnMouseClicked(me -> {
             if (me.getButton().equals(MouseButton.PRIMARY)) {
                 Barter newRoute = new Barter();
+                // if there's a previous route, auto-complete accept column
+                if (BarterSettings.getSettings().isAutofillAcceptGood()) {
+                    List<Barter> barters = inputPane.getEnteredRoutes();
+                    if (!barters.isEmpty()) {
+                        Barter previous = barters.get(barters.size() - 1);
+                        if (previous != null && previous.getExchangeGoodName() != null) {
+                            newRoute.setAcceptGoodName(previous.getExchangeGoodName());
+                        }
+                    }
+                }
                 inputPane.addRoutes(newRoute);
             }
         });
