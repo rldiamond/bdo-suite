@@ -2,32 +2,38 @@
   {
     "level" : "ZERO",
     "weight" : 0,
-    "value" : 0
+    "value" : 0,
+    "stacks" : true
   },
   {
     "level" : "ONE",
     "weight" : 800.00,
-    "value" : 0
+    "value" : 0,
+    "stacks" : true
   },
   {
     "level" : "TWO",
     "weight" : 800.00,
-    "value" : 0
+    "value" : 0,
+    "stacks" : true
   },
   {
     "level" : "THREE",
     "weight" : 900.00,
-    "value" : 1000000
+    "value" : 1000000,
+    "stacks" : true
   },
   {
     "level" : "FOUR",
     "weight" : 1000.00,
-    "value" : 2000000
+    "value" : 2000000,
+    "stacks" : true
   },
   {
     "level" : "FIVE",
     "weight" : 1000.00,
-    "value" : 5000000
+    "value" : 5000000,
+    "stacks" : false
   },
   {
     "level" : "CROW_COIN",

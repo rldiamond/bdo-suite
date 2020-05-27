@@ -43,15 +43,17 @@ public class BarterLevel {
     private BarterLevelType level;
     private double weight;
     private double value;
+    private boolean stacks;
 
     public BarterLevel() {
 
     }
 
-    public BarterLevel(BarterLevelType level, double weight, double value) {
+    public BarterLevel(BarterLevelType level, double weight, double value, boolean stacks) {
         this.level = level;
         this.weight = weight;
         this.value = value;
+        this.stacks =  stacks;
     }
 
     public BarterLevelType getLevel() {
@@ -64,5 +66,9 @@ public class BarterLevel {
 
     public double getValue() {
         return value;
+    }
+
+    public boolean doesStack() {
+        return stacks;
     }
 }

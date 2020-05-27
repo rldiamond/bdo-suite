@@ -1,5 +1,7 @@
 package module.barter.storage;
 
+import module.barter.model.BarterGood;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,10 +17,11 @@ public class Storage {
         this.capacity = capacity;
     }
 
-    public void addItem(String name, int amount) {
-        StorageItem item = getItem(name).orElseGet(() -> {
+    public void addItem(BarterGood barterGood, int amount) {
+        StorageItem item = getItem(barterGood.getName()).orElseGet(() -> {
             StorageItem storageItem = new StorageItem();
-            storageItem.setName(name);
+            storageItem.setName(barterGood.getName());
+            storageItem.setItemId(barterGood.getItemId());
             storedItems.add(storageItem);
             return storageItem;
         });
@@ -49,6 +52,10 @@ public class Storage {
 
     public List<StorageItem> getStoredItems() {
         return storedItems;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
     public boolean hasItem(String name) {

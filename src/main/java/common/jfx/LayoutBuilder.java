@@ -2,6 +2,7 @@ package common.jfx;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXToggleButton;
 import common.jfx.components.EnumComboBox;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
@@ -20,13 +21,12 @@ public class LayoutBuilder {
         Tooltip.install(container, new Tooltip(tooltip));
         container.setAlignment(Pos.CENTER_LEFT);
 
-        Label labelField = new Label(label);
-        JFXTextField textFieldLabel = new JFXTextField();
-        HBox.setHgrow(textFieldLabel, Priority.ALWAYS);
+        Label fieldLabel = new Label(label);
+        JFXTextField textField = new JFXTextField();
 
-        container.getChildren().setAll(labelField, textFieldLabel);
+        container.getChildren().setAll(fieldLabel, textField);
         parent.getChildren().add(container);
-        return textFieldLabel;
+        return textField;
     }
 
     public static <T extends Enum> EnumComboBox<T> createEnumComboBox(String label, String tooltip, Class<T> enumType, Pane parent) {
@@ -56,6 +56,19 @@ public class LayoutBuilder {
         parent.getChildren().add(container);
         return comboBox;
 
+    }
+
+    public static JFXToggleButton createToggleButton(String label, String tooltip, Pane parent) {
+        HBox container = new HBox(10);
+        Tooltip.install(container, new Tooltip(tooltip));
+        container.setAlignment(Pos.CENTER_LEFT);
+
+        Label labelField = new Label(label);
+        JFXToggleButton toggle = new JFXToggleButton();
+
+        container.getChildren().setAll(labelField, toggle);
+        parent.getChildren().add(container);
+        return toggle;
     }
 
 }

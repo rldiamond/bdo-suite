@@ -1,11 +1,9 @@
 package module.barter.model;
 
-import common.json.JsonObject;
-
 /**
  * Model for a possible barter route.
  */
-public class Barter extends JsonObject {
+public class Barter {
 
     private String tradeItem;
     private String acceptGoodName;
