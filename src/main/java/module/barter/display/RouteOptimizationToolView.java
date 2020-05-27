@@ -1,6 +1,7 @@
 package module.barter.display;
 
-import common.json.JsonParseException;
+import common.jfx.components.dialog.ActionableAlertDialog;
+import common.jfx.components.dialog.AlertDialogType;
 import common.task.BackgroundTaskRunner;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
@@ -9,7 +10,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import module.barter.BarterBdoModule;
-import module.barter.BarterJsonFileReader;
 import module.barter.display.optimizer.BarterPlanDisplayPane;
 import module.barter.display.optimizer.BarterRouteControlsPane;
 import module.barter.display.optimizer.BarterRouteInputControlsPane;
@@ -48,8 +48,12 @@ public class RouteOptimizationToolView extends ToolView {
         // bind controls
         controlsPane.getResetButton().setOnMouseClicked(me -> {
             if (me.getButton().equals(MouseButton.PRIMARY)) {
-                //TODO: Show a warning dialog
-                inputPane.reset();
+                ActionableAlertDialog alert = new ActionableAlertDialog(AlertDialogType.CONFIRMATION);
+                alert.setTitle("Are you sure?");
+                alert.setBody("This will clear all entered barters.");
+                alert.setActionButtonText("CLEAR");
+                alert.setAction(inputPane::reset);
+                alert.show();
             }
         });
         controlsPane.getResetButton().disableProperty().bind(busyProperty);
@@ -78,18 +82,6 @@ public class RouteOptimizationToolView extends ToolView {
         });
 
         inputControlsPane.getRemoveBarterButton().disableProperty().bind(Bindings.or(Bindings.isNull(inputPane.selectedItemProperty()),busyProperty));
-
-        //TODO: TEMPORARY CODE FOR TESTING PURPOSES!!!
-        List<Barter> possibleRoutes;
-        try {
-            possibleRoutes = BarterJsonFileReader.readBarterRoutesFromFile(RouteOptimizationToolView.class.getResourceAsStream("/barter.json"));
-        } catch (JsonParseException ex) {
-            logger.error("Fatal error! Could not parse the possible barter routes JSON!");
-            possibleRoutes = null;
-        }
-        setBarters(possibleRoutes);
-
-        //TODO: ------------------------------------
     }
 
     /**
