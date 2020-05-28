@@ -26,7 +26,7 @@ public class BarterStorageManagerTable extends TableView<StorageItem> {
 
     private List<TableColumn<StorageItem, ?>> buildColumns() {
         TableColumn<StorageItem, StorageItem> itemCol = new TableColumn<>("Item");
-        itemCol.setCellFactory(c -> new ItemWithImageTableCell<>());
+        itemCol.setCellFactory(c -> new BarterStorageItemTableCell<>());
         itemCol.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue()));
         itemCol.setEditable(false);
 
