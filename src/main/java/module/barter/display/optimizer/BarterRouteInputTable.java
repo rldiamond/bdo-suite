@@ -1,6 +1,6 @@
 package module.barter.display.optimizer;
 
-import common.jfx.components.EditableComboBoxTableCell;
+import common.jfx.components.AutoCompleteComboBoxTableCell;
 import common.jfx.components.EditableTextFieldTableCell;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Label;
@@ -63,7 +63,7 @@ public class BarterRouteInputTable extends TableView<Barter>  {
         acceptGoodCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAcceptGoodName()));
         final List<String> barterGoods = BarterGood.getBarterGoods().stream().map(BarterGood::getName).collect(Collectors.toList());
         Collections.sort(barterGoods);
-        acceptGoodCol.setCellFactory(c -> new EditableComboBoxTableCell<>(barterGoods));
+        acceptGoodCol.setCellFactory(c -> new AutoCompleteComboBoxTableCell<>(barterGoods));
         acceptGoodCol.setOnEditCommit(edit -> {
             String newContent = edit.getNewValue().trim();
             edit.getRowValue().setAcceptGoodName(newContent);
@@ -85,7 +85,7 @@ public class BarterRouteInputTable extends TableView<Barter>  {
 
         TableColumn<Barter, String> exchangeGoodCol = new TableColumn<>("Exchange Good");
         exchangeGoodCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExchangeGoodName()));
-        exchangeGoodCol.setCellFactory(c -> new EditableComboBoxTableCell<>(barterGoods));
+        exchangeGoodCol.setCellFactory(c -> new AutoCompleteComboBoxTableCell<>(barterGoods));
         exchangeGoodCol.setOnEditCommit(edit -> {
             String newContent = edit.getNewValue().trim();
             edit.getRowValue().setExchangeGoodName(newContent);
