@@ -3,6 +3,7 @@ package module.barter.algorithms;
 import common.algorithm.Algorithm;
 import common.algorithm.AlgorithmException;
 import module.barter.model.*;
+import module.marketapi.MarketDAO;
 import module.marketapi.algorithms.CrowCoinValueAlgorithm;
 
 import java.util.ArrayList;
@@ -73,6 +74,15 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
         route.setTurnInAmount((int) (firstBarter.getAcceptAmount() * exchanges));
         route.setReceivedAmount((int) (exchanges * firstBarter.getExchangeAmount()));
         barterPlan.addParley(calculateParley(firstBarter.getParley(), (int) exchanges));
+        if (route.getTurnInGood().getLevel().equals(BarterLevelType.ZERO)) {
+            //trade good, calculate cost
+            try {
+                double cost = MarketDAO.getInstance().getMarketValue(route.getTurnInGood().getItemId()) * route.getTurnInAmount();
+                barterPlan.addProfit(0 -cost);
+            } catch (Exception ex) {
+                //
+            }
+        }
         //barterPlan.addRoute(route);
         plannedRoutes.add(route);
         this.completedBarters.add(firstBarter);
