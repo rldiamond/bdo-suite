@@ -13,11 +13,13 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
+import module.barter.model.BarterGood;
 import module.barter.model.BarterPlan;
 import module.barter.model.PlannedRoute;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BarterPlanDisplayPane extends StackPane {
 
@@ -122,13 +124,23 @@ public class BarterPlanDisplayPane extends StackPane {
     private void createRouteDisplayPanes(BarterPlan barterPlan) {
         GenericTask task = new GenericTask(() -> {
             routeDisplayPanes.clear();
-            barterPlan.getRoutes().stream().map(this::createRouteDisplayPane).forEach(routeDisplayPanes::add);
+            // here we arrange them appropriately
+            // for now, we just want all crow coin routes done last..
+            List<PlannedRoute> crowCoinRoutes = getCrowCoinRoutes(barterPlan);
+            barterPlan.getRoutes().stream().filter(route -> !crowCoinRoutes.contains(route))
+                    .map(this::createRouteDisplayPane).forEach(routeDisplayPanes::add);
+            crowCoinRoutes.stream().map(this::createRouteDisplayPane).forEach(routeDisplayPanes::add);
             FXUtil.runOnFXThread(() -> {
                 displayPane.getChildren().setAll(routeDisplayPanes.get(0));
                 currentlyDisplayed.setValue(routeDisplayPanes.get(0));
             });
         });
         BackgroundTaskRunner.getInstance().runTask(task);
+    }
+
+    private List<PlannedRoute> getCrowCoinRoutes(BarterPlan barterPlan) {
+        BarterGood crowCoin = BarterGood.getBarterGoodByName("Crow Coin").get();
+        return barterPlan.getRoutes().stream().filter(route -> route.getReceivedGood().equals(crowCoin)).collect(Collectors.toList());
     }
 
     private RouteDisplayPane createRouteDisplayPane(PlannedRoute plannedRoute) {
