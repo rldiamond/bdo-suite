@@ -8,6 +8,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import module.barter.BarterBdoModule;
 import module.barter.display.optimizer.BarterPlanDisplayPane;
@@ -42,6 +43,7 @@ public class RouteOptimizationToolView extends ToolView {
         inputControlsPane = new BarterRouteInputControlsPane();
         VBox stackEm = new VBox(5);
         BarterPlanDisplayPane barterPlanDisplayPane = new BarterPlanDisplayPane(barterPlanProperty);
+        VBox.setVgrow(inputPane, Priority.ALWAYS);
         stackEm.getChildren().addAll(inputControlsPane, inputPane, barterPlanDisplayPane);
         getCard().setDisplayedContent(stackEm);
         getCard().setFooterContent(controlsPane);

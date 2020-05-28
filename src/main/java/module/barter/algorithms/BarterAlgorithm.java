@@ -2,7 +2,9 @@ package module.barter.algorithms;
 
 import common.algorithm.Algorithm;
 import common.algorithm.AlgorithmException;
+import common.utilities.FileUtil;
 import module.barter.model.*;
+import module.barter.storage.Storage;
 import module.marketapi.MarketDAO;
 import module.marketapi.algorithms.CrowCoinValueAlgorithm;
 
@@ -16,6 +18,7 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
     private static final double MAX_PARLEY = 1000000;
     private static final double VP_PARLEY_DISCOUNT_RATE = 0.10;
     private final List<Barter> barters;
+    private PlayerStorageLocations storageLocations;
     private List<Barter> completedBarters;
 
     private BarterPlan barterPlan;
@@ -28,6 +31,7 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
     public BarterPlan run() throws AlgorithmException {
         barterPlan = new BarterPlan();
         completedBarters = new ArrayList<>();
+        storageLocations = FileUtil.loadModuleData(PlayerStorageLocations.class);
 
         // We will work in reverse, from crow coins, as they are most valuable.
         for (Barter barter : findBartersWithExchangeTier(BarterLevelType.CROW_COIN)) {
@@ -51,11 +55,22 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
         List<PlannedRoute> plannedRoutes = new ArrayList<>();
 
         //calculate the first barter
-        //Barter firstBarter = findBarterAcceptingLevel(BarterLevelType.ZERO).orElseThrow(AlgorithmException::new);
         Barter secondBarter = findBarterAcceptingGood(firstBarter.getExchangeGoodName()).orElseThrow(AlgorithmException::new);
 
         double optimalAcceptedGoods = secondBarter.getAcceptAmount() * secondBarter.getExchanges();
         double maximumAcceptedGoods = firstBarter.getExchangeAmount() * firstBarter.getExchanges();
+
+        //check if its in storage
+        int neededItems = firstBarter.getAcceptAmount() * firstBarter.getExchanges();
+        if (isItemInStorage(firstBarter.getAcceptGoodName(), neededItems)) {
+            // we have the item in storage, so instead of the below, we go to storage to get it.
+            //TODO: examine # of each in each storage..
+            List<StorageLocation> locationsWithGood = getStorageLocationsWithItem(firstBarter.getAcceptGoodName());
+            PlannedRoute storageRoute = new StoragePlannedRoute(locationsWithGood.get(0));
+            storageRoute.setReceivedGood(BarterGood.getBarterGoodByName(firstBarter.getAcceptGoodName()).orElseThrow(AlgorithmException::new));
+            storageRoute.setReceivedAmount(neededItems);
+            barterPlan.addRoute(storageRoute);
+        }
 
         PlannedRoute route = new PlannedRoute();
         route.setTurnInGood(BarterGood.getBarterGoodByName(firstBarter.getAcceptGoodName()).orElseThrow(AlgorithmException::new));
@@ -142,6 +157,11 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
     }
 
     private Barter findFirstBarterInChain(Barter barter) {
+        // see if the item is in storage..
+        int acceptRequired = barter.getAcceptAmount() * barter.getExchanges();
+        if (isItemInStorage(barter.getAcceptGoodName(), acceptRequired)) {
+            return barter;
+        }
         // find previous barter
         if (findBarterExchangingGood(barter.getAcceptGoodName()).isPresent()) {
             Barter previousBarter = findBarterExchangingGood(barter.getAcceptGoodName()).get();
@@ -152,6 +172,27 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
         } else {
             return barter;
         }
+    }
+
+    private boolean isItemInStorage(String goodName) {
+        return storageLocations.getStorageLocations().stream().map(StorageLocation::getStorage).anyMatch(storage -> storage.hasItem(goodName));
+    }
+
+    private boolean isItemInStorage(String goodName, int amount) {
+        List<Storage> storagesWithItem = storageLocations.getStorageLocations().stream().map(StorageLocation::getStorage).filter(storage -> storage.hasItem(goodName))
+                .collect(Collectors.toList());
+
+        int items = 0;
+
+        for (Storage storage : storagesWithItem) {
+            items += storage.getItem(goodName).get().getAmount();
+        }
+
+        return items >= amount;
+    }
+
+    private List<StorageLocation> getStorageLocationsWithItem(String goodName) {
+        return storageLocations.getStorageLocations().stream().filter(storageLocation -> storageLocation.getStorage().hasItem(goodName)).collect(Collectors.toList());
     }
 
     /**

@@ -19,7 +19,9 @@ public class RouteDisplayPane extends StackPane {
         setAlignment(Pos.CENTER);
         getChildren().setAll(wrapper);
 
-        wrapper.getChildren().addAll(new ItemImage(route.getTurnInGood().getItemId()), text, new ItemImage(route.getReceivedGood().getItemId()));
+        //7528
+        ItemImage leftImage = new ItemImage(route.getTurnInGood() != null ? route.getTurnInGood().getItemId() : 7528);
+        wrapper.getChildren().addAll(leftImage, text, new ItemImage(route.getReceivedGood().getItemId()));
 
     }
 
