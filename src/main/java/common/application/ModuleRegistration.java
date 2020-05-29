@@ -3,10 +3,12 @@ package common.application;
 import module.barter.BarterBdoModule;
 import module.common.BdoModule;
 import module.gardening.GardeningBdoModule;
+import module.timer.TimerBdoModule;
 
 public enum ModuleRegistration {
     BARTER(BarterBdoModule.class, "Bartering", "Calculate optimal routes for your bartering session.", "barter"),
-    GARDENING(GardeningBdoModule.class, "Gardening", "Determine the most profitable crops to garden.", "garden");
+    GARDENING(GardeningBdoModule.class, "Gardening", "Determine the most profitable crops to garden.", "garden"),
+    TIMER(TimerBdoModule.class, "Timers", "Set timers for various events.", "timer");
 
     private final Class<? extends BdoModule> module;
     private final String title;
