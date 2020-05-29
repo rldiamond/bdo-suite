@@ -79,7 +79,7 @@ public class BarterGoodAutoCompleteTableCell<T extends Object> extends TableCell
 
             if (barter.getAcceptGoodName() != null && !barter.getAcceptGoodName().equals("")) {
                 if (BarterGood.getBarterGoodByName(barter.getAcceptGoodName()).isPresent()) {
-                   BarterLevelType acceptGoodLevel = BarterGood.getBarterGoodByName(barter.getAcceptGoodName()).get().getLevel();
+                   BarterLevelType acceptGoodLevel = BarterGood.getBarterGoodByName(barter.getAcceptGoodName()).get().getLevelType();
                     BarterLevelType filterLevel = null;
                     switch (acceptGoodLevel) {
                         case ZERO:
@@ -105,7 +105,7 @@ public class BarterGoodAutoCompleteTableCell<T extends Object> extends TableCell
                     if (filterLevel != null) {
                         final BarterLevelType lambda = filterLevel;
                         contents.add(BarterGood.getBarterGoodByName("Crow Coin").get().getName());
-                        BarterGood.getBarterGoods().stream().filter(barterGood -> barterGood.getLevel().equals(lambda)).map(BarterGood::getName).forEach(contents::add);
+                        BarterGood.getBarterGoods().stream().filter(barterGood -> barterGood.getLevelType().equals(lambda)).map(BarterGood::getName).forEach(contents::add);
                     }
                 }
             }

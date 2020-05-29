@@ -4,8 +4,6 @@ package module.barter.model;
  * Model for a possible barter route.
  */
 public class Barter {
-
-    private String tradeItem;
     private String acceptGoodName;
     private String exchangeGoodName;
     private int exchanges;
@@ -15,10 +13,6 @@ public class Barter {
 
     public Barter() {
 
-    }
-
-    public void setTradeItem(String tradeItem) {
-        this.tradeItem = tradeItem;
     }
 
     public void setAcceptGoodName(String acceptGoodName) {
@@ -60,10 +54,6 @@ public class Barter {
      */
     public int getExchangeAmount() {
         return exchangeAmount;
-    }
-
-    public String getTradeItem() {
-        return tradeItem;
     }
 
     public String getAcceptGoodName() {

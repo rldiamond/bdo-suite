@@ -1,11 +1,10 @@
 package data.image;
 
+import common.logging.AppLogger;
 import common.utilities.FileUtil;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -18,7 +17,7 @@ import java.net.URL;
  */
 public class ItemImageCache {
 
-    private static final Logger logger = LogManager.getLogger(ItemImageCache.class);
+    private static final AppLogger logger = AppLogger.getLogger();
     private static final ItemImageCache SINGLETON = new ItemImageCache();
 
     public static ItemImageCache getInstance() {

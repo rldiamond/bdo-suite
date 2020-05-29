@@ -16,16 +16,13 @@ import org.apache.logging.log4j.LogManager;
 public class AppLogger {
 
     private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
-    private static AppLogger APPLICATION_LOGGER;
+    private static AppLogger APPLICATION_LOGGER = new AppLogger();
 
     /**
      * Get the instance of the logger.
      * @return
      */
     public static AppLogger getLogger() {
-        if (APPLICATION_LOGGER == null) {
-            APPLICATION_LOGGER = new AppLogger();
-        }
         return APPLICATION_LOGGER;
     }
 

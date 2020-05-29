@@ -2,6 +2,7 @@ package module.barter.model;
 
 import common.json.JsonParseException;
 import module.barter.BarterJsonFileReader;
+import module.common.model.BdoItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,7 +12,7 @@ import java.util.Optional;
 /**
  * POJO to describe a single barter good.
  */
-public class BarterGood {
+public class BarterGood extends BdoItem {
 
     private static final Logger logger = LogManager.getLogger(BarterGood.class);
     private static final List<BarterGood> barterGoods;
@@ -34,34 +35,18 @@ public class BarterGood {
     }
 
 
-    private String name;
     private BarterLevelType level;
-    private long itemId;
 
     public BarterGood() {
     }
 
-    public BarterGood(String name, BarterLevelType level, long itemId) {
-        this.name = name;
-        this.level = level;
-        this.itemId = itemId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public BarterLevelType getLevel() {
+    public BarterLevelType getLevelType() {
         return level;
     }
 
     public BarterLevel getBarterLevel() {
         try {
-            return BarterLevel.getBarterLevelByType(getLevel());
+            return BarterLevel.getBarterLevelByType(getLevelType());
         } catch (Exception ex) {
             return null;
         }
@@ -71,11 +56,4 @@ public class BarterGood {
         this.level = level;
     }
 
-    public long getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(long itemId) {
-        this.itemId = itemId;
-    }
 }

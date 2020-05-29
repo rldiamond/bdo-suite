@@ -32,7 +32,7 @@ public class StorageLocationValueTableCell <T extends Object, C extends StorageL
                 double value = 0;
                 for (StorageItem storedItem : item.getStorage().getStoredItems()) {
                     BarterGood good = BarterGood.getBarterGoodByName(storedItem.getName()).get();
-                    BarterLevel level = BarterLevel.getBarterLevelByType(good.getLevel());
+                    BarterLevel level = BarterLevel.getBarterLevelByType(good.getLevelType());
                     value = value + (storedItem.getAmount() * level.getValue());
                 }
                 final double displayValue = value;

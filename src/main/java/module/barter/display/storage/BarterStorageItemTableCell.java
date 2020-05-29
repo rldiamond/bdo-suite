@@ -35,7 +35,7 @@ public class BarterStorageItemTableCell<T extends Object, C extends StorageItem>
         final BarterGood good = BarterGood.getBarterGoodByName(item.getName()).orElse(null);
         Color color = null;
         if (good != null) {
-            switch (good.getLevel()) {
+            switch (good.getLevelType()) {
                 case TWO:
                     color = Color.rgb(138,239,122);
                     break;

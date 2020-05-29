@@ -117,7 +117,7 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
             plannedRoutes.add(storageRoute);
         }
 
-        if (route.getTurnInGood() != null & route.getTurnInGood().getLevel().equals(BarterLevelType.ZERO)) {
+        if (route.getTurnInGood() != null & route.getTurnInGood().getLevelType().equals(BarterLevelType.ZERO)) {
             // check if there is enough on the market
             long available = MarketDAO.getInstance().getMarketAvailability(route.getTurnInGood().getItemId());
             if (available < (exchanges*firstBarter.getAcceptAmount())){
@@ -130,7 +130,7 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
         route.setTurnInAmount((int) (firstBarter.getAcceptAmount() * exchanges));
         route.setReceivedAmount((int) (exchanges * firstBarter.getExchangeAmount()));
         barterPlan.addParley(calculateParley(firstBarter.getParley(), (int) exchanges));
-        if (route.getTurnInGood().getLevel().equals(BarterLevelType.ZERO)) {
+        if (route.getTurnInGood().getLevelType().equals(BarterLevelType.ZERO)) {
             //trade good, calculate cost
             try {
                 double cost = MarketDAO.getInstance().getMarketValue(route.getTurnInGood().getItemId()) * route.getTurnInAmount();
@@ -211,10 +211,10 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
         //calculate some profit
         if (previousRoute.getReceivedAmount() > route.getTurnInAmount()) {
             int excessGoods = previousRoute.getReceivedAmount() - route.getTurnInAmount();
-            double valueOfGood = BarterLevel.getBarterLevelByType(previousRoute.getReceivedGood().getLevel()).getValue();
+            double valueOfGood = BarterLevel.getBarterLevelByType(previousRoute.getReceivedGood().getLevelType()).getValue();
             barterPlan.addProfit(valueOfGood * excessGoods);
         }
-        if (route.getReceivedGood().getLevel().equals(BarterLevelType.CROW_COIN)) {
+        if (route.getReceivedGood().getLevelType().equals(BarterLevelType.CROW_COIN)) {
             CrowCoinValueAlgorithm crowCoinValueAlgorithm = new CrowCoinValueAlgorithm();
             double coinValue = crowCoinValueAlgorithm.run();
             barterPlan.addProfit(coinValue * route.getReceivedAmount());
@@ -280,7 +280,7 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
 
     private List<Barter> findBartersWithExchangeTier(BarterLevelType levelType) {
         return barters.stream().filter(barter -> {
-            return BarterGood.getBarterGoodByName(barter.getExchangeGoodName()).get().getLevel().equals(levelType);
+            return BarterGood.getBarterGoodByName(barter.getExchangeGoodName()).get().getLevelType().equals(levelType);
         }).filter(barter -> !completedBarters.contains(barter)).collect(Collectors.toList());
     }
 
@@ -296,13 +296,13 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
 
     private Optional<Barter> findBarterAcceptingLevel(BarterLevelType levelType) {
         return barters.stream().filter(barter -> {
-            return BarterGood.getBarterGoodByName(barter.getAcceptGoodName()).get().getLevel().equals(levelType);
+            return BarterGood.getBarterGoodByName(barter.getAcceptGoodName()).get().getLevelType().equals(levelType);
         }).findAny();
     }
 
     private Optional<Barter> findBarterExchangeLevel(BarterLevelType levelType) {
         return barters.stream().filter(barter -> {
-            return BarterGood.getBarterGoodByName(barter.getAcceptGoodName()).get().getLevel().equals(levelType);
+            return BarterGood.getBarterGoodByName(barter.getAcceptGoodName()).get().getLevelType().equals(levelType);
         }).findAny();
     }
 

@@ -28,6 +28,6 @@ public class StorageItem extends BdoItem {
     }
 
     public int BarterGoodRarity() {
-        return getBarterGood().getLevel().getRarity();
+        return getBarterGood().getLevelType().getRarity();
     }
 }

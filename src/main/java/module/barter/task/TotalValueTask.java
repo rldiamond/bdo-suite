@@ -33,7 +33,7 @@ public class TotalValueTask extends BackgroundTask {
             double value = 0;
             for (StorageItem storedItem : storageLocation.getStorage().getStoredItems()) {
                 BarterGood good = BarterGood.getBarterGoodByName(storedItem.getName()).get();
-                BarterLevel level = BarterLevel.getBarterLevelByType(good.getLevel());
+                BarterLevel level = BarterLevel.getBarterLevelByType(good.getLevelType());
                 value = value + (storedItem.getAmount() * level.getValue());
             }
             totalValue += value;

@@ -136,7 +136,7 @@ public class BarterPlanDisplayPane extends StackPane {
         BackgroundTaskRunner.getInstance().runTask(task);
     }
     private List<PlannedRoute> getfinalStorageRoutes(BarterPlan barterPlan) {
-        return barterPlan.getRoutes().stream().filter(PlannedRoute::hasTurnInGood).filter(route -> route.getReceivedGood().getLevel().equals(BarterLevelType.FIVE)).collect(Collectors.toList());
+        return barterPlan.getRoutes().stream().filter(PlannedRoute::hasTurnInGood).filter(route -> route.getReceivedGood().getLevelType().equals(BarterLevelType.FIVE)).collect(Collectors.toList());
     }
 
     private List<PlannedRoute> getCrowCoinRoutes(BarterPlan barterPlan) {

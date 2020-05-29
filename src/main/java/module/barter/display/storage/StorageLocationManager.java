@@ -67,7 +67,7 @@ public class StorageLocationManager extends StackPane {
         for (StorageItem storedItem : storageLocation.getStorage().getStoredItems()) {
             BarterGood good = BarterGood.getBarterGoodByName(storedItem.getName()).get();
 
-            if (BarterLevel.getBarterLevelByType(good.getLevel()).doesStack()) {
+            if (BarterLevel.getBarterLevelByType(good.getLevelType()).doesStack()) {
                 slots++;
             } else {
                 slots += storedItem.getAmount();

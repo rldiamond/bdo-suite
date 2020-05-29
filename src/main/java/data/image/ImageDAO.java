@@ -1,8 +1,8 @@
 package data.image;
 
+import common.logging.AppLogger;
 import javafx.scene.image.Image;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import module.common.model.BdoItem;
 
 import java.net.URL;
 import java.net.URLConnection;
@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class ImageDAO {
 
     private static final ImageDAO SINGLETON = new ImageDAO();
-    private static final Logger logger = LogManager.getLogger(ImageDAO.class);
+    private static final AppLogger logger = AppLogger.getLogger();
 
     public static ImageDAO getInstance() {
         return SINGLETON;
@@ -23,6 +23,22 @@ public class ImageDAO {
 
     }
 
+    /**
+     * Returns an image for the given BDO item.
+     *
+     * @param item
+     * @return
+     */
+    public Image getImage(BdoItem item) {
+        return getImage(item.getItemId());
+    }
+
+    /**
+     * Returns an image for the BDO item ID.
+     *
+     * @param itemId the ID of the item to get an image for.
+     * @return
+     */
     public Image getImage(long itemId) {
         return ItemImageCache.getInstance().getFromCache(itemId);
     }

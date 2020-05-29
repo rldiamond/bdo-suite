@@ -4,10 +4,9 @@ import com.google.gson.reflect.TypeToken;
 import common.application.ModuleRegistration;
 import common.json.JsonFileReader;
 import common.json.ModuleData;
+import common.logging.AppLogger;
 import common.logging.Log;
 import common.settings.Settings;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileReader;
@@ -18,7 +17,7 @@ import java.util.List;
 
 public class FileUtil {
 
-    private static final Logger logger = LogManager.getLogger(FileUtil.class);
+    private static final AppLogger logger = AppLogger.getLogger();
 
     public static void saveLogData(List<Log> logs) {
         final String path = getUserDirectory() + "/logs/log.json";
@@ -107,7 +106,7 @@ public class FileUtil {
             try {
                 settingsDir.mkdirs();
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("Failed to create data directory.", ex);
             }
         }
         try (FileWriter fileWriter = new FileWriter(path)) {
@@ -132,7 +131,7 @@ public class FileUtil {
                 loadedSettings = settings.newInstance();
                 saveSettings(loadedSettings);
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("Failed to create data directory.", ex);
             }
         }
         return loadedSettings;
