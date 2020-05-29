@@ -17,8 +17,7 @@ public class BarterGoodAutoCompleteTableCell<T extends Object> extends TableCell
     /**
      * Construct the cell with default settings and populate the ComboBox with the supplied contents.
      *
-     * @param contents String contents to populate the ComboBox with.
-     */
+     * */
     public BarterGoodAutoCompleteTableCell() {
     }
 
@@ -105,7 +104,7 @@ public class BarterGoodAutoCompleteTableCell<T extends Object> extends TableCell
                     if (filterLevel != null) {
                         final BarterLevelType lambda = filterLevel;
                         contents.add(BarterGood.getBarterGoodByName("Crow Coin").get().getName());
-                        BarterGood.getBarterGoods().stream().filter(barterGood -> barterGood.getLevelType().equals(lambda)).map(BarterGood::getName).forEach(contents::add);
+                        BarterGood.getBarterGoods().stream().filter(barterGood -> barterGood.getLevelType().equals(lambda)).map(BarterGood::getName).sorted().forEach(contents::add);
                     }
                 }
             }
@@ -122,7 +121,11 @@ public class BarterGoodAutoCompleteTableCell<T extends Object> extends TableCell
         comboBox.valueProperty().set(getString());
         comboBox.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
         comboBox.setOnAction(e -> commitEdit(comboBox.getSelectionModel().getSelectedItem()));
-        comboBox.getSelectionModel().selectedItemProperty().addListener((obs, ov, selected) -> commitEdit(selected));
+        comboBox.getSelectionModel().selectedItemProperty().addListener((obs, ov, selected) -> {
+            if (selected != null) {
+                commitEdit(selected);
+            }
+        });
         AutoCompleteComboBox.install(comboBox);
     }
 

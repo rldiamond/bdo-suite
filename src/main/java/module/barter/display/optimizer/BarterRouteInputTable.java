@@ -87,7 +87,7 @@ public class BarterRouteInputTable extends TableView<Barter>  {
 
                 refresh();
             } catch (Exception ex) {
-                logger.debug("Error setting new value on edit commit for accept good.", ex);
+                logger.error("Error setting new value on edit commit for accept good.", ex);
             }
         });
 

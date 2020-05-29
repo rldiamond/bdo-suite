@@ -75,7 +75,11 @@ public class AutoCompleteComboBoxTableCell <T extends Object> extends TableCell<
         comboBox.valueProperty().set(getString());
         comboBox.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
         comboBox.setOnAction(e -> commitEdit(comboBox.getSelectionModel().getSelectedItem()));
-        comboBox.getSelectionModel().selectedItemProperty().addListener((obs, ov, selected) -> commitEdit(selected));
+        comboBox.getSelectionModel().selectedItemProperty().addListener((obs, ov, selected) ->  {
+            if (selected != null) {
+                commitEdit(selected);
+            }
+        });
         AutoCompleteComboBox.install(comboBox);
     }
 
