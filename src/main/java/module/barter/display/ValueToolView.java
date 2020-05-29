@@ -1,7 +1,11 @@
 package module.barter.display;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSpinner;
+import com.jfoenix.controls.JFXTextField;
+import common.jfx.LayoutBuilder;
 import common.jfx.components.ItemImage;
+import common.task.BackgroundTaskRunner;
 import common.task.ScheduledTaskRunner;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -9,11 +13,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import module.barter.task.CrowCoinValueTask;
 import module.barter.task.MostValuableCoinItemTask;
+import module.barter.task.TotalValueTask;
 import module.display.ToolView;
 
 import java.util.Arrays;
@@ -51,11 +57,33 @@ public class ValueToolView extends ToolView {
         valuableCrowCoinImage.setFitWidth(30);
         valuableItem.getChildren().addAll(valuableItemLabel, valuableCrowCoinImage, valuableCrowItem);
         BooleanProperty loadingItem = injectLoadingSpinner(valuableItem, valuableCrowItem, valuableCrowCoinImage);
+        container.getChildren().addAll(crowCoinValueBox, valuableItem);
 
         //schedule task
         ScheduledTaskRunner.getInstance().scheduleTask(new MostValuableCoinItemTask(valuableCrowItem.textProperty(), valuableCrowCoinImage.imageProperty(), loadingItem), 5);
 
-        container.getChildren().addAll(crowCoinValueBox, valuableItem);
+        //total value
+        JFXTextField playerCoinsField = LayoutBuilder.createTextField("Crow Coins: ","Enter the number of crow coins you have to calculate total.", container);
+
+        HBox totalValueContainer = new HBox(10);
+        totalValueContainer.setAlignment(Pos.CENTER_LEFT);
+        Label totalValueLabel = new Label("Total Value: ");
+        totalValueContainer.setStyle("-fx-font-size: 16px");
+        Label totalValue = new Label();
+        JFXButton refresh = new JFXButton("RECALCULATE");
+        refresh.setStyle("button-flat-gray");
+        totalValueContainer.getChildren().setAll(totalValueLabel, totalValue, refresh);
+        container.getChildren().add(totalValueContainer);
+        refresh.setOnMouseClicked(me -> {
+            if (me.getButton().equals(MouseButton.PRIMARY)) {
+                BackgroundTaskRunner.getInstance().runTask(new TotalValueTask(totalValue.textProperty(), playerCoinsField));
+            }
+        });
+
+        ScheduledTaskRunner.getInstance().scheduleTask(new TotalValueTask(totalValue.textProperty(), playerCoinsField), 5);
+
+
+
         getCard().setDisplayedContent(container);
     }
 

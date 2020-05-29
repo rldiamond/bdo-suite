@@ -52,10 +52,18 @@ public class PlannedRoute {
         this.receivedAmount = receivedAmount;
     }
 
+    public boolean hasTurnInGood() {
+        return turnInGood==null;
+    }
+
     public String getDescription() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Turn in ").append(getTurnInAmount()).append(" ").append(getTurnInGood().getName());
-        sb.append(" for ").append(getReceivedAmount()).append(" ").append(getReceivedGood().getName()).append(".");
+        try {
+            sb.append("Turn in ").append(getTurnInAmount()).append(" ").append(getTurnInGood().getName());
+            sb.append(" for ").append(getReceivedAmount()).append(" ").append(getReceivedGood().getName()).append(".");
+        } catch (Exception ex) {
+            sb.append("ERROR: ");
+        }
         return sb.toString();
     }
 }

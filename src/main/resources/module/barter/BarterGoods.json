@@ -95,6 +95,11 @@
     "itemId" : 800054
   },
   {
+    "name": "Strawberry",
+    "level": "ZERO",
+    "itemId": 7304
+  },
+  {
     "name": "Marine Knights' Helm",
     "level" : "FOUR",
     "itemId" : 800043
@@ -200,6 +205,11 @@
     "itemId" : 800033
   },
   {
+    "name": "Wool",
+    "level": "ZERO",
+    "itemId": 5858
+  },
+  {
     "name": "Torn Pirate Treasure Map",
     "level" : "THREE",
     "itemId" : 800030
@@ -292,7 +302,7 @@
   {
     "name": "Crow Coin",
     "level" : "CROW_COIN",
-    "itemId" : 0
+    "itemId" : 10
   },
   {
     "name": "Bag of Muddy Water",
@@ -391,7 +401,7 @@
   },
   {
     "name": "Fruit of Destruction",
-    "level" : "ZERO,",
+    "level" : "ZERO",
     "itemId" : 5215
   },
   {

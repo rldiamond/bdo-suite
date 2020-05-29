@@ -55,6 +55,7 @@ public class StorageLocationManager extends StackPane {
         titleProperty.setValue(storageLocation.getName());
         table.setItems(FXCollections.observableArrayList(storageLocation.getStorage().getStoredItems()));
         table.refresh();
+        table.sort();
         BackgroundTaskRunner.getInstance().runTask(new GenericTask(() -> {
             int slotsUsed = calculateSlotsUsed();
             FXUtil.runOnFXThread(() -> slotsTextProperty.setValue(slotsUsed + "/" +storageLocation.getStorage().getCapacity()));

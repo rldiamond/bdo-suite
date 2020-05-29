@@ -5,6 +5,15 @@ package module.barter.model;
  */
 public enum BarterLevelType {
 
-    ZERO, ONE, TWO, THREE, FOUR, FIVE, CROW_COIN;
+    ZERO(6), ONE(5), TWO(4), THREE(3), FOUR(2), FIVE(1), CROW_COIN(0);
 
+    private final int rarity;
+
+    private BarterLevelType(int rarity) {
+        this.rarity = rarity;
+    }
+
+    public int getRarity() {
+        return rarity;
+    }
 }

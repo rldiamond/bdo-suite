@@ -12,12 +12,16 @@ public class BarterModuleEvent extends Event {
     public static final EventType<BarterModuleEvent> BARTERDELETELOCATIONEVENT =
             new EventType<>(Event.ANY, "BARTERDELETELOCATIONEVENT");
 
+    public static final EventType<BarterModuleEvent> PLAYERBARTERSAVEEVENT =
+            new EventType<>(Event.ANY, "PLAYERBARTERSAVEEVENT");
+
+
     public enum ModuleEventType {
-        SAVE, DELETE
+        PLAYERSAVE, SAVE, DELETE
     }
 
     public BarterModuleEvent(ModuleEventType eventType) {
-        super(eventType.equals(ModuleEventType.SAVE) ? BARTERSAVEEVENT : BARTERDELETELOCATIONEVENT);
+        super(eventType.equals(ModuleEventType.SAVE) ? BARTERSAVEEVENT : eventType.equals(ModuleEventType.PLAYERSAVE) ? PLAYERBARTERSAVEEVENT : BARTERDELETELOCATIONEVENT);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import common.jfx.LayoutBuilder;
+import common.jfx.components.AutoCompleteComboBox;
 import common.jfx.components.Card;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -34,6 +35,7 @@ public class BarterStorageAddItemCard extends JFXDialog {
         final List<String> barterGoods = BarterGood.getBarterGoods().stream().map(BarterGood::getName).collect(Collectors.toList());
         Collections.sort(barterGoods);
         JFXComboBox<String> itemComboBox = LayoutBuilder.createComboBox("Choose Item: ", "Select an item to add to storage.", barterGoods, settingsContainer);
+        AutoCompleteComboBox.install(itemComboBox);
         card.setDisplayedContent(settingsContainer);
 
         HBox buttonContainer = new HBox(10);

@@ -1,4 +1,4 @@
-package module.barter.display.storage;
+package module.barter.display;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
@@ -22,14 +22,16 @@ import module.display.ToolView;
 public class BarterSettingsToolView extends ToolView {
 
     private final ObjectProperty<BarterSettings> settings = new SimpleObjectProperty<>();
-    private JFXToggleButton autofillAcceptGoodToggle;
-    private JFXTextField shipWeightCapacityField;
+    private final JFXToggleButton autofillAcceptGoodToggle;
+    private final JFXTextField shipWeightCapacityField;
+    private final JFXToggleButton hasValuePackToggle;
 
     public BarterSettingsToolView() {
         super("Settings");
 
         VBox settingsContainer = new VBox(15);
         autofillAcceptGoodToggle = LayoutBuilder.createToggleButton("Auto Fill Accept Good", "Attempts to assist in entering data by auto-completing new a barter accept good field.", settingsContainer);
+        hasValuePackToggle = LayoutBuilder.createToggleButton("Value Pack", "Enable if you have a value pack. Value packs affect the amount of parley consumed during bartering.", settingsContainer);
         shipWeightCapacityField = LayoutBuilder.createTextField("Ship Weight Capacity: ", "Set your ship's maximum weight capacity.", settingsContainer);
         getCard().setDisplayedContent(settingsContainer);
 
@@ -50,6 +52,7 @@ public class BarterSettingsToolView extends ToolView {
             if (me.getButton().equals(MouseButton.PRIMARY)) {
                 GenericTask task = new GenericTask(() -> {
                     settings.getValue().setAutofillAcceptGood(autofillAcceptGoodToggle.isSelected());
+                    settings.getValue().setHasValuePack(hasValuePackToggle.isSelected());
                     try {
                         settings.getValue().setShipWeightCapacity(Integer.parseInt(shipWeightCapacityField.getText()));
                     } catch (Exception ex) {
@@ -72,6 +75,7 @@ public class BarterSettingsToolView extends ToolView {
 
     private void setFieldsToSettings() {
         autofillAcceptGoodToggle.setSelected(settings.getValue().isAutofillAcceptGood());
+        hasValuePackToggle.setSelected(settings.getValue().hasValuePack());
         shipWeightCapacityField.setText(String.valueOf(settings.getValue().getShipWeightCapacity()));
     }
 }
