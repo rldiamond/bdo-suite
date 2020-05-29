@@ -62,4 +62,8 @@ public class BarterRouteInputPane extends StackPane {
         routeInputTable.disableProperty().unbind();
         routeInputTable.disableProperty().bind(property);
     }
+
+    public void setItems(List<Barter> barters) {
+        barters.forEach(this::addRoutes);
+    }
 }

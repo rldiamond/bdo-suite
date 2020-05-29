@@ -2,6 +2,7 @@ package module.barter.algorithms;
 
 import common.algorithm.Algorithm;
 import common.algorithm.AlgorithmException;
+import common.logging.AppLogger;
 import common.utilities.FileUtil;
 import module.barter.model.*;
 import module.barter.storage.Storage;
@@ -9,6 +10,7 @@ import module.marketapi.MarketDAO;
 import module.marketapi.algorithms.CrowCoinValueAlgorithm;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,6 +22,8 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
     private final List<Barter> barters;
     private PlayerStorageLocations storageLocations;
     private List<Barter> completedBarters;
+
+    private final AppLogger logger = AppLogger.getLogger();
 
     private BarterPlan barterPlan;
 
@@ -55,22 +59,37 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
         List<PlannedRoute> plannedRoutes = new ArrayList<>();
 
         //calculate the first barter
-        Barter secondBarter = findBarterAcceptingGood(firstBarter.getExchangeGoodName()).orElseThrow(AlgorithmException::new);
+        Barter secondBarter = null;
+        try {
+            secondBarter = findBarterAcceptingGood(firstBarter.getExchangeGoodName()).orElseThrow(AlgorithmException::new);
+        } catch (Exception ex) {
+            //level 5 item is in storage..
+            if (firstBarter.getExchangeGoodName().equalsIgnoreCase("Crow Coin")){
+                int neededItems = firstBarter.getAcceptAmount() * firstBarter.getExchanges();
+                if (isItemInStorage(firstBarter.getAcceptGoodName(), neededItems)) {
+                    // we have the item in storage, so instead of the below, we go to storage to get it.
+                    //TODO: examine # of each in each storage..
+                    List<StorageLocation> locationsWithGood = getStorageLocationsWithItem(firstBarter.getAcceptGoodName());
+                    PlannedRoute storageRoute = new StoragePlannedRoute(locationsWithGood.get(0));
+                    storageRoute.setReceivedGood(BarterGood.getBarterGoodByName(firstBarter.getAcceptGoodName()).orElseThrow(AlgorithmException::new));
+                    storageRoute.setReceivedAmount(neededItems);
+                    plannedRoutes.add(storageRoute);
+                }
+                PlannedRoute coinRoute = new PlannedRoute();
+                coinRoute.setExchanges(firstBarter.getExchanges());
+                coinRoute.setReceivedAmount(firstBarter.getExchangeAmount());
+                coinRoute.setReceivedGood(BarterGood.getBarterGoodByName(firstBarter.getExchangeGoodName()).get());
+                coinRoute.setTurnInGood(BarterGood.getBarterGoodByName(firstBarter.getAcceptGoodName()).get());
+                coinRoute.setTurnInAmount(firstBarter.getAcceptAmount());
+                plannedRoutes.add(coinRoute);
+                return plannedRoutes;
+            }
+        }
+
 
         double optimalAcceptedGoods = secondBarter.getAcceptAmount() * secondBarter.getExchanges();
         double maximumAcceptedGoods = firstBarter.getExchangeAmount() * firstBarter.getExchanges();
 
-        //check if its in storage
-        int neededItems = firstBarter.getAcceptAmount() * firstBarter.getExchanges();
-        if (isItemInStorage(firstBarter.getAcceptGoodName(), neededItems)) {
-            // we have the item in storage, so instead of the below, we go to storage to get it.
-            //TODO: examine # of each in each storage..
-            List<StorageLocation> locationsWithGood = getStorageLocationsWithItem(firstBarter.getAcceptGoodName());
-            PlannedRoute storageRoute = new StoragePlannedRoute(locationsWithGood.get(0));
-            storageRoute.setReceivedGood(BarterGood.getBarterGoodByName(firstBarter.getAcceptGoodName()).orElseThrow(AlgorithmException::new));
-            storageRoute.setReceivedAmount(neededItems);
-            barterPlan.addRoute(storageRoute);
-        }
 
         PlannedRoute route = new PlannedRoute();
         route.setTurnInGood(BarterGood.getBarterGoodByName(firstBarter.getAcceptGoodName()).orElseThrow(AlgorithmException::new));
@@ -85,6 +104,28 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
         } else {
             exchanges = maximumAcceptedGoods / firstBarter.getExchangeAmount();
         }
+
+        //check if its in storage
+        int neededItems = firstBarter.getAcceptAmount() * (int) exchanges;
+        if (isItemInStorage(firstBarter.getAcceptGoodName(), neededItems)) {
+            // we have the item in storage, so instead of the below, we go to storage to get it.
+            //TODO: examine # of each in each storage..
+            List<StorageLocation> locationsWithGood = getStorageLocationsWithItem(firstBarter.getAcceptGoodName());
+            PlannedRoute storageRoute = new StoragePlannedRoute(locationsWithGood.get(0));
+            storageRoute.setReceivedGood(BarterGood.getBarterGoodByName(firstBarter.getAcceptGoodName()).orElseThrow(AlgorithmException::new));
+            storageRoute.setReceivedAmount(neededItems);
+            plannedRoutes.add(storageRoute);
+        }
+
+        if (route.getTurnInGood() != null & route.getTurnInGood().getLevel().equals(BarterLevelType.ZERO)) {
+            // check if there is enough on the market
+            long available = MarketDAO.getInstance().getMarketAvailability(route.getTurnInGood().getItemId());
+            if (available < (exchanges*firstBarter.getAcceptAmount())){
+                //not enough
+                return Collections.emptyList();
+            }
+        }
+
         route.setExchanges((int) exchanges);
         route.setTurnInAmount((int) (firstBarter.getAcceptAmount() * exchanges));
         route.setReceivedAmount((int) (exchanges * firstBarter.getExchangeAmount()));
@@ -101,6 +142,8 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
         //barterPlan.addRoute(route);
         plannedRoutes.add(route);
         this.completedBarters.add(firstBarter);
+
+        double currentShipWeight = 0;
 
         Barter currentBarter = firstBarter;
         PlannedRoute previousRoute = route;
@@ -120,21 +163,45 @@ public class BarterAlgorithm implements Algorithm<BarterPlan> {
     }
 
     private PlannedRoute createRouteFromPrevious(PlannedRoute previousRoute) throws AlgorithmException {
-        PlannedRoute route = new PlannedRoute();
+        double currentShipWeight = 0; //TODO: pass in..
+        final int shipCapacity = BarterSettings.getSettings().getShipWeightCapacity();
 
         //find the next barter.
         Barter barter = findBarterAcceptingGood(previousRoute.getReceivedGood().getName()).orElseThrow(AlgorithmException::new);
-        route.setTurnInGood(previousRoute.getReceivedGood());
-        route.setReceivedGood(BarterGood.getBarterGoodByName(barter.getExchangeGoodName()).orElseThrow(AlgorithmException::new));
 
         double optimalAcceptedGoods = barter.getAcceptAmount() * barter.getExchanges();
-
         double exchanges;
         if (optimalAcceptedGoods <= previousRoute.getReceivedAmount()) {
             exchanges = optimalAcceptedGoods / barter.getAcceptAmount();
         } else {
             exchanges = (double) previousRoute.getReceivedAmount() / barter.getAcceptAmount();
         }
+
+        //ship weight stuff
+        double weightOfHandedInGood = BarterGood.getBarterGoodByName(barter.getAcceptGoodName()).get().getBarterLevel().getWeight();
+        double weightOfReceivedGood = BarterGood.getBarterGoodByName(barter.getExchangeGoodName()).get().getBarterLevel().getWeight();
+        double weightLoss = exchanges * weightOfHandedInGood;
+        double weightGain = exchanges * weightOfReceivedGood;
+        if (shipCapacity  >= (currentShipWeight - weightLoss - weightGain)) {
+            //ship can hold all
+
+        } else {
+            //ship is overweight.. unload some cargo.. in a for loop
+            double weightOfOneExchange = weightOfReceivedGood * barter.getExchangeAmount();
+            for (int i = 0; i<= (int) exchanges; i++) {
+                if (shipCapacity >= currentShipWeight + weightOfOneExchange) {
+                    // add a storage run.
+                }
+            }
+
+
+        }
+
+
+        PlannedRoute route = new PlannedRoute();
+        route.setTurnInGood(previousRoute.getReceivedGood());
+        route.setReceivedGood(BarterGood.getBarterGoodByName(barter.getExchangeGoodName()).orElseThrow(AlgorithmException::new));
+
         route.setExchanges((int) exchanges);
         route.setTurnInAmount((int) (barter.getAcceptAmount() * exchanges));
         route.setReceivedAmount((int) (exchanges * barter.getExchangeAmount()));

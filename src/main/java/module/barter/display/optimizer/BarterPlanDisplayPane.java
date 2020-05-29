@@ -13,9 +13,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
-import module.barter.model.BarterGood;
-import module.barter.model.BarterPlan;
-import module.barter.model.PlannedRoute;
+import module.barter.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +30,7 @@ public class BarterPlanDisplayPane extends StackPane {
     private Pane rightArrowButton;
 
     public BarterPlanDisplayPane(ObjectProperty<BarterPlan> barterPlanProperty) {
-        setPrefSize(USE_COMPUTED_SIZE, 55);
-        setMinSize(USE_COMPUTED_SIZE, USE_PREF_SIZE);
-        setMaxSize(USE_COMPUTED_SIZE, USE_PREF_SIZE);
+        setMinSize(USE_COMPUTED_SIZE, 55);
         setPadding(new Insets(10,0,10,0));
         HBox container = new HBox(10);
         container.setPrefHeight(50);
@@ -127,15 +123,20 @@ public class BarterPlanDisplayPane extends StackPane {
             // here we arrange them appropriately
             // for now, we just want all crow coin routes done last..
             List<PlannedRoute> crowCoinRoutes = getCrowCoinRoutes(barterPlan);
-            barterPlan.getRoutes().stream().filter(route -> !crowCoinRoutes.contains(route))
+            List<PlannedRoute> finalStorageRunRoutes=  getfinalStorageRoutes(barterPlan);
+            barterPlan.getRoutes().stream().filter(route -> !crowCoinRoutes.contains(route)).filter(route -> !finalStorageRunRoutes.contains(route))
                     .map(this::createRouteDisplayPane).forEach(routeDisplayPanes::add);
-            crowCoinRoutes.stream().map(this::createRouteDisplayPane).forEach(routeDisplayPanes::add);
+            finalStorageRunRoutes.stream().map(this::createRouteDisplayPane).forEach(routeDisplayPanes::add);
+            routeDisplayPanes.add(new CrowCoinRouteDisplayPane(crowCoinRoutes));
             FXUtil.runOnFXThread(() -> {
                 displayPane.getChildren().setAll(routeDisplayPanes.get(0));
                 currentlyDisplayed.setValue(routeDisplayPanes.get(0));
             });
         });
         BackgroundTaskRunner.getInstance().runTask(task);
+    }
+    private List<PlannedRoute> getfinalStorageRoutes(BarterPlan barterPlan) {
+        return barterPlan.getRoutes().stream().filter(PlannedRoute::hasTurnInGood).filter(route -> route.getReceivedGood().getLevel().equals(BarterLevelType.FIVE)).collect(Collectors.toList());
     }
 
     private List<PlannedRoute> getCrowCoinRoutes(BarterPlan barterPlan) {

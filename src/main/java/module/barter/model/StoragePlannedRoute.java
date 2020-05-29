@@ -8,6 +8,10 @@ public class StoragePlannedRoute extends PlannedRoute {
         this.storageLocation = storageLocation;
     }
 
+    public StorageLocation getStorageLocation() {
+        return storageLocation;
+    }
+
     @Override
     public String getDescription() {
         StringBuilder sb = new StringBuilder();

@@ -95,6 +95,11 @@
     "itemId" : 800054
   },
   {
+    "name": "Strawberry",
+    "level": "ZERO",
+    "itemId": 7304
+  },
+  {
     "name": "Marine Knights' Helm",
     "level" : "FOUR",
     "itemId" : 800043
@@ -396,7 +401,7 @@
   },
   {
     "name": "Fruit of Destruction",
-    "level" : "ZERO,",
+    "level" : "ZERO",
     "itemId" : 5215
   },
   {

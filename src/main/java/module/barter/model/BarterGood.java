@@ -59,6 +59,14 @@ public class BarterGood {
         return level;
     }
 
+    public BarterLevel getBarterLevel() {
+        try {
+            return BarterLevel.getBarterLevelByType(getLevel());
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
     public void setLevel(BarterLevelType level) {
         this.level = level;
     }

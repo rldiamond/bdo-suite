@@ -2,12 +2,15 @@ package module.barter.display.optimizer;
 
 import common.jfx.components.AutoCompleteComboBoxTableCell;
 import common.jfx.components.EditableTextFieldTableCell;
+import common.logging.AppLogger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import module.barter.model.Barter;
 import module.barter.model.BarterGood;
+import module.barter.model.BarterLevelType;
+import module.barter.model.BarterModuleEvent;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,6 +21,8 @@ import java.util.stream.Collectors;
  * Editable table allowing for users to enter the routes possible from the in-game UI.
  */
 public class BarterRouteInputTable extends TableView<Barter>  {
+
+    private static final AppLogger logger = AppLogger.getLogger();
 
     /**
      * Construct.
@@ -65,9 +70,25 @@ public class BarterRouteInputTable extends TableView<Barter>  {
         Collections.sort(barterGoods);
         acceptGoodCol.setCellFactory(c -> new AutoCompleteComboBoxTableCell<>(barterGoods));
         acceptGoodCol.setOnEditCommit(edit -> {
-            String newContent = edit.getNewValue().trim();
-            edit.getRowValue().setAcceptGoodName(newContent);
-            refresh();
+            try {
+                if (edit.getNewValue() == null) {
+                    return;
+                }
+                String newContent = edit.getNewValue().trim();
+                edit.getRowValue().setAcceptGoodName(newContent);
+
+                BarterGood.getBarterGoodByName(newContent).ifPresent(barterGood -> {
+                    if (barterGood.getBarterLevel().getLevel().equals(BarterLevelType.FIVE)) {
+                        if (edit.getRowValue().getExchangeGoodName() == null || "".equalsIgnoreCase(edit.getRowValue().getExchangeGoodName())) {
+                            edit.getRowValue().setExchangeGoodName("Crow Coin");
+                        }
+                    }
+                });
+
+                refresh();
+            } catch (Exception ex) {
+                logger.debug("Error setting new value on edit commit for accept good.", ex);
+            }
         });
 
         TableColumn<Barter, String> acceptAmountCol = new TableColumn<>("Accept Amount");
@@ -85,11 +106,18 @@ public class BarterRouteInputTable extends TableView<Barter>  {
 
         TableColumn<Barter, String> exchangeGoodCol = new TableColumn<>("Exchange Good");
         exchangeGoodCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExchangeGoodName()));
-        exchangeGoodCol.setCellFactory(c -> new AutoCompleteComboBoxTableCell<>(barterGoods));
+        exchangeGoodCol.setCellFactory(c -> new BarterGoodAutoCompleteTableCell<>());
         exchangeGoodCol.setOnEditCommit(edit -> {
-            String newContent = edit.getNewValue().trim();
-            edit.getRowValue().setExchangeGoodName(newContent);
-            refresh();
+            try {
+                if (edit.getNewValue() != null) {
+                    String newContent = edit.getNewValue().trim();
+                    edit.getRowValue().setExchangeGoodName(newContent);
+                    refresh();
+                }
+            }
+            catch (Exception ex) {
+                logger.debug("Error setting new value on edit commit for exchange good.", ex);
+            }
         });
 
         TableColumn<Barter, String> exchangeAmountCol = new TableColumn<>("Exchange Amount");
@@ -108,4 +136,9 @@ public class BarterRouteInputTable extends TableView<Barter>  {
         return Arrays.asList(exchangesCol, parleyCol, acceptAmountCol, acceptGoodCol, exchangeAmountCol, exchangeGoodCol);
     }
 
+    @Override
+    public void refresh() {
+        super.refresh();
+        fireEvent(new BarterModuleEvent(BarterModuleEvent.ModuleEventType.PLAYERSAVE));
+    }
 }
