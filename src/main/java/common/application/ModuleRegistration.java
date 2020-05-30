@@ -3,10 +3,12 @@ package common.application;
 import module.barter.BarterBdoModule;
 import module.common.BdoModule;
 import module.gardening.GardeningBdoModule;
+import module.marketapi.MarketApiBdoModule;
 
 public enum ModuleRegistration {
     BARTER(BarterBdoModule.class, "Bartering", "Calculate optimal routes for your bartering session.", "barter"),
-    GARDENING(GardeningBdoModule.class, "Gardening", "Determine the most profitable crops to garden.", "garden");
+    GARDENING(GardeningBdoModule.class, "Gardening", "Determine the most profitable crops to garden.", "garden"),
+    MARKET(MarketApiBdoModule.class, "Market", "Various tools utilizing the Central Market.", "market");
 
     private final Class<? extends BdoModule> module;
     private final String title;

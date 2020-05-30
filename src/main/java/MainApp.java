@@ -5,7 +5,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import module.marketapi.MarketApiBdoModule;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 
@@ -27,8 +26,6 @@ public class MainApp extends Application {
         //load all this in the bg
         RootDisplayPane rootDisplayPane = RootDisplayPane.getInstance();
         Arrays.stream(ModuleRegistration.values()).forEach(rootDisplayPane::registerModule);
-        //Register this separately for now as theres no usage..
-        MarketApiBdoModule module = new MarketApiBdoModule();
         Scene scene = new Scene(rootDisplayPane);
         FXUtil.setThemeOnScene(scene);
         primaryStage.setScene(scene);
