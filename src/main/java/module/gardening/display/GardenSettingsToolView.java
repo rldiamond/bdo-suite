@@ -12,6 +12,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -40,7 +41,9 @@ public class GardenSettingsToolView extends ToolView {
         HBox buttonContainer = new HBox(15);
         buttonContainer.setAlignment(Pos.CENTER);
         saveButton = new JFXButton("SAVE");
+        Tooltip.install(saveButton, new Tooltip("Save settings. Profitability analysis will auto-update within 5 minutes. Click Refresh to force update."));
         discardButton = new JFXButton("DISCARD");
+        Tooltip.install(discardButton, new Tooltip("Discard settings."));
         buttonContainer.getChildren().setAll(saveButton, discardButton);
         getCard().setFooterContent(buttonContainer);
 
